@@ -149,6 +149,9 @@ const (
           "type": "keyword",
           "boost": 6
         },
+        "create_date": {
+          "type": "date"
+        },
         "update_date": {
           "type": "date"
         }

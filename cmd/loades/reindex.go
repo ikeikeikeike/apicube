@@ -4,14 +4,16 @@ import (
 	"context"
 	"database/sql"
 	"strings"
+	"sync"
 
 	"github.com/pkg/errors"
 
 	"github.com/ikeikeikeike/apicube/base/data/es"
 	"github.com/ikeikeikeike/apicube/base/data/model"
 	"github.com/ikeikeikeike/apicube/base/data/repo"
-	"github.com/ikeikeikeike/apicube/base/data/storage"
+	"github.com/ikeikeikeike/apicube/base/domain/usecase"
 	"github.com/ikeikeikeike/apicube/base/util"
+	"github.com/ikeikeikeike/apicube/base/util/logger"
 )
 
 type (
@@ -21,11 +23,11 @@ type (
 	}
 
 	reindex struct {
-		Env         *util.Env        `inject:""`
-		DB          *sql.DB          `inject:""`
-		Cmd         es.Cmd           `inject:""`
-		DTBProducts repo.DTBProducts `inject:""`
-		Storage     storage.Storage  `inject:""`
+		Env             *util.Env        `inject:""`
+		DB              *sql.DB          `inject:""`
+		Cmd             es.Cmd           `inject:""`
+		RepoDTBProducts repo.DTBProducts `inject:""`
+		UsecaseProducts usecase.Products `inject:""`
 	}
 )
 
@@ -111,51 +113,41 @@ func (ri *reindex) dataMigrate(ctx context.Context, name string) error {
 	}
 }
 
-func (ri *reindex) migrateBy(ctx context.Context, name string, upsert func(ctx context.Context, prod *model.DTBProduct) error) error {
-	// products, err := ri.DTBProducts.All()
-	// if err != nil {
-	// return errors.Wrap(err, "couldnt get products from database")
-	// }
+func (ri *reindex) migrateBy(ctx context.Context, name string, upsert func(ctx context.Context, m *model.DTBProduct) error) error {
+	products, err := ri.RepoDTBProducts.All(ctx)
+	if err != nil {
+		return errors.Wrap(err, "couldnt get products from database")
+	}
 
-	// limit := make(chan struct{}, 5) // concurrency
-	// wg := sync.WaitGroup{}
+	limit := make(chan struct{}, 5) // concurrency
+	wg := sync.WaitGroup{}
 
-	// for _, product := range products {
-	// wg.Add(1)
+	for _, product := range products {
+		wg.Add(1)
 
-	// go func(prod *model.DTBProduct) {
-	// limit <- struct{}{}
-	// defer wg.Done()
+		go func(m *model.DTBProduct) {
+			limit <- struct{}{}
+			defer wg.Done()
 
-	// if err := upsert(ctx, prod); err != nil {
-	// logger.Println("[ERROR] failed to migrate data :", err)
-	// }
+			if err := upsert(ctx, m); err != nil {
+				logger.Println("[ERROR] failed to migrate data :", err)
+			}
 
-	// <-limit
-	// }(product)
-	// }
+			<-limit
+		}(product)
+	}
 
-	// wg.Wait()
+	wg.Wait()
 
 	return nil
 }
 
-func (ri *reindex) upsertProducts(ctx context.Context, prod *model.DTBProduct) error {
-	// id, userID, ctime := prod.ID, prod.UserID, prod.CreatedAt
+func (ri *reindex) upsertProducts(ctx context.Context, m *model.DTBProduct) error {
 
-	// // XXX: will make it sure recognize rare between punctuation.txt, speaking.txt
-	// byts, err := ri.Storage.Read(fmt.Sprintf("punctuation:%d.txt.gz", id)) // speaking:%d.txt.gz
-	// if err != nil {
-	// msg := "[ERROR] failed to get speaking from storage:"
-	// return errors.Wrap(err, fmt.Sprint(msg, id))
-	// }
-
-	// s := bytes.TrimSpace(byts)
-
-	// if err := ri.Analytics.AddSpeakingWithCtime(id, userID, s, ctime); err != nil {
-	// msg := "[WARN] failed to upsert to speakings:"
-	// logger.Println(msg, id, err)
-	// }
+	if err := ri.UsecaseProducts.ESUpsert(m); err != nil {
+		s := "[WARN] failed to upsert to products:"
+		logger.Println(s, m.ID, err)
+	}
 
 	return nil
 }

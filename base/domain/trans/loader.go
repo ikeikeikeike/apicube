@@ -1,4 +1,4 @@
-package es
+package trans
 
 import (
 	"github.com/facebookgo/inject"
@@ -11,10 +11,10 @@ import (
 func Inject(env util.Environment, g *inject.Graph, rt interface{}) {
 	// inject
 	err := g.Provide(
-		&inject.Object{Value: &cmd{}},
 		&inject.Object{Value: &products{}},
 	)
 	if err != nil {
-		logger.Panicf("[PANIC] failed to process injection: %s", err)
+		logger.Panicf("failed to process injection: %s", err)
 	}
+
 }

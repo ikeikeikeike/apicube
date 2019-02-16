@@ -23,7 +23,8 @@ import (
 	dataes "github.com/ikeikeikeike/apicube/base/data/es"
 	"github.com/ikeikeikeike/apicube/base/data/rdb"
 	"github.com/ikeikeikeike/apicube/base/data/repo"
-	"github.com/ikeikeikeike/apicube/base/data/storage"
+	"github.com/ikeikeikeike/apicube/base/domain/trans"
+	"github.com/ikeikeikeike/apicube/base/domain/usecase"
 	"github.com/ikeikeikeike/apicube/base/util"
 	"github.com/ikeikeikeike/apicube/base/util/logger"
 )
@@ -160,8 +161,9 @@ func initInject(env util.Environment, db *sql.DB, esc *elastic.Client, cmd *comm
 
 	dataes.Inject(env, &g, rt)
 	rdb.Inject(env, &g, rt)
-	storage.Inject(env, &g, rt)
 	repo.Inject(env, &g, rt)
+	usecase.Inject(env, &g, rt)
+	trans.Inject(env, &g, rt)
 
 	// inject to commander
 	if err := g.Provide(&inject.Object{Value: cmd}); err != nil {

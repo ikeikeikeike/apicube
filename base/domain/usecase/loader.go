@@ -1,4 +1,4 @@
-package es
+package usecase
 
 import (
 	"github.com/facebookgo/inject"
@@ -11,7 +11,6 @@ import (
 func Inject(env util.Environment, g *inject.Graph, rt interface{}) {
 	// inject
 	err := g.Provide(
-		&inject.Object{Value: &cmd{}},
 		&inject.Object{Value: &products{}},
 	)
 	if err != nil {
