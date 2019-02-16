@@ -1,0 +1,11 @@
+pkgname   = "model"
+output    = "base/data/model"
+
+[mysql]
+  dbname    = "ellecube"
+  host      = "127.0.0.1"
+  port      = 3306
+  user      = "root"
+  pass      = ""
+  sslmode   = "false"
+  blacklist = ["schema_history", "schema_migrations"]
