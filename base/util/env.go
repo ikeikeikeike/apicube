@@ -26,34 +26,34 @@ type (
 
 	Env struct {
 		// URI listens a port as grpc server
-		URI string `envconfig:"APICUBE_API_URI" default:"https://0.0.0.0:50000"`
+		URI string `envconfig:"APICUBE_URI" default:"https://0.0.0.0:50000"`
 
 		// RDBURI is set server host and port with db number, that's like DSN
-		RDBURI string `envconfig:"APICUBE_API_RDBURI" default:"redis://127.0.0.1:6379/10"`
+		RDBURI string `envconfig:"APICUBE_RDBURI" default:"redis://127.0.0.1:6379/10"`
 
 		// DLMURI is set distributed lock server host and port with db number, that's like DSN
-		DLMURI string `envconfig:"APICUBE_API_DLMURI" default:"redis://127.0.0.1:6379/9"`
+		DLMURI string `envconfig:"APICUBE_DLMURI" default:"redis://127.0.0.1:6379/9"`
 
 		// URI is set server host and port, which means the same as FQDN
-		ESURI string `envconfig:"APICUBE_API_ESURL" default:"http://127.0.0.1:9200"`
+		ESURI string `envconfig:"APICUBE_ESURL" default:"http://127.0.0.1:9200"`
 
 		// FURI is storage uri e.g. s3://data_bucket/path/data.flac or file://
-		FURI string `envconfig:"APICUBE_API_FURI" default:"file://./storage/data.flac"`
+		FURI string `envconfig:"APICUBE_FURI" default:"file://./storage/data.flac"`
 
 		// BQGSURI is bigquery loader storage
-		BQGSURI string `envconfig:"APICUBE_API_BQGSURI" default:"gs://inolab-bigquery-development/apicube/table.json"`
+		BQGSURI string `envconfig:"APICUBE_BQGSURI" default:"gs://inolab-bigquery-development/apicube/table.json"`
 
 		// DSN is mysql data source name
-		DSN string `envconfig:"APICUBE_API_DSN" default:"root:@tcp(127.0.0.1:3306)/apicube?parseTime=true&loc=Asia%2FTokyo"`
+		DSN string `envconfig:"APICUBE_DSN" default:"root:@tcp(127.0.0.1:3306)/apicube?parseTime=true&loc=Asia%2FTokyo"`
 
 		// Mode defines project environment mode
-		Mode string `envconfig:"APICUBE_API_MODE" default:"development"`
+		Mode string `envconfig:"APICUBE_MODE" default:"development"`
 
 		// Debug controlls
-		Debug string `envconfig:"APICUBE_API_DEBUG" default:""` // debug|pprof|something
+		Debug string `envconfig:"APICUBE_DEBUG" default:""` // debug|pprof|something
 
 		// IPFilter blocks not allowed ipaddresses
-		IPFilter string `envconfig:"APICUBE_API_IPFILTER" default:"0.0.0.0,1.1.1.1"`
+		IPFilter string `envconfig:"APICUBE_IPFILTER" default:"0.0.0.0,1.1.1.1"`
 
 		// GCProject: GOOGLE_PROJECT, GCLOUD_PROJECT
 		GCProject string `envconfig:"GOOGLE_PROJECT" default:""`

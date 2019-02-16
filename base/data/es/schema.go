@@ -4,9 +4,11 @@ package es
 func Schema(name string) string {
 	switch name {
 	default:
+		return ""
+	case ProductsName:
 		return productsIndex
-		// case FavoritesName:
-		// return favoritesIndex
+	// case FavoritesName:
+	// return favoritesIndex
 	}
 }
 
@@ -145,7 +147,6 @@ const (
         },
         "search_word": {
           "type": "keyword",
-          "index": "not_analyzed",
           "boost": 6
         },
         "update_date": {

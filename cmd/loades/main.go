@@ -10,6 +10,9 @@ import (
 	"strings"
 	"time"
 
+	// use MySQL
+	_ "github.com/go-sql-driver/mysql"
+
 	"github.com/facebookgo/inject"
 	"github.com/gigawattio/metaflector"
 	"github.com/kelseyhightower/envconfig"
@@ -43,7 +46,7 @@ type (
 	Env struct {
 		util.Env
 		// Event is consul event's name for deployment.
-		VAR string `envconfig:"APICUBE_API_PRIVATE_VAR" default:"set-something"`
+		VAR string `envconfig:"APICUBE_PRIVATE_VAR" default:"set-something"`
 	}
 )
 
