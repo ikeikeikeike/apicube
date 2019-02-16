@@ -159,11 +159,11 @@ func initInject(env util.Environment, db *sql.DB, esc *elastic.Client, cmd *comm
 		logger.Panicf("failed to process inject.Provide: %s", err)
 	}
 
-	dataes.Inject(env, &g, rt)
-	rdb.Inject(env, &g, rt)
-	repo.Inject(env, &g, rt)
-	usecase.Inject(env, &g, rt)
-	trans.Inject(env, &g, rt)
+	dataes.Inject(ctx, env, &g, rt)
+	rdb.Inject(ctx, env, &g, rt)
+	repo.Inject(ctx, env, &g, rt)
+	usecase.Inject(ctx, env, &g, rt)
+	trans.Inject(ctx, env, &g, rt)
 
 	// inject to commander
 	if err := g.Provide(&inject.Object{Value: cmd}); err != nil {

@@ -1,6 +1,7 @@
 package storage
 
 import (
+	"context"
 	"net/url"
 
 	"github.com/facebookgo/inject"
@@ -11,7 +12,7 @@ import (
 )
 
 // Inject injects dependencies
-func Inject(env util.Environment, g *inject.Graph, rt interface{}) {
+func Inject(ctx context.Context, env util.Environment, g *inject.Graph, rt interface{}) {
 	// inject
 	objects := make([]*inject.Object, 0)
 

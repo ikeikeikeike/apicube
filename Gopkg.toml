@@ -105,7 +105,3 @@
   name = "github.com/gobwas/glob"
   revision = "5ccd90ef52e1e632236f7326478d4faa74f99438"
 
-[[constraint]]
-  name = "github.com/labstack/echo"
-  version = "v3.3.9"
-

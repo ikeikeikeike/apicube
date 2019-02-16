@@ -19,6 +19,7 @@ install: ## Install all of dependencies
 	go get -v go.pedge.io/protoeasy/cmd/protoeasy && \
 	go get -v github.com/mwitkow/go-proto-validators/protoc-gen-govalidators && \
 	go get -v github.com/grpc-ecosystem/grpc-gateway/protoc-gen-grpc-gateway && \
+	go get -v github.com/grpc-ecosystem/grpc-gateway/protoc-gen-swagger && \
 	go get -v github.com/golang/mock/gomock && \
 	go install github.com/golang/mock/mockgen && \
 	go get -v -t github.com/volatiletech/sqlboiler && \

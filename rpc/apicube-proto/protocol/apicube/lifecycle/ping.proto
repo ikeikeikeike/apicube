@@ -28,7 +28,7 @@ package apicube.lifecycle;
 service PingService {
   rpc GetPing(Ping) returns (Ping) {
     option (google.api.http) = {
-      get: "/user/{msg}"
+      get: "/ping/{msg}"
     };
   }
 }

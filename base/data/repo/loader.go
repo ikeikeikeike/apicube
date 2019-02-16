@@ -1,6 +1,8 @@
 package repo
 
 import (
+	"context"
+
 	"github.com/facebookgo/inject"
 
 	"github.com/ikeikeikeike/apicube/base/util"
@@ -8,7 +10,7 @@ import (
 )
 
 // Inject injects dependencies
-func Inject(env util.Environment, g *inject.Graph, rt interface{}) {
+func Inject(ctx context.Context, env util.Environment, g *inject.Graph, rt interface{}) {
 	// inject
 	err := g.Provide(
 		&inject.Object{Value: &dtbProducts{}},

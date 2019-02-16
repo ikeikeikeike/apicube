@@ -25,8 +25,10 @@ type (
 	}
 
 	Env struct {
+		// GWURI listens a port as grpc gateway server
+		GWURI string `envconfig:"APICUBE_URI" default:"http://0.0.0.0:50000"`
 		// URI listens a port as grpc server
-		URI string `envconfig:"APICUBE_URI" default:"https://0.0.0.0:50000"`
+		URI string `envconfig:"APICUBE_URI" default:"grpc://0.0.0.0:50001"`
 
 		// RDBURI is set server host and port with db number, that's like DSN
 		RDBURI string `envconfig:"APICUBE_RDBURI" default:"redis://127.0.0.1:6379/10"`

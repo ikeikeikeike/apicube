@@ -1,6 +1,7 @@
 package loades
 
 import (
+	"context"
 	"time"
 
 	"github.com/facebookgo/inject"
@@ -14,4 +15,4 @@ var (
 )
 
 // Inject injects dependencies
-func Inject(env util.Environment, g *inject.Graph, rt interface{}) {}
+func Inject(ctx context.Context, env util.Environment, g *inject.Graph, rt interface{}) {}
