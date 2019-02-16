@@ -1,21 +1,34 @@
 default: | help
 
 build:  ## Build all of binaries
-	@for d in `echo server`; do \
+	@for d in `echo rpc`; do \
 		(cd $$d && make build) \
 	; done
 
 buildstatics:  ## Build all of binaries as static building
-	@for d in `echo server`; do \
+	@for d in `echo rpc`; do \
 		(cd $$d && make buildstatics) \
 	; done
 
 install: ## Install all of dependencies
+	go get -v github.com/golang/protobuf/proto && \
+	go get -v github.com/golang/protobuf/protoc-gen-go && \
+	go get -v google.golang.org/grpc && \
+	go get -v google.golang.org/genproto/... && \
+	go get -v github.com/gogo/protobuf/... && \
+	go get -v go.pedge.io/protoeasy/cmd/protoeasy && \
+	go get -v github.com/mwitkow/go-proto-validators/protoc-gen-govalidators && \
+	go get -v github.com/grpc-ecosystem/grpc-gateway/protoc-gen-grpc-gateway && \
+	go get -v github.com/golang/mock/gomock && \
+	go install github.com/golang/mock/mockgen && \
 	go get -v -t github.com/volatiletech/sqlboiler && \
 	go get -v github.com/volatiletech/sqlboiler/drivers/sqlboiler-mysql && \
 	go get -v github.com/oxequa/realize && \
 	go get -v github.com/alecthomas/gometalinter && \
+	\
 	gometalinter --install --update && \
+	\
+	for d in `echo rpc`; do (cd $$d && make install) ; done && \
 	\
 	go get -v github.com/golang/dep/cmd/dep && \
 	dep ensure -v
@@ -26,8 +39,15 @@ deps:  ## Install Golang dependencies
 modelgen:  ## Generate Golang model definition
 	sqlboiler mysql
 
+protocol:  ## Generate Protocol buffers definition
+	@for d in `echo rpc`; do \
+		(cd $$d && make protocol) \
+	; done && \
+	\
+	dep ensure -v
+
 test:  ## Test to all of directories
-	@for d in `echo server`; do \
+	@for d in `echo rpc`; do \
 		(cd $$d && make test) \
 	; done
 
@@ -57,12 +77,12 @@ vet:  ## Run go vet linter
 	done
 
 check:  ## Golang all of style checking
-	@if [ "`gometalinter --fast --vendor --deadline=100s --exclude base/data/model --exclude server/protocol ./... | tee /dev/stderr`" ]; then \
+	@if [ "`gometalinter --fast --vendor --deadline=100s --exclude base/data/model --exclude rpc/protocol ./... | tee /dev/stderr`" ]; then \
 		echo "^ gometalinter errors!" && echo && exit 1; \
 	fi
 
 check-completely:  ## Golang completely all of style checking
-	@if [ "`gometalinter --vendor --deadline=100s --exclude base/data/model --exclude server/protocol ./... | tee /dev/stderr`" ]; then \
+	@if [ "`gometalinter --vendor --deadline=100s --exclude base/data/model --exclude rpc/protocol ./... | tee /dev/stderr`" ]; then \
 		echo "^ gometalinter completely check errors!" && echo && exit 1; \
 	fi
 
@@ -81,5 +101,6 @@ help:  ## Show all of tasks
 	test-cover-html \
 	install \
 	check \
+	protocol \
 	check-completely \
 	modelgen

@@ -1,0 +1,38 @@
+// https://cloud.google.com/apis/design/standard_methods
+
+syntax = "proto3";
+
+/* import "google/protobuf/empty.proto"; */
+/* import "google/protobuf/timestamp.proto"; */
+import "google/api/annotations.proto";
+import "google/protobuf/wrappers.proto";
+import "gogoproto/gogo.proto";
+import "github.com/mwitkow/go-proto-validators/validator.proto";
+
+option go_package = "lifecycle";
+
+option java_multiple_files = true;
+option java_package = "org.apicube.protocol.lifecycle";
+option java_outer_classname = "PingProtocol";
+
+option (gogoproto.marshaler_all) = true;
+option (gogoproto.unmarshaler_all) = true;
+option (gogoproto.sizer_all) = true;
+option (gogoproto.populate_all) = true;
+option (gogoproto.equal_all) = true;
+option (gogoproto.testgen_all) = true;
+option (gogoproto.benchgen_all) = true;
+
+package apicube.lifecycle;
+
+service PingService {
+  rpc GetPing(Ping) returns (Ping) {
+    option (google.api.http) = {
+      get: "/user/{msg}"
+    };
+  }
+}
+
+message Ping {
+  string msg = 1 [(validator.field) = {string_not_empty: true}];
+}

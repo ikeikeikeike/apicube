@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+/* import "google/protobuf/empty.proto"; */
+/* import "google/protobuf/timestamp.proto"; */
+import "google/api/annotations.proto";
+import "google/protobuf/wrappers.proto";
+import "gogoproto/gogo.proto";
+import "github.com/mwitkow/go-proto-validators/validator.proto";
+
+option go_package = "product";
+
+option java_multiple_files = true;
+option java_package = "org.apicube.protocol.product";
+option java_outer_classname = "ProductProtocol";
+
+option (gogoproto.marshaler_all) = true;
+option (gogoproto.unmarshaler_all) = true;
+option (gogoproto.sizer_all) = true;
+option (gogoproto.populate_all) = true;
+option (gogoproto.equal_all) = true;
+option (gogoproto.testgen_all) = true;
+option (gogoproto.benchgen_all) = true;
+
+package apicube.product;
+
+service ProductService {
+  rpc SimilarProducts(SimilarProductsRequest) returns (SimilarProductsResponse) {
+    option (google.api.http) = {
+        get: "/products/similar/{name}"
+    };
+  }
+}
+
+message SimilarProductsRequest {
+  string name = 1 [(validator.field) = {string_not_empty: true}];
+}
+
+message SimilarProductsResponse {
+  google.protobuf.Int64Value id = 1 [(gogoproto.customname) = "ID"];
+  string name = 2 [(validator.field) = {string_not_empty: true}];
+  /* string image = 3 [(validator.field) = {string_not_empty: true}]; */
+  google.protobuf.StringValue description_detail = 4;
+
+  /* google.protobuf.Timestamp created_date = 5; */
+  /* google.protobuf.Timestamp udpated_date = 6; */
+}

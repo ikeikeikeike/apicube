@@ -31,3 +31,5 @@ _testmain.go
 /sandbox/sandbox
 /server/server
 /cmd/loades/loades
+/rpc/protocol
+/rpc/mockprotocol
