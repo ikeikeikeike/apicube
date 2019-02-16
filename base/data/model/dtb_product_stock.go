@@ -78,16 +78,13 @@ var DTBProductStockWhere = struct {
 // DTBProductStockRels is where relationship names are stored.
 var DTBProductStockRels = struct {
 	ProductClass string
-	Creator      string
 }{
 	ProductClass: "ProductClass",
-	Creator:      "Creator",
 }
 
 // dtbProductStockR is where relationships are stored.
 type dtbProductStockR struct {
 	ProductClass *DTBProductClass
-	Creator      *DTBMember
 }
 
 // NewStruct creates a new relationship struct
@@ -394,20 +391,6 @@ func (o *DTBProductStock) ProductClass(mods ...qm.QueryMod) dtbProductClassQuery
 	return query
 }
 
-// Creator pointed to by the foreign key.
-func (o *DTBProductStock) Creator(mods ...qm.QueryMod) dtbMemberQuery {
-	queryMods := []qm.QueryMod{
-		qm.Where("id=?", o.CreatorID),
-	}
-
-	queryMods = append(queryMods, mods...)
-
-	query := DTBMembers(queryMods...)
-	queries.SetFrom(query.Query, "`dtb_member`")
-
-	return query
-}
-
 // LoadProductClass allows an eager lookup of values, cached into the
 // loaded structs of the objects. This is for an N-1 relationship.
 func (dtbProductStockL) LoadProductClass(ctx context.Context, e boil.ContextExecutor, singular bool, maybeDTBProductStock interface{}, mods queries.Applicator) error {
@@ -513,111 +496,6 @@ func (dtbProductStockL) LoadProductClass(ctx context.Context, e boil.ContextExec
 	return nil
 }
 
-// LoadCreator allows an eager lookup of values, cached into the
-// loaded structs of the objects. This is for an N-1 relationship.
-func (dtbProductStockL) LoadCreator(ctx context.Context, e boil.ContextExecutor, singular bool, maybeDTBProductStock interface{}, mods queries.Applicator) error {
-	var slice []*DTBProductStock
-	var object *DTBProductStock
-
-	if singular {
-		object = maybeDTBProductStock.(*DTBProductStock)
-	} else {
-		slice = *maybeDTBProductStock.(*[]*DTBProductStock)
-	}
-
-	args := make([]interface{}, 0, 1)
-	if singular {
-		if object.R == nil {
-			object.R = &dtbProductStockR{}
-		}
-		if !queries.IsNil(object.CreatorID) {
-			args = append(args, object.CreatorID)
-		}
-
-	} else {
-	Outer:
-		for _, obj := range slice {
-			if obj.R == nil {
-				obj.R = &dtbProductStockR{}
-			}
-
-			for _, a := range args {
-				if queries.Equal(a, obj.CreatorID) {
-					continue Outer
-				}
-			}
-
-			if !queries.IsNil(obj.CreatorID) {
-				args = append(args, obj.CreatorID)
-			}
-
-		}
-	}
-
-	if len(args) == 0 {
-		return nil
-	}
-
-	query := NewQuery(qm.From(`dtb_member`), qm.WhereIn(`id in ?`, args...))
-	if mods != nil {
-		mods.Apply(query)
-	}
-
-	results, err := query.QueryContext(ctx, e)
-	if err != nil {
-		return errors.Wrap(err, "failed to eager load DTBMember")
-	}
-
-	var resultSlice []*DTBMember
-	if err = queries.Bind(results, &resultSlice); err != nil {
-		return errors.Wrap(err, "failed to bind eager loaded slice DTBMember")
-	}
-
-	if err = results.Close(); err != nil {
-		return errors.Wrap(err, "failed to close results of eager load for dtb_member")
-	}
-	if err = results.Err(); err != nil {
-		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for dtb_member")
-	}
-
-	if len(dtbProductStockAfterSelectHooks) != 0 {
-		for _, obj := range resultSlice {
-			if err := obj.doAfterSelectHooks(ctx, e); err != nil {
-				return err
-			}
-		}
-	}
-
-	if len(resultSlice) == 0 {
-		return nil
-	}
-
-	if singular {
-		foreign := resultSlice[0]
-		object.R.Creator = foreign
-		if foreign.R == nil {
-			foreign.R = &dtbMemberR{}
-		}
-		foreign.R.CreatorDTBProductStocks = append(foreign.R.CreatorDTBProductStocks, object)
-		return nil
-	}
-
-	for _, local := range slice {
-		for _, foreign := range resultSlice {
-			if queries.Equal(local.CreatorID, foreign.ID) {
-				local.R.Creator = foreign
-				if foreign.R == nil {
-					foreign.R = &dtbMemberR{}
-				}
-				foreign.R.CreatorDTBProductStocks = append(foreign.R.CreatorDTBProductStocks, local)
-				break
-			}
-		}
-	}
-
-	return nil
-}
-
 // SetProductClass of the dtbProductStock to the related item.
 // Sets o.R.ProductClass to related.
 // Adds o to related.R.ProductClassDTBProductStocks.
@@ -691,84 +569,6 @@ func (o *DTBProductStock) RemoveProductClass(ctx context.Context, exec boil.Cont
 			related.R.ProductClassDTBProductStocks[i] = related.R.ProductClassDTBProductStocks[ln-1]
 		}
 		related.R.ProductClassDTBProductStocks = related.R.ProductClassDTBProductStocks[:ln-1]
-		break
-	}
-	return nil
-}
-
-// SetCreator of the dtbProductStock to the related item.
-// Sets o.R.Creator to related.
-// Adds o to related.R.CreatorDTBProductStocks.
-func (o *DTBProductStock) SetCreator(ctx context.Context, exec boil.ContextExecutor, insert bool, related *DTBMember) error {
-	var err error
-	if insert {
-		if err = related.Insert(ctx, exec, boil.Infer()); err != nil {
-			return errors.Wrap(err, "failed to insert into foreign table")
-		}
-	}
-
-	updateQuery := fmt.Sprintf(
-		"UPDATE `dtb_product_stock` SET %s WHERE %s",
-		strmangle.SetParamNames("`", "`", 0, []string{"creator_id"}),
-		strmangle.WhereClause("`", "`", 0, dtbProductStockPrimaryKeyColumns),
-	)
-	values := []interface{}{related.ID, o.ID}
-
-	if boil.DebugMode {
-		fmt.Fprintln(boil.DebugWriter, updateQuery)
-		fmt.Fprintln(boil.DebugWriter, values)
-	}
-
-	if _, err = exec.ExecContext(ctx, updateQuery, values...); err != nil {
-		return errors.Wrap(err, "failed to update local table")
-	}
-
-	queries.Assign(&o.CreatorID, related.ID)
-	if o.R == nil {
-		o.R = &dtbProductStockR{
-			Creator: related,
-		}
-	} else {
-		o.R.Creator = related
-	}
-
-	if related.R == nil {
-		related.R = &dtbMemberR{
-			CreatorDTBProductStocks: DTBProductStockSlice{o},
-		}
-	} else {
-		related.R.CreatorDTBProductStocks = append(related.R.CreatorDTBProductStocks, o)
-	}
-
-	return nil
-}
-
-// RemoveCreator relationship.
-// Sets o.R.Creator to nil.
-// Removes o from all passed in related items' relationships struct (Optional).
-func (o *DTBProductStock) RemoveCreator(ctx context.Context, exec boil.ContextExecutor, related *DTBMember) error {
-	var err error
-
-	queries.SetScanner(&o.CreatorID, nil)
-	if _, err = o.Update(ctx, exec, boil.Whitelist("creator_id")); err != nil {
-		return errors.Wrap(err, "failed to update local table")
-	}
-
-	o.R.Creator = nil
-	if related == nil || related.R == nil {
-		return nil
-	}
-
-	for i, ri := range related.R.CreatorDTBProductStocks {
-		if queries.Equal(o.CreatorID, ri.CreatorID) {
-			continue
-		}
-
-		ln := len(related.R.CreatorDTBProductStocks)
-		if ln > 1 && i < ln-1 {
-			related.R.CreatorDTBProductStocks[i] = related.R.CreatorDTBProductStocks[ln-1]
-		}
-		related.R.CreatorDTBProductStocks = related.R.CreatorDTBProductStocks[:ln-1]
 		break
 	}
 	return nil

@@ -9,3 +9,11 @@ output    = "base/data/model"
   pass      = ""
   sslmode   = "false"
   blacklist = ["schema_history", "schema_migrations"]
+  whitelist = [
+    "dtb_product",
+    "dtb_product_category",
+    "dtb_product_class",
+    "dtb_product_image",
+    "dtb_product_stock",
+    "dtb_product_tag",
+  ]

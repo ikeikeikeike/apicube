@@ -80,3 +80,32 @@
 [[constraint]]
   name = "github.com/kelseyhightower/envconfig"
   revision = "dd1402a4d99de9ac2f396cd6fcb957bc2c695ec1"
+
+[[constraint]]
+  name = "github.com/aws/aws-sdk-go"
+  version = "1.16.36"
+
+[[constraint]]
+  revision = "b67df6e626f993b64b3ca9f4b8630900e61002e3"
+  name = "github.com/mediocregopher/radix.v2"
+
+[[constraint]]
+  name = "github.com/gomodule/redigo"
+  version = "2.0.0"
+
+[[constraint]]
+  name = "github.com/dgrijalva/jwt-go"
+  revision = "06ea1031745cb8b3dab3f6a236daf2b0aa468b7e"
+
+[[constraint]]
+  name = "github.com/imdario/mergo"
+  revision = "7c29201646fa3de8506f701213473dd407f19646"
+
+[[constraint]]
+  name = "github.com/gobwas/glob"
+  revision = "5ccd90ef52e1e632236f7326478d4faa74f99438"
+
+[[constraint]]
+  name = "github.com/labstack/echo"
+  version = "v3.3.9"
+

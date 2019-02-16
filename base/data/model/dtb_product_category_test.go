@@ -494,57 +494,6 @@ func testDTBProductCategoriesInsertWhitelist(t *testing.T) {
 	}
 }
 
-func testDTBProductCategoryToOneDTBCategoryUsingCategory(t *testing.T) {
-	ctx := context.Background()
-	tx := MustTx(boil.BeginTx(ctx, nil))
-	defer func() { _ = tx.Rollback() }()
-
-	var local DTBProductCategory
-	var foreign DTBCategory
-
-	seed := randomize.NewSeed()
-	if err := randomize.Struct(seed, &local, dtbProductCategoryDBTypes, false, dtbProductCategoryColumnsWithDefault...); err != nil {
-		t.Errorf("Unable to randomize DTBProductCategory struct: %s", err)
-	}
-	if err := randomize.Struct(seed, &foreign, dtbCategoryDBTypes, false, dtbCategoryColumnsWithDefault...); err != nil {
-		t.Errorf("Unable to randomize DTBCategory struct: %s", err)
-	}
-
-	if err := foreign.Insert(ctx, tx, boil.Infer()); err != nil {
-		t.Fatal(err)
-	}
-
-	local.CategoryID = foreign.ID
-	if err := local.Insert(ctx, tx, boil.Infer()); err != nil {
-		t.Fatal(err)
-	}
-
-	check, err := local.Category().One(ctx, tx)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	if check.ID != foreign.ID {
-		t.Errorf("want: %v, got %v", foreign.ID, check.ID)
-	}
-
-	slice := DTBProductCategorySlice{&local}
-	if err = local.L.LoadCategory(ctx, tx, false, (*[]*DTBProductCategory)(&slice), nil); err != nil {
-		t.Fatal(err)
-	}
-	if local.R.Category == nil {
-		t.Error("struct should have been eager loaded")
-	}
-
-	local.R.Category = nil
-	if err = local.L.LoadCategory(ctx, tx, true, &local, nil); err != nil {
-		t.Fatal(err)
-	}
-	if local.R.Category == nil {
-		t.Error("struct should have been eager loaded")
-	}
-}
-
 func testDTBProductCategoryToOneDTBProductUsingProduct(t *testing.T) {
 	ctx := context.Background()
 	tx := MustTx(boil.BeginTx(ctx, nil))
@@ -596,59 +545,6 @@ func testDTBProductCategoryToOneDTBProductUsingProduct(t *testing.T) {
 	}
 }
 
-func testDTBProductCategoryToOneSetOpDTBCategoryUsingCategory(t *testing.T) {
-	var err error
-
-	ctx := context.Background()
-	tx := MustTx(boil.BeginTx(ctx, nil))
-	defer func() { _ = tx.Rollback() }()
-
-	var a DTBProductCategory
-	var b, c DTBCategory
-
-	seed := randomize.NewSeed()
-	if err = randomize.Struct(seed, &a, dtbProductCategoryDBTypes, false, strmangle.SetComplement(dtbProductCategoryPrimaryKeyColumns, dtbProductCategoryColumnsWithoutDefault)...); err != nil {
-		t.Fatal(err)
-	}
-	if err = randomize.Struct(seed, &b, dtbCategoryDBTypes, false, strmangle.SetComplement(dtbCategoryPrimaryKeyColumns, dtbCategoryColumnsWithoutDefault)...); err != nil {
-		t.Fatal(err)
-	}
-	if err = randomize.Struct(seed, &c, dtbCategoryDBTypes, false, strmangle.SetComplement(dtbCategoryPrimaryKeyColumns, dtbCategoryColumnsWithoutDefault)...); err != nil {
-		t.Fatal(err)
-	}
-
-	if err := a.Insert(ctx, tx, boil.Infer()); err != nil {
-		t.Fatal(err)
-	}
-	if err = b.Insert(ctx, tx, boil.Infer()); err != nil {
-		t.Fatal(err)
-	}
-
-	for i, x := range []*DTBCategory{&b, &c} {
-		err = a.SetCategory(ctx, tx, i != 0, x)
-		if err != nil {
-			t.Fatal(err)
-		}
-
-		if a.R.Category != x {
-			t.Error("relationship struct not set to correct value")
-		}
-
-		if x.R.CategoryDTBProductCategories[0] != &a {
-			t.Error("failed to append to foreign relationship struct")
-		}
-		if a.CategoryID != x.ID {
-			t.Error("foreign key was wrong value", a.CategoryID)
-		}
-
-		if exists, err := DTBProductCategoryExists(ctx, tx, a.ProductID, a.CategoryID); err != nil {
-			t.Fatal(err)
-		} else if !exists {
-			t.Error("want 'a' to exist")
-		}
-
-	}
-}
 func testDTBProductCategoryToOneSetOpDTBProductUsingProduct(t *testing.T) {
 	var err error
 

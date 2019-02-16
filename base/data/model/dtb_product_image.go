@@ -56,6 +56,15 @@ var DTBProductImageColumns = struct {
 
 // Generated where
 
+type whereHelperuint16 struct{ field string }
+
+func (w whereHelperuint16) EQ(x uint16) qm.QueryMod  { return qmhelper.Where(w.field, qmhelper.EQ, x) }
+func (w whereHelperuint16) NEQ(x uint16) qm.QueryMod { return qmhelper.Where(w.field, qmhelper.NEQ, x) }
+func (w whereHelperuint16) LT(x uint16) qm.QueryMod  { return qmhelper.Where(w.field, qmhelper.LT, x) }
+func (w whereHelperuint16) LTE(x uint16) qm.QueryMod { return qmhelper.Where(w.field, qmhelper.LTE, x) }
+func (w whereHelperuint16) GT(x uint16) qm.QueryMod  { return qmhelper.Where(w.field, qmhelper.GT, x) }
+func (w whereHelperuint16) GTE(x uint16) qm.QueryMod { return qmhelper.Where(w.field, qmhelper.GTE, x) }
+
 var DTBProductImageWhere = struct {
 	ID                whereHelperuint
 	ProductID         whereHelpernull_Uint
@@ -77,16 +86,13 @@ var DTBProductImageWhere = struct {
 // DTBProductImageRels is where relationship names are stored.
 var DTBProductImageRels = struct {
 	Product string
-	Creator string
 }{
 	Product: "Product",
-	Creator: "Creator",
 }
 
 // dtbProductImageR is where relationships are stored.
 type dtbProductImageR struct {
 	Product *DTBProduct
-	Creator *DTBMember
 }
 
 // NewStruct creates a new relationship struct
@@ -393,20 +399,6 @@ func (o *DTBProductImage) Product(mods ...qm.QueryMod) dtbProductQuery {
 	return query
 }
 
-// Creator pointed to by the foreign key.
-func (o *DTBProductImage) Creator(mods ...qm.QueryMod) dtbMemberQuery {
-	queryMods := []qm.QueryMod{
-		qm.Where("id=?", o.CreatorID),
-	}
-
-	queryMods = append(queryMods, mods...)
-
-	query := DTBMembers(queryMods...)
-	queries.SetFrom(query.Query, "`dtb_member`")
-
-	return query
-}
-
 // LoadProduct allows an eager lookup of values, cached into the
 // loaded structs of the objects. This is for an N-1 relationship.
 func (dtbProductImageL) LoadProduct(ctx context.Context, e boil.ContextExecutor, singular bool, maybeDTBProductImage interface{}, mods queries.Applicator) error {
@@ -512,111 +504,6 @@ func (dtbProductImageL) LoadProduct(ctx context.Context, e boil.ContextExecutor,
 	return nil
 }
 
-// LoadCreator allows an eager lookup of values, cached into the
-// loaded structs of the objects. This is for an N-1 relationship.
-func (dtbProductImageL) LoadCreator(ctx context.Context, e boil.ContextExecutor, singular bool, maybeDTBProductImage interface{}, mods queries.Applicator) error {
-	var slice []*DTBProductImage
-	var object *DTBProductImage
-
-	if singular {
-		object = maybeDTBProductImage.(*DTBProductImage)
-	} else {
-		slice = *maybeDTBProductImage.(*[]*DTBProductImage)
-	}
-
-	args := make([]interface{}, 0, 1)
-	if singular {
-		if object.R == nil {
-			object.R = &dtbProductImageR{}
-		}
-		if !queries.IsNil(object.CreatorID) {
-			args = append(args, object.CreatorID)
-		}
-
-	} else {
-	Outer:
-		for _, obj := range slice {
-			if obj.R == nil {
-				obj.R = &dtbProductImageR{}
-			}
-
-			for _, a := range args {
-				if queries.Equal(a, obj.CreatorID) {
-					continue Outer
-				}
-			}
-
-			if !queries.IsNil(obj.CreatorID) {
-				args = append(args, obj.CreatorID)
-			}
-
-		}
-	}
-
-	if len(args) == 0 {
-		return nil
-	}
-
-	query := NewQuery(qm.From(`dtb_member`), qm.WhereIn(`id in ?`, args...))
-	if mods != nil {
-		mods.Apply(query)
-	}
-
-	results, err := query.QueryContext(ctx, e)
-	if err != nil {
-		return errors.Wrap(err, "failed to eager load DTBMember")
-	}
-
-	var resultSlice []*DTBMember
-	if err = queries.Bind(results, &resultSlice); err != nil {
-		return errors.Wrap(err, "failed to bind eager loaded slice DTBMember")
-	}
-
-	if err = results.Close(); err != nil {
-		return errors.Wrap(err, "failed to close results of eager load for dtb_member")
-	}
-	if err = results.Err(); err != nil {
-		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for dtb_member")
-	}
-
-	if len(dtbProductImageAfterSelectHooks) != 0 {
-		for _, obj := range resultSlice {
-			if err := obj.doAfterSelectHooks(ctx, e); err != nil {
-				return err
-			}
-		}
-	}
-
-	if len(resultSlice) == 0 {
-		return nil
-	}
-
-	if singular {
-		foreign := resultSlice[0]
-		object.R.Creator = foreign
-		if foreign.R == nil {
-			foreign.R = &dtbMemberR{}
-		}
-		foreign.R.CreatorDTBProductImages = append(foreign.R.CreatorDTBProductImages, object)
-		return nil
-	}
-
-	for _, local := range slice {
-		for _, foreign := range resultSlice {
-			if queries.Equal(local.CreatorID, foreign.ID) {
-				local.R.Creator = foreign
-				if foreign.R == nil {
-					foreign.R = &dtbMemberR{}
-				}
-				foreign.R.CreatorDTBProductImages = append(foreign.R.CreatorDTBProductImages, local)
-				break
-			}
-		}
-	}
-
-	return nil
-}
-
 // SetProduct of the dtbProductImage to the related item.
 // Sets o.R.Product to related.
 // Adds o to related.R.ProductDTBProductImages.
@@ -690,84 +577,6 @@ func (o *DTBProductImage) RemoveProduct(ctx context.Context, exec boil.ContextEx
 			related.R.ProductDTBProductImages[i] = related.R.ProductDTBProductImages[ln-1]
 		}
 		related.R.ProductDTBProductImages = related.R.ProductDTBProductImages[:ln-1]
-		break
-	}
-	return nil
-}
-
-// SetCreator of the dtbProductImage to the related item.
-// Sets o.R.Creator to related.
-// Adds o to related.R.CreatorDTBProductImages.
-func (o *DTBProductImage) SetCreator(ctx context.Context, exec boil.ContextExecutor, insert bool, related *DTBMember) error {
-	var err error
-	if insert {
-		if err = related.Insert(ctx, exec, boil.Infer()); err != nil {
-			return errors.Wrap(err, "failed to insert into foreign table")
-		}
-	}
-
-	updateQuery := fmt.Sprintf(
-		"UPDATE `dtb_product_image` SET %s WHERE %s",
-		strmangle.SetParamNames("`", "`", 0, []string{"creator_id"}),
-		strmangle.WhereClause("`", "`", 0, dtbProductImagePrimaryKeyColumns),
-	)
-	values := []interface{}{related.ID, o.ID}
-
-	if boil.DebugMode {
-		fmt.Fprintln(boil.DebugWriter, updateQuery)
-		fmt.Fprintln(boil.DebugWriter, values)
-	}
-
-	if _, err = exec.ExecContext(ctx, updateQuery, values...); err != nil {
-		return errors.Wrap(err, "failed to update local table")
-	}
-
-	queries.Assign(&o.CreatorID, related.ID)
-	if o.R == nil {
-		o.R = &dtbProductImageR{
-			Creator: related,
-		}
-	} else {
-		o.R.Creator = related
-	}
-
-	if related.R == nil {
-		related.R = &dtbMemberR{
-			CreatorDTBProductImages: DTBProductImageSlice{o},
-		}
-	} else {
-		related.R.CreatorDTBProductImages = append(related.R.CreatorDTBProductImages, o)
-	}
-
-	return nil
-}
-
-// RemoveCreator relationship.
-// Sets o.R.Creator to nil.
-// Removes o from all passed in related items' relationships struct (Optional).
-func (o *DTBProductImage) RemoveCreator(ctx context.Context, exec boil.ContextExecutor, related *DTBMember) error {
-	var err error
-
-	queries.SetScanner(&o.CreatorID, nil)
-	if _, err = o.Update(ctx, exec, boil.Whitelist("creator_id")); err != nil {
-		return errors.Wrap(err, "failed to update local table")
-	}
-
-	o.R.Creator = nil
-	if related == nil || related.R == nil {
-		return nil
-	}
-
-	for i, ri := range related.R.CreatorDTBProductImages {
-		if queries.Equal(o.CreatorID, ri.CreatorID) {
-			continue
-		}
-
-		ln := len(related.R.CreatorDTBProductImages)
-		if ln > 1 && i < ln-1 {
-			related.R.CreatorDTBProductImages[i] = related.R.CreatorDTBProductImages[ln-1]
-		}
-		related.R.CreatorDTBProductImages = related.R.CreatorDTBProductImages[:ln-1]
 		break
 	}
 	return nil

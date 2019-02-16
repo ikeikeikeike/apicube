@@ -55,17 +55,14 @@ var DTBProductCategoryWhere = struct {
 
 // DTBProductCategoryRels is where relationship names are stored.
 var DTBProductCategoryRels = struct {
-	Category string
-	Product  string
+	Product string
 }{
-	Category: "Category",
-	Product:  "Product",
+	Product: "Product",
 }
 
 // dtbProductCategoryR is where relationships are stored.
 type dtbProductCategoryR struct {
-	Category *DTBCategory
-	Product  *DTBProduct
+	Product *DTBProduct
 }
 
 // NewStruct creates a new relationship struct
@@ -358,20 +355,6 @@ func (q dtbProductCategoryQuery) Exists(ctx context.Context, exec boil.ContextEx
 	return count > 0, nil
 }
 
-// Category pointed to by the foreign key.
-func (o *DTBProductCategory) Category(mods ...qm.QueryMod) dtbCategoryQuery {
-	queryMods := []qm.QueryMod{
-		qm.Where("id=?", o.CategoryID),
-	}
-
-	queryMods = append(queryMods, mods...)
-
-	query := DTBCategories(queryMods...)
-	queries.SetFrom(query.Query, "`dtb_category`")
-
-	return query
-}
-
 // Product pointed to by the foreign key.
 func (o *DTBProductCategory) Product(mods ...qm.QueryMod) dtbProductQuery {
 	queryMods := []qm.QueryMod{
@@ -384,107 +367,6 @@ func (o *DTBProductCategory) Product(mods ...qm.QueryMod) dtbProductQuery {
 	queries.SetFrom(query.Query, "`dtb_product`")
 
 	return query
-}
-
-// LoadCategory allows an eager lookup of values, cached into the
-// loaded structs of the objects. This is for an N-1 relationship.
-func (dtbProductCategoryL) LoadCategory(ctx context.Context, e boil.ContextExecutor, singular bool, maybeDTBProductCategory interface{}, mods queries.Applicator) error {
-	var slice []*DTBProductCategory
-	var object *DTBProductCategory
-
-	if singular {
-		object = maybeDTBProductCategory.(*DTBProductCategory)
-	} else {
-		slice = *maybeDTBProductCategory.(*[]*DTBProductCategory)
-	}
-
-	args := make([]interface{}, 0, 1)
-	if singular {
-		if object.R == nil {
-			object.R = &dtbProductCategoryR{}
-		}
-		args = append(args, object.CategoryID)
-
-	} else {
-	Outer:
-		for _, obj := range slice {
-			if obj.R == nil {
-				obj.R = &dtbProductCategoryR{}
-			}
-
-			for _, a := range args {
-				if a == obj.CategoryID {
-					continue Outer
-				}
-			}
-
-			args = append(args, obj.CategoryID)
-
-		}
-	}
-
-	if len(args) == 0 {
-		return nil
-	}
-
-	query := NewQuery(qm.From(`dtb_category`), qm.WhereIn(`id in ?`, args...))
-	if mods != nil {
-		mods.Apply(query)
-	}
-
-	results, err := query.QueryContext(ctx, e)
-	if err != nil {
-		return errors.Wrap(err, "failed to eager load DTBCategory")
-	}
-
-	var resultSlice []*DTBCategory
-	if err = queries.Bind(results, &resultSlice); err != nil {
-		return errors.Wrap(err, "failed to bind eager loaded slice DTBCategory")
-	}
-
-	if err = results.Close(); err != nil {
-		return errors.Wrap(err, "failed to close results of eager load for dtb_category")
-	}
-	if err = results.Err(); err != nil {
-		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for dtb_category")
-	}
-
-	if len(dtbProductCategoryAfterSelectHooks) != 0 {
-		for _, obj := range resultSlice {
-			if err := obj.doAfterSelectHooks(ctx, e); err != nil {
-				return err
-			}
-		}
-	}
-
-	if len(resultSlice) == 0 {
-		return nil
-	}
-
-	if singular {
-		foreign := resultSlice[0]
-		object.R.Category = foreign
-		if foreign.R == nil {
-			foreign.R = &dtbCategoryR{}
-		}
-		foreign.R.CategoryDTBProductCategories = append(foreign.R.CategoryDTBProductCategories, object)
-		return nil
-	}
-
-	for _, local := range slice {
-		for _, foreign := range resultSlice {
-			if local.CategoryID == foreign.ID {
-				local.R.Category = foreign
-				if foreign.R == nil {
-					foreign.R = &dtbCategoryR{}
-				}
-				foreign.R.CategoryDTBProductCategories = append(foreign.R.CategoryDTBProductCategories, local)
-				break
-			}
-		}
-	}
-
-	return nil
 }
 
 // LoadProduct allows an eager lookup of values, cached into the
@@ -583,53 +465,6 @@ func (dtbProductCategoryL) LoadProduct(ctx context.Context, e boil.ContextExecut
 				break
 			}
 		}
-	}
-
-	return nil
-}
-
-// SetCategory of the dtbProductCategory to the related item.
-// Sets o.R.Category to related.
-// Adds o to related.R.CategoryDTBProductCategories.
-func (o *DTBProductCategory) SetCategory(ctx context.Context, exec boil.ContextExecutor, insert bool, related *DTBCategory) error {
-	var err error
-	if insert {
-		if err = related.Insert(ctx, exec, boil.Infer()); err != nil {
-			return errors.Wrap(err, "failed to insert into foreign table")
-		}
-	}
-
-	updateQuery := fmt.Sprintf(
-		"UPDATE `dtb_product_category` SET %s WHERE %s",
-		strmangle.SetParamNames("`", "`", 0, []string{"category_id"}),
-		strmangle.WhereClause("`", "`", 0, dtbProductCategoryPrimaryKeyColumns),
-	)
-	values := []interface{}{related.ID, o.ProductID, o.CategoryID}
-
-	if boil.DebugMode {
-		fmt.Fprintln(boil.DebugWriter, updateQuery)
-		fmt.Fprintln(boil.DebugWriter, values)
-	}
-
-	if _, err = exec.ExecContext(ctx, updateQuery, values...); err != nil {
-		return errors.Wrap(err, "failed to update local table")
-	}
-
-	o.CategoryID = related.ID
-	if o.R == nil {
-		o.R = &dtbProductCategoryR{
-			Category: related,
-		}
-	} else {
-		o.R.Category = related
-	}
-
-	if related.R == nil {
-		related.R = &dtbCategoryR{
-			CategoryDTBProductCategories: DTBProductCategorySlice{o},
-		}
-	} else {
-		related.R.CategoryDTBProductCategories = append(related.R.CategoryDTBProductCategories, o)
 	}
 
 	return nil
