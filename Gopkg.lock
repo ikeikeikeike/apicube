@@ -2,6 +2,14 @@
 
 
 [[projects]]
+  digest = "1:fed1f537c2f1269fe475a8556c393fe466641682d73ef8fd0491cd3aa1e47bad"
+  name = "github.com/certifi/gocertifi"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "deb3ae2ef2610fde3330947281941c562861188b"
+  version = "2018.01.18"
+
+[[projects]]
   digest = "1:1b487fd946176530c6c3669e55108e4ee45e1bd1ea0a630e28e3a173352d93e8"
   name = "github.com/ericlagergren/decimal"
   packages = [
@@ -15,7 +23,6 @@
   version = "v3.3.1"
 
 [[projects]]
-  branch = "master"
   digest = "1:fdc1ae96a37dfc9e054eb6717fed35454089f3224985c9547667a6ea029f0d5c"
   name = "github.com/facebookgo/inject"
   packages = ["."]
@@ -39,12 +46,25 @@
   version = "v1.4.7"
 
 [[projects]]
+  digest = "1:d18f6f088d7d8365df47f49dfa24b6ff6701a941118ffda30c589d1bd954074b"
+  name = "github.com/getsentry/raven-go"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "f04e7487e9a6b9d9837d52743fb5f40576c56411"
+
+[[projects]]
+  digest = "1:56752e811c1ebc916cc40d4eb2a11b5b0cfb842df9dfb86faed97664ac41ec43"
+  name = "github.com/gigawattio/metaflector"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "d098812229a0f2e88eae790d1a7dc87fd4fc5b81"
+
+[[projects]]
   digest = "1:ec6f9bf5e274c833c911923c9193867f3f18788c461f76f05f62bb1510e0ae65"
   name = "github.com/go-sql-driver/mysql"
   packages = ["."]
   pruneopts = "UT"
   revision = "72cd26f257d44c1114970e19afddcd812016007e"
-  version = "v1.4.1"
 
 [[projects]]
   digest = "1:bed9d72d596f94e65fff37f4d6c01398074a6bb1c3f3ceff963516bd01db6ff5"
@@ -82,6 +102,13 @@
   version = "v1"
 
 [[projects]]
+  digest = "1:235659fa63811a81b54b0ff11de18f054259bd91be1637d7cabe526795aee7e7"
+  name = "github.com/kelseyhightower/envconfig"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "dd1402a4d99de9ac2f396cd6fcb957bc2c695ec1"
+
+[[projects]]
   digest = "1:8ef506fc2bb9ced9b151dafa592d4046063d744c646c1bbe801982ce87e4bc24"
   name = "github.com/lib/pq"
   packages = [
@@ -101,12 +128,36 @@
   version = "v1.8.0"
 
 [[projects]]
+  branch = "master"
+  digest = "1:aa3d8d42865c42626b5c1add193692d045b3188b1479f0a0a88690d21fe20083"
+  name = "github.com/mailru/easyjson"
+  packages = [
+    ".",
+    "buffer",
+    "jlexer",
+    "jwriter",
+  ]
+  pruneopts = "UT"
+  revision = "60711f1a8329503b04e1c88535f419d0bb440bff"
+
+[[projects]]
   digest = "1:53bc4cd4914cd7cd52139990d5170d6dc99067ae31c56530621b18b35fc30318"
   name = "github.com/mitchellh/mapstructure"
   packages = ["."]
   pruneopts = "UT"
   revision = "3536a929edddb9a5b34bd6861dc4a9647cb459fe"
   version = "v1.1.2"
+
+[[projects]]
+  digest = "1:d1da5ee400cc3c39cf7d920c2db4b04d9407e24a917bf8b99a183aa024081871"
+  name = "github.com/olivere/elastic"
+  packages = [
+    ".",
+    "config",
+    "uritemplates",
+  ]
+  pruneopts = "UT"
+  revision = "407a1d940dcc89e279c579eb393d0bdde8fd9ac4"
 
 [[projects]]
   digest = "1:95741de3af260a92cc5c7f3f3061e85273f5a81b5db20d4bd68da74bd521675e"
@@ -122,7 +173,6 @@
   packages = ["."]
   pruneopts = "UT"
   revision = "ba968bfe8b2f7e042a574c888954fccecfa385b4"
-  version = "v0.8.1"
 
 [[projects]]
   digest = "1:ed615c5430ecabbb0fb7629a182da65ecee6523900ac1ac932520860878ffcad"
@@ -130,7 +180,6 @@
   packages = ["."]
   pruneopts = "UT"
   revision = "b41be1df696709bb6395fe435af20370037c0b4c"
-  version = "v1.1"
 
 [[projects]]
   digest = "1:3e39bafd6c2f4bf3c76c3bfd16a2e09e016510ad5db90dc02b88e2f565d6d595"
@@ -149,7 +198,6 @@
   packages = ["."]
   pruneopts = "UT"
   revision = "8c9545af88b134710ab1cd196795e7f2388358d7"
-  version = "v1.3.0"
 
 [[projects]]
   digest = "1:68ea4e23713989dc20b1bded5d9da2c5f9be14ff9885beef481848edd18c26cb"
@@ -192,7 +240,6 @@
   ]
   pruneopts = "UT"
   revision = "0681ee3b5e046ac8bfbbd3999e79d3905e96972f"
-  version = "v8.0.0"
 
 [[projects]]
   digest = "1:dc12a24a8bc5979323b796a03f75c28b5c9321f202368a0bb3cd6483338fc011"
@@ -211,7 +258,6 @@
   ]
   pruneopts = "UT"
   revision = "df8550538fefdf62f2520e74dbfad73f1bcb84a2"
-  version = "v3.2.0"
 
 [[projects]]
   branch = "master"
@@ -257,10 +303,15 @@
   analyzer-version = 1
   input-imports = [
     "github.com/facebookgo/inject",
+    "github.com/getsentry/raven-go",
+    "github.com/gigawattio/metaflector",
     "github.com/go-sql-driver/mysql",
     "github.com/kat-co/vala",
+    "github.com/kelseyhightower/envconfig",
+    "github.com/olivere/elastic",
     "github.com/pkg/errors",
     "github.com/robfig/cron",
+    "github.com/spf13/cast",
     "github.com/spf13/viper",
     "github.com/volatiletech/null",
     "github.com/volatiletech/sqlboiler/boil",

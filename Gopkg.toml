@@ -28,3 +28,55 @@
 [prune]
   go-tests = true
   unused-packages = true
+
+[[constraint]]
+  name = "github.com/gigawattio/metaflector"
+  revision = "d098812229a0f2e88eae790d1a7dc87fd4fc5b81"
+
+[[constraint]]
+  name = "github.com/facebookgo/inject"
+  revision = "f23751cae28bef101a38b79266785d3b574cf7e8"
+
+[[constraint]]
+  name = "github.com/getsentry/raven-go"
+  revision = "f04e7487e9a6b9d9837d52743fb5f40576c56411"
+
+[[constraint]]
+  name = "github.com/go-sql-driver/mysql"
+  revision = "72cd26f257d44c1114970e19afddcd812016007e"
+
+[[constraint]]
+  name = "github.com/gofrs/uuid"
+  revision = "6b08a5c5172ba18946672b49749cde22873dd7c2"
+
+[[constraint]]
+  name = "github.com/olivere/elastic"
+  revision = "407a1d940dcc89e279c579eb393d0bdde8fd9ac4"
+
+[[constraint]]
+  name = "github.com/pkg/errors"
+  revision = "ba968bfe8b2f7e042a574c888954fccecfa385b4"
+
+[[constraint]]
+  name = "github.com/robfig/cron"
+  revision = "b41be1df696709bb6395fe435af20370037c0b4c"
+
+[[constraint]]
+  name = "github.com/spf13/cast"
+  revision = "8c9545af88b134710ab1cd196795e7f2388358d7"
+
+[[constraint]]
+  name = "github.com/volatiletech/inflect"
+  revision = "e7201282ae8da26cd97aed2e516f75c0bd91bb93"
+
+[[constraint]]
+  name = "github.com/volatiletech/null"
+  revision = "0681ee3b5e046ac8bfbbd3999e79d3905e96972f"
+
+[[constraint]]
+  name = "github.com/volatiletech/sqlboiler"
+  revision = "df8550538fefdf62f2520e74dbfad73f1bcb84a2"
+
+[[constraint]]
+  name = "github.com/kelseyhightower/envconfig"
+  revision = "dd1402a4d99de9ac2f396cd6fcb957bc2c695ec1"

@@ -29,7 +29,5 @@ _testmain.go
 /tmp
 
 /sandbox/sandbox
-
 /server/server
-
-/cmd/sandbox/sandbox
+/cmd/loades/loades
