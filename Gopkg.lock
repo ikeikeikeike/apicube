@@ -15,6 +15,22 @@
   version = "v3.3.1"
 
 [[projects]]
+  branch = "master"
+  digest = "1:fdc1ae96a37dfc9e054eb6717fed35454089f3224985c9547667a6ea029f0d5c"
+  name = "github.com/facebookgo/inject"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "f23751cae28bef101a38b79266785d3b574cf7e8"
+
+[[projects]]
+  branch = "master"
+  digest = "1:ebaa56dda9c50929b1ade8dc5388e1d0f7861c6e3af78459ac560212310feb25"
+  name = "github.com/facebookgo/structtag"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "217e25fb96916cc60332e399c9aa63f5c422ceed"
+
+[[projects]]
   digest = "1:abeb38ade3f32a92943e5be54f55ed6d6e3b6602761d74b4aab4c9dd45c18abd"
   name = "github.com/fsnotify/fsnotify"
   packages = ["."]
@@ -107,6 +123,14 @@
   pruneopts = "UT"
   revision = "ba968bfe8b2f7e042a574c888954fccecfa385b4"
   version = "v0.8.1"
+
+[[projects]]
+  digest = "1:ed615c5430ecabbb0fb7629a182da65ecee6523900ac1ac932520860878ffcad"
+  name = "github.com/robfig/cron"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "b41be1df696709bb6395fe435af20370037c0b4c"
+  version = "v1.1"
 
 [[projects]]
   digest = "1:3e39bafd6c2f4bf3c76c3bfd16a2e09e016510ad5db90dc02b88e2f565d6d595"
@@ -232,9 +256,11 @@
   analyzer-name = "dep"
   analyzer-version = 1
   input-imports = [
+    "github.com/facebookgo/inject",
     "github.com/go-sql-driver/mysql",
     "github.com/kat-co/vala",
     "github.com/pkg/errors",
+    "github.com/robfig/cron",
     "github.com/spf13/viper",
     "github.com/volatiletech/null",
     "github.com/volatiletech/sqlboiler/boil",
