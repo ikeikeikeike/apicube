@@ -13,4 +13,4 @@ matrix:
     - go: tip
   fast_finish: true
 script:
-  - make test fmt vet lint
+  - make travis test fmt vet lint

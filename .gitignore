@@ -32,3 +32,8 @@ _testmain.go
 /server/server
 /cmd/loades/loades
 /rpc/rpc
+
+# I can't be bothered that generates relevant gRPC code.
+#
+### /rpc/protocol
+### /rpc/mockprotocol
