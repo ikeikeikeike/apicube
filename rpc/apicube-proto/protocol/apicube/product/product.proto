@@ -42,5 +42,5 @@ message SimilarProductsResponse {
   google.protobuf.StringValue description_detail = 4;
 
   /* google.protobuf.Timestamp created_date = 5; */
-  /* google.protobuf.Timestamp udpated_date = 6; */
+  /* google.protobuf.Timestamp updated_date = 6; */
 }

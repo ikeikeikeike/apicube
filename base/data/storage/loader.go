@@ -25,7 +25,7 @@ func Inject(ctx context.Context, env util.Environment, g *inject.Graph, rt inter
 			logger.Panicf(msg, env.EnvString("FURI"), err)
 		}
 
-		msg := "[INFO] a storage folder is choosen filesystems by <%s>"
+		msg := "[INFO] a storage folder is chosen filesystems by <%s>"
 		logger.Printf(msg, env.EnvString("FURI"))
 
 		objects = []*inject.Object{
@@ -39,7 +39,7 @@ func Inject(ctx context.Context, env util.Environment, g *inject.Graph, rt inter
 			logger.Panicf(msg, env.EnvString("FURI"), err)
 		}
 
-		msg := "[INFO] a storage folder is choosen s3 by <%s>"
+		msg := "[INFO] a storage folder is chosen s3 by <%s>"
 		logger.Printf(msg, env.EnvString("FURI"))
 
 		objects = []*inject.Object{

@@ -57,7 +57,7 @@ func (cr *Result) JSON() []byte {
 	return bytes
 }
 
-// Values returns significant values which was choosen along with any es result
+// Values returns significant values which was chosen along with any es result
 func (cr *Result) Values() interface{} {
 	switch value := cr.Res.(type) {
 	default:

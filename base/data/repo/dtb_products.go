@@ -57,7 +57,7 @@ func (r *dtbProducts) AllPreload(ctx context.Context, loads ...string) (model.DT
 	return model.DTBProducts(preloads(loads...)...).All(ctx, r.DB)
 }
 
-// Exists determines existance a record
+// Exists determines existence a record
 func (r *dtbProducts) Exists(ctx context.Context, id uint) (bool, error) {
 	return model.DTBProductExists(ctx, r.DB, id)
 }

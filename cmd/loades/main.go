@@ -16,7 +16,6 @@ import (
 	"github.com/facebookgo/inject"
 	"github.com/gigawattio/metaflector"
 	"github.com/kelseyhightower/envconfig"
-	"github.com/labstack/echo"
 	"github.com/olivere/elastic"
 	"github.com/spf13/cast"
 
@@ -147,7 +146,7 @@ func _main(args []string) int {
 func initInject(ctx context.Context, env util.Environment, db *sql.DB, esc *elastic.Client, cmd *commander) {
 	// Injects dependecies
 	var g inject.Graph
-	var rt = echo.New()
+	var rt interface{}
 
 	err := g.Provide(
 		&inject.Object{Value: env},

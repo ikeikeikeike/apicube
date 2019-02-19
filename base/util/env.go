@@ -51,7 +51,7 @@ type (
 		// Mode defines project environment mode
 		Mode string `envconfig:"APICUBE_MODE" default:"development"`
 
-		// Debug controlls
+		// Debug controls
 		Debug string `envconfig:"APICUBE_DEBUG" default:""` // debug|pprof|something
 
 		// IPFilter blocks not allowed ipaddresses
