@@ -50,6 +50,11 @@ protocol:  ## Generate Protocol buffers definition
 	\
 	dep ensure -v
 
+travis:
+	@for d in `echo rpc`; do (cd $$d && make install) ; done && \
+	go get -v github.com/golang/dep/cmd/dep && \
+	dep ensure -v
+
 test:  ## Test to all of directories
 	@for d in `echo rpc`; do \
 		(cd $$d && make test) \
@@ -107,5 +112,6 @@ help:  ## Show all of tasks
 	check \
 	protocol \
 	runner \
+	travis \
 	check-completely \
 	modelgen

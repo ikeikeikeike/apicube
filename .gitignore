@@ -32,5 +32,3 @@ _testmain.go
 /server/server
 /cmd/loades/loades
 /rpc/rpc
-/rpc/protocol
-/rpc/mockprotocol
