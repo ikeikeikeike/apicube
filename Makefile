@@ -86,6 +86,11 @@ vet:  ## Run go vet linter
 		fi \
 	done
 
+misspell:  ## Check misspell
+	@if [ "`find . -type f | \grep -v 'vendor/\|\.git' | xargs misspell -error | tee /dev/stderr`" ]; then \
+		echo "^ misspell errors!" && echo && exit 1; \
+	fi \
+
 check:  ## Golang all of style checking
 	@if [ "`gometalinter --fast --vendor --deadline=100s --exclude base/data/model --exclude rpc/protocol ./... | tee /dev/stderr`" ]; then \
 		echo "^ gometalinter errors!" && echo && exit 1; \
@@ -114,5 +119,6 @@ help:  ## Show all of tasks
 	protocol \
 	runner \
 	travis \
+	misspell \
 	check-completely \
 	modelgen

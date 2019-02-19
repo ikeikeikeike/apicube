@@ -36,3 +36,7 @@ schema:
       command: make test
       output: true
       global: false
+    - type: before
+      command: make misspell
+      output: true
+      global: false
