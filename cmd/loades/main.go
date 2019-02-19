@@ -117,11 +117,11 @@ func _main(args []string) int {
 	//
 	rc, cmd := &dataes.Result{}, &commander{}
 
-	// Inject
-	initInject(env, db, es, cmd)
-
 	ctx, cancel := context.WithTimeout(context.Background(), 60*time.Minute)
 	defer cancel()
+
+	// Inject
+	initInject(ctx, env, db, es, cmd)
 
 	switch strings.Join(args[len(args)-1:], " ") {
 	// case "upsert":
@@ -144,7 +144,7 @@ func _main(args []string) int {
 	return 0
 }
 
-func initInject(env util.Environment, db *sql.DB, esc *elastic.Client, cmd *commander) {
+func initInject(ctx context.Context, env util.Environment, db *sql.DB, esc *elastic.Client, cmd *commander) {
 	// Injects dependecies
 	var g inject.Graph
 	var rt = echo.New()

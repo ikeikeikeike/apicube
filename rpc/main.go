@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"net"
 	"net/http"
+	"runtime/debug"
 	// use pprof
 	_ "net/http/pprof"
 	"net/url"
@@ -15,7 +16,9 @@ import (
 
 	"google.golang.org/grpc"
 	channelzsvc "google.golang.org/grpc/channelz/service"
+	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/reflection"
+	"google.golang.org/grpc/status"
 
 	"github.com/facebookgo/inject"
 	"github.com/gigawattio/metaflector"
@@ -23,6 +26,7 @@ import (
 	// use MySQL
 	_ "github.com/go-sql-driver/mysql"
 	grpc_middleware "github.com/grpc-ecosystem/go-grpc-middleware"
+	grpc_recovery "github.com/grpc-ecosystem/go-grpc-middleware/recovery"
 	grpc_validator "github.com/grpc-ecosystem/go-grpc-middleware/validator"
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"github.com/kelseyhightower/envconfig"
@@ -226,19 +230,19 @@ func initRoutes(ctx context.Context, env util.Environment, uri, gwURI *url.URL) 
 	// )
 	//
 
-	// TODO: recovery: https://github.com/grpc-ecosystem/go-grpc-middleware/tree/master/recovery
-	// recoveryOpts := []grpc_recovery.Option{
-	//     grpc_recovery.WithRecoveryHandler(customFunc),
-	// }
+	grpcPanicRecoveryHandler := func(p interface{}) (err error) {
+		logger.Println("[PANIC]", "recovered from panic", p, "stack", string(debug.Stack()))
+		return status.Errorf(codes.Internal, "%s", p)
+	}
 
 	rt := grpc.NewServer(
 		grpc.StreamInterceptor(grpc_middleware.ChainStreamServer(
+			grpc_recovery.StreamServerInterceptor(grpc_recovery.WithRecoveryHandler(grpcPanicRecoveryHandler)),
 			grpc_validator.StreamServerInterceptor(),
-			// grpc_recovery.StreamServerInterceptor(recoveryOpts...),
 		)),
 		grpc.UnaryInterceptor(grpc_middleware.ChainUnaryServer(
+			grpc_recovery.UnaryServerInterceptor(grpc_recovery.WithRecoveryHandler(grpcPanicRecoveryHandler)),
 			grpc_validator.UnaryServerInterceptor(),
-			// grpc_recovery.UnaryServerInterceptor(recoveryOpts...),
 		)),
 	)
 
@@ -248,9 +252,10 @@ func initRoutes(ctx context.Context, env util.Environment, uri, gwURI *url.URL) 
 	}))
 
 	return &rpc.Mux{
-		GrpcMux: rt,
-		GwMux:   gwRT,
-		GwOpts:  []grpc.DialOption{grpc.WithInsecure()},
+		GrpcMux:      rt,
+		GrpcEndpoint: uri.Host,
+		GwMux:        gwRT,
+		GwOpts:       []grpc.DialOption{grpc.WithInsecure()},
 	}
 }
 

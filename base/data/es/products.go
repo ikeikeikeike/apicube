@@ -24,6 +24,7 @@ type (
 		Cmd Cmd              `inject:""`
 	}
 
+	// ProductsSchema defines elasticsearch's put json.
 	ProductsSchema struct {
 		ID                uint        `json:"id"`
 		Name              string      `json:"name"`

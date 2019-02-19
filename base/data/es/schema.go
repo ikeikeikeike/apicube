@@ -7,8 +7,8 @@ func Schema(name string) string {
 		return ""
 	case ProductsName:
 		return productsIndex
-	// case FavoritesName:
-	// return favoritesIndex
+		// case FavoritesName:
+		// return favoritesIndex
 	}
 }
 
@@ -106,7 +106,7 @@ const (
     }
   }
 `
-	// Uses for anything.
+	// ProductsName uses for anything.
 	//
 	// Before definition, made prototype testing project that
 	// it considered to smart mapping and settings behavior

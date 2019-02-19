@@ -11,7 +11,7 @@ import (
 )
 
 type (
-	// Products manifests ...
+	// DTBProducts manifests api interface
 	DTBProducts interface {
 		Find(context.Context, uint) (*model.DTBProduct, error)
 		FindBy(context.Context, []qm.QueryMod, ...string) (*model.DTBProduct, error)

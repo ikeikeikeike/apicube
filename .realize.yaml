@@ -1,0 +1,38 @@
+settings:
+  legacy:
+    force: false
+    interval: 0s
+schema:
+- name: apicube
+  path: .
+  commands:
+    build:
+      method: make build
+      status: true
+  watcher:
+    extensions:
+    - go
+    paths:
+    - ./
+    - ../base
+    ignored_paths:
+    - .git
+    - .realize
+    - vendor
+    scripts:
+    - type: before
+      command: make fmt
+      output: true
+      global: false
+    - type: before
+      command: make lint
+      output: true
+      global: false
+    # - type: before
+      # command: make vet
+      # output: true
+      # global: false
+    - type: before
+      command: make test
+      output: true
+      global: false

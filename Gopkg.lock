@@ -220,10 +220,11 @@
   version = "v2.0.3"
 
 [[projects]]
-  digest = "1:a7edf0e23f83cf94fd8c0687ca9192f30a27dc613a9110fd3b6bf5b6785d9083"
+  digest = "1:d264e8b2b9a26a888aba09cf6d9d998b30b40b609e5ac608b7fbf4bfe5fc4ba0"
   name = "github.com/grpc-ecosystem/go-grpc-middleware"
   packages = [
     ".",
+    "recovery",
     "validator",
   ]
   pruneopts = "UT"
@@ -752,6 +753,7 @@
     "github.com/golang/protobuf/proto",
     "github.com/gomodule/redigo/redis",
     "github.com/grpc-ecosystem/go-grpc-middleware",
+    "github.com/grpc-ecosystem/go-grpc-middleware/recovery",
     "github.com/grpc-ecosystem/go-grpc-middleware/validator",
     "github.com/grpc-ecosystem/grpc-gateway/runtime",
     "github.com/grpc-ecosystem/grpc-gateway/utilities",

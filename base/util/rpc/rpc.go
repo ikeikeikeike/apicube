@@ -6,9 +6,11 @@ import (
 )
 
 type (
+	// Mux uses grpc mux
 	Mux struct {
-		GrpcMux *grpc.Server
-		GwMux   *runtime.ServeMux
-		GwOpts  []grpc.DialOption
+		GrpcMux      *grpc.Server
+		GrpcEndpoint string
+		GwMux        *runtime.ServeMux
+		GwOpts       []grpc.DialOption
 	}
 )

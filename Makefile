@@ -40,6 +40,9 @@ deps:  ## Install Golang dependencies
 modelgen:  ## Generate Golang model definition
 	sqlboiler mysql
 
+runner:  ## Launch a build runner
+	realize start
+
 protocol:  ## Generate Protocol buffers definition
 	@for d in `echo rpc`; do \
 		(cd $$d && make protocol) \
@@ -103,5 +106,6 @@ help:  ## Show all of tasks
 	install \
 	check \
 	protocol \
+	runner \
 	check-completely \
 	modelgen
