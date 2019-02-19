@@ -16,6 +16,7 @@ type (
 	// Products manifests ...
 	Products interface {
 		Upsert(*ProductsSchema) error
+		Similars(name string) ([]*ProductsSchema, error)
 	}
 
 	products struct {
@@ -52,4 +53,9 @@ func (r *products) Upsert(data *ProductsSchema) error {
 	}
 
 	return nil
+}
+
+// Similars gets similar products
+func (r *products) Similars(name string) ([]*ProductsSchema, error) {
+	return nil, nil
 }

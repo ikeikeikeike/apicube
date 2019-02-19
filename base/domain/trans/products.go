@@ -1,16 +1,21 @@
 package trans
 
 import (
+	"github.com/gogo/protobuf/types"
+	"github.com/pkg/errors"
+	"github.com/spf13/cast"
+
 	"github.com/ikeikeikeike/apicube/base/data/es"
 	"github.com/ikeikeikeike/apicube/base/data/model"
 	"github.com/ikeikeikeike/apicube/base/util"
-	"github.com/pkg/errors"
+	pb "github.com/ikeikeikeike/apicube/rpc/protocol/apicube/product"
 )
 
 type (
 	// Products manifests ...
 	Products interface {
-		Translate(*model.DTBProduct) (*es.ProductsSchema, error)
+		DBToES(*model.DTBProduct) (*es.ProductsSchema, error)
+		ESToPB(*es.ProductsSchema) (*pb.Product, error)
 	}
 
 	products struct {
@@ -18,8 +23,8 @@ type (
 	}
 )
 
-// Translate to message
-func (t *products) Translate(m *model.DTBProduct) (*es.ProductsSchema, error) {
+// DBToES translates to es format
+func (t *products) DBToES(m *model.DTBProduct) (*es.ProductsSchema, error) {
 	msg := &es.ProductsSchema{
 		NameRuby:     m.Name,
 		NameAnything: m.Name,
@@ -27,6 +32,16 @@ func (t *products) Translate(m *model.DTBProduct) (*es.ProductsSchema, error) {
 
 	if err := util.Merge(msg, m); err != nil {
 		return nil, errors.Wrap(err, "merge product")
+	}
+
+	return msg, nil
+}
+
+// DBToES translates to pb format
+func (t *products) ESToPB(ps *es.ProductsSchema) (*pb.Product, error) {
+	msg := &pb.Product{
+		ID:                &types.Int64Value{Value: cast.ToInt64(ps.ID)}, // XXX: Must be set types.Int64Value to primaryID
+		DescriptionDetail: &types.StringValue{Value: ps.DescriptionDetail.String},
 	}
 
 	return msg, nil

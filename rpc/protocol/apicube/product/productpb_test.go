@@ -23,15 +23,15 @@ var _ = proto.Marshal
 var _ = fmt.Errorf
 var _ = math.Inf
 
-func TestSimilarProductsRequestProto(t *testing.T) {
+func TestProductProto(t *testing.T) {
 	seed := time.Now().UnixNano()
 	popr := math_rand.New(math_rand.NewSource(seed))
-	p := NewPopulatedSimilarProductsRequest(popr, false)
+	p := NewPopulatedProduct(popr, false)
 	dAtA, err := github_com_gogo_protobuf_proto.Marshal(p)
 	if err != nil {
 		t.Fatalf("seed = %d, err = %v", seed, err)
 	}
-	msg := &SimilarProductsRequest{}
+	msg := &Product{}
 	if err := github_com_gogo_protobuf_proto.Unmarshal(dAtA, msg); err != nil {
 		t.Fatalf("seed = %d, err = %v", seed, err)
 	}
@@ -54,10 +54,10 @@ func TestSimilarProductsRequestProto(t *testing.T) {
 	}
 }
 
-func TestSimilarProductsRequestMarshalTo(t *testing.T) {
+func TestProductMarshalTo(t *testing.T) {
 	seed := time.Now().UnixNano()
 	popr := math_rand.New(math_rand.NewSource(seed))
-	p := NewPopulatedSimilarProductsRequest(popr, false)
+	p := NewPopulatedProduct(popr, false)
 	size := p.Size()
 	dAtA := make([]byte, size)
 	for i := range dAtA {
@@ -67,7 +67,7 @@ func TestSimilarProductsRequestMarshalTo(t *testing.T) {
 	if err != nil {
 		t.Fatalf("seed = %d, err = %v", seed, err)
 	}
-	msg := &SimilarProductsRequest{}
+	msg := &Product{}
 	if err := github_com_gogo_protobuf_proto.Unmarshal(dAtA, msg); err != nil {
 		t.Fatalf("seed = %d, err = %v", seed, err)
 	}
@@ -79,12 +79,12 @@ func TestSimilarProductsRequestMarshalTo(t *testing.T) {
 	}
 }
 
-func BenchmarkSimilarProductsRequestProtoMarshal(b *testing.B) {
+func BenchmarkProductProtoMarshal(b *testing.B) {
 	popr := math_rand.New(math_rand.NewSource(616))
 	total := 0
-	pops := make([]*SimilarProductsRequest, 10000)
+	pops := make([]*Product, 10000)
 	for i := 0; i < 10000; i++ {
-		pops[i] = NewPopulatedSimilarProductsRequest(popr, false)
+		pops[i] = NewPopulatedProduct(popr, false)
 	}
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
@@ -97,18 +97,18 @@ func BenchmarkSimilarProductsRequestProtoMarshal(b *testing.B) {
 	b.SetBytes(int64(total / b.N))
 }
 
-func BenchmarkSimilarProductsRequestProtoUnmarshal(b *testing.B) {
+func BenchmarkProductProtoUnmarshal(b *testing.B) {
 	popr := math_rand.New(math_rand.NewSource(616))
 	total := 0
 	datas := make([][]byte, 10000)
 	for i := 0; i < 10000; i++ {
-		dAtA, err := github_com_gogo_protobuf_proto.Marshal(NewPopulatedSimilarProductsRequest(popr, false))
+		dAtA, err := github_com_gogo_protobuf_proto.Marshal(NewPopulatedProduct(popr, false))
 		if err != nil {
 			panic(err)
 		}
 		datas[i] = dAtA
 	}
-	msg := &SimilarProductsRequest{}
+	msg := &Product{}
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		total += len(datas[i%10000])
@@ -119,15 +119,15 @@ func BenchmarkSimilarProductsRequestProtoUnmarshal(b *testing.B) {
 	b.SetBytes(int64(total / b.N))
 }
 
-func TestSimilarProductsResponseProto(t *testing.T) {
+func TestListSimilarsRequestProto(t *testing.T) {
 	seed := time.Now().UnixNano()
 	popr := math_rand.New(math_rand.NewSource(seed))
-	p := NewPopulatedSimilarProductsResponse(popr, false)
+	p := NewPopulatedListSimilarsRequest(popr, false)
 	dAtA, err := github_com_gogo_protobuf_proto.Marshal(p)
 	if err != nil {
 		t.Fatalf("seed = %d, err = %v", seed, err)
 	}
-	msg := &SimilarProductsResponse{}
+	msg := &ListSimilarsRequest{}
 	if err := github_com_gogo_protobuf_proto.Unmarshal(dAtA, msg); err != nil {
 		t.Fatalf("seed = %d, err = %v", seed, err)
 	}
@@ -150,10 +150,10 @@ func TestSimilarProductsResponseProto(t *testing.T) {
 	}
 }
 
-func TestSimilarProductsResponseMarshalTo(t *testing.T) {
+func TestListSimilarsRequestMarshalTo(t *testing.T) {
 	seed := time.Now().UnixNano()
 	popr := math_rand.New(math_rand.NewSource(seed))
-	p := NewPopulatedSimilarProductsResponse(popr, false)
+	p := NewPopulatedListSimilarsRequest(popr, false)
 	size := p.Size()
 	dAtA := make([]byte, size)
 	for i := range dAtA {
@@ -163,7 +163,7 @@ func TestSimilarProductsResponseMarshalTo(t *testing.T) {
 	if err != nil {
 		t.Fatalf("seed = %d, err = %v", seed, err)
 	}
-	msg := &SimilarProductsResponse{}
+	msg := &ListSimilarsRequest{}
 	if err := github_com_gogo_protobuf_proto.Unmarshal(dAtA, msg); err != nil {
 		t.Fatalf("seed = %d, err = %v", seed, err)
 	}
@@ -175,12 +175,12 @@ func TestSimilarProductsResponseMarshalTo(t *testing.T) {
 	}
 }
 
-func BenchmarkSimilarProductsResponseProtoMarshal(b *testing.B) {
+func BenchmarkListSimilarsRequestProtoMarshal(b *testing.B) {
 	popr := math_rand.New(math_rand.NewSource(616))
 	total := 0
-	pops := make([]*SimilarProductsResponse, 10000)
+	pops := make([]*ListSimilarsRequest, 10000)
 	for i := 0; i < 10000; i++ {
-		pops[i] = NewPopulatedSimilarProductsResponse(popr, false)
+		pops[i] = NewPopulatedListSimilarsRequest(popr, false)
 	}
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
@@ -193,18 +193,18 @@ func BenchmarkSimilarProductsResponseProtoMarshal(b *testing.B) {
 	b.SetBytes(int64(total / b.N))
 }
 
-func BenchmarkSimilarProductsResponseProtoUnmarshal(b *testing.B) {
+func BenchmarkListSimilarsRequestProtoUnmarshal(b *testing.B) {
 	popr := math_rand.New(math_rand.NewSource(616))
 	total := 0
 	datas := make([][]byte, 10000)
 	for i := 0; i < 10000; i++ {
-		dAtA, err := github_com_gogo_protobuf_proto.Marshal(NewPopulatedSimilarProductsResponse(popr, false))
+		dAtA, err := github_com_gogo_protobuf_proto.Marshal(NewPopulatedListSimilarsRequest(popr, false))
 		if err != nil {
 			panic(err)
 		}
 		datas[i] = dAtA
 	}
-	msg := &SimilarProductsResponse{}
+	msg := &ListSimilarsRequest{}
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		total += len(datas[i%10000])
@@ -215,16 +215,112 @@ func BenchmarkSimilarProductsResponseProtoUnmarshal(b *testing.B) {
 	b.SetBytes(int64(total / b.N))
 }
 
-func TestSimilarProductsRequestJSON(t *testing.T) {
+func TestListSimilarsResponseProto(t *testing.T) {
 	seed := time.Now().UnixNano()
 	popr := math_rand.New(math_rand.NewSource(seed))
-	p := NewPopulatedSimilarProductsRequest(popr, true)
+	p := NewPopulatedListSimilarsResponse(popr, false)
+	dAtA, err := github_com_gogo_protobuf_proto.Marshal(p)
+	if err != nil {
+		t.Fatalf("seed = %d, err = %v", seed, err)
+	}
+	msg := &ListSimilarsResponse{}
+	if err := github_com_gogo_protobuf_proto.Unmarshal(dAtA, msg); err != nil {
+		t.Fatalf("seed = %d, err = %v", seed, err)
+	}
+	littlefuzz := make([]byte, len(dAtA))
+	copy(littlefuzz, dAtA)
+	for i := range dAtA {
+		dAtA[i] = byte(popr.Intn(256))
+	}
+	if !p.Equal(msg) {
+		t.Fatalf("seed = %d, %#v !Proto %#v", seed, msg, p)
+	}
+	if len(littlefuzz) > 0 {
+		fuzzamount := 100
+		for i := 0; i < fuzzamount; i++ {
+			littlefuzz[popr.Intn(len(littlefuzz))] = byte(popr.Intn(256))
+			littlefuzz = append(littlefuzz, byte(popr.Intn(256)))
+		}
+		// shouldn't panic
+		_ = github_com_gogo_protobuf_proto.Unmarshal(littlefuzz, msg)
+	}
+}
+
+func TestListSimilarsResponseMarshalTo(t *testing.T) {
+	seed := time.Now().UnixNano()
+	popr := math_rand.New(math_rand.NewSource(seed))
+	p := NewPopulatedListSimilarsResponse(popr, false)
+	size := p.Size()
+	dAtA := make([]byte, size)
+	for i := range dAtA {
+		dAtA[i] = byte(popr.Intn(256))
+	}
+	_, err := p.MarshalTo(dAtA)
+	if err != nil {
+		t.Fatalf("seed = %d, err = %v", seed, err)
+	}
+	msg := &ListSimilarsResponse{}
+	if err := github_com_gogo_protobuf_proto.Unmarshal(dAtA, msg); err != nil {
+		t.Fatalf("seed = %d, err = %v", seed, err)
+	}
+	for i := range dAtA {
+		dAtA[i] = byte(popr.Intn(256))
+	}
+	if !p.Equal(msg) {
+		t.Fatalf("seed = %d, %#v !Proto %#v", seed, msg, p)
+	}
+}
+
+func BenchmarkListSimilarsResponseProtoMarshal(b *testing.B) {
+	popr := math_rand.New(math_rand.NewSource(616))
+	total := 0
+	pops := make([]*ListSimilarsResponse, 10000)
+	for i := 0; i < 10000; i++ {
+		pops[i] = NewPopulatedListSimilarsResponse(popr, false)
+	}
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		dAtA, err := github_com_gogo_protobuf_proto.Marshal(pops[i%10000])
+		if err != nil {
+			panic(err)
+		}
+		total += len(dAtA)
+	}
+	b.SetBytes(int64(total / b.N))
+}
+
+func BenchmarkListSimilarsResponseProtoUnmarshal(b *testing.B) {
+	popr := math_rand.New(math_rand.NewSource(616))
+	total := 0
+	datas := make([][]byte, 10000)
+	for i := 0; i < 10000; i++ {
+		dAtA, err := github_com_gogo_protobuf_proto.Marshal(NewPopulatedListSimilarsResponse(popr, false))
+		if err != nil {
+			panic(err)
+		}
+		datas[i] = dAtA
+	}
+	msg := &ListSimilarsResponse{}
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		total += len(datas[i%10000])
+		if err := github_com_gogo_protobuf_proto.Unmarshal(datas[i%10000], msg); err != nil {
+			panic(err)
+		}
+	}
+	b.SetBytes(int64(total / b.N))
+}
+
+func TestProductJSON(t *testing.T) {
+	seed := time.Now().UnixNano()
+	popr := math_rand.New(math_rand.NewSource(seed))
+	p := NewPopulatedProduct(popr, true)
 	marshaler := github_com_gogo_protobuf_jsonpb.Marshaler{}
 	jsondata, err := marshaler.MarshalToString(p)
 	if err != nil {
 		t.Fatalf("seed = %d, err = %v", seed, err)
 	}
-	msg := &SimilarProductsRequest{}
+	msg := &Product{}
 	err = github_com_gogo_protobuf_jsonpb.UnmarshalString(jsondata, msg)
 	if err != nil {
 		t.Fatalf("seed = %d, err = %v", seed, err)
@@ -233,16 +329,16 @@ func TestSimilarProductsRequestJSON(t *testing.T) {
 		t.Fatalf("seed = %d, %#v !Json Equal %#v", seed, msg, p)
 	}
 }
-func TestSimilarProductsResponseJSON(t *testing.T) {
+func TestListSimilarsRequestJSON(t *testing.T) {
 	seed := time.Now().UnixNano()
 	popr := math_rand.New(math_rand.NewSource(seed))
-	p := NewPopulatedSimilarProductsResponse(popr, true)
+	p := NewPopulatedListSimilarsRequest(popr, true)
 	marshaler := github_com_gogo_protobuf_jsonpb.Marshaler{}
 	jsondata, err := marshaler.MarshalToString(p)
 	if err != nil {
 		t.Fatalf("seed = %d, err = %v", seed, err)
 	}
-	msg := &SimilarProductsResponse{}
+	msg := &ListSimilarsRequest{}
 	err = github_com_gogo_protobuf_jsonpb.UnmarshalString(jsondata, msg)
 	if err != nil {
 		t.Fatalf("seed = %d, err = %v", seed, err)
@@ -251,12 +347,30 @@ func TestSimilarProductsResponseJSON(t *testing.T) {
 		t.Fatalf("seed = %d, %#v !Json Equal %#v", seed, msg, p)
 	}
 }
-func TestSimilarProductsRequestProtoText(t *testing.T) {
+func TestListSimilarsResponseJSON(t *testing.T) {
 	seed := time.Now().UnixNano()
 	popr := math_rand.New(math_rand.NewSource(seed))
-	p := NewPopulatedSimilarProductsRequest(popr, true)
+	p := NewPopulatedListSimilarsResponse(popr, true)
+	marshaler := github_com_gogo_protobuf_jsonpb.Marshaler{}
+	jsondata, err := marshaler.MarshalToString(p)
+	if err != nil {
+		t.Fatalf("seed = %d, err = %v", seed, err)
+	}
+	msg := &ListSimilarsResponse{}
+	err = github_com_gogo_protobuf_jsonpb.UnmarshalString(jsondata, msg)
+	if err != nil {
+		t.Fatalf("seed = %d, err = %v", seed, err)
+	}
+	if !p.Equal(msg) {
+		t.Fatalf("seed = %d, %#v !Json Equal %#v", seed, msg, p)
+	}
+}
+func TestProductProtoText(t *testing.T) {
+	seed := time.Now().UnixNano()
+	popr := math_rand.New(math_rand.NewSource(seed))
+	p := NewPopulatedProduct(popr, true)
 	dAtA := github_com_gogo_protobuf_proto.MarshalTextString(p)
-	msg := &SimilarProductsRequest{}
+	msg := &Product{}
 	if err := github_com_gogo_protobuf_proto.UnmarshalText(dAtA, msg); err != nil {
 		t.Fatalf("seed = %d, err = %v", seed, err)
 	}
@@ -265,12 +379,12 @@ func TestSimilarProductsRequestProtoText(t *testing.T) {
 	}
 }
 
-func TestSimilarProductsRequestProtoCompactText(t *testing.T) {
+func TestProductProtoCompactText(t *testing.T) {
 	seed := time.Now().UnixNano()
 	popr := math_rand.New(math_rand.NewSource(seed))
-	p := NewPopulatedSimilarProductsRequest(popr, true)
+	p := NewPopulatedProduct(popr, true)
 	dAtA := github_com_gogo_protobuf_proto.CompactTextString(p)
-	msg := &SimilarProductsRequest{}
+	msg := &Product{}
 	if err := github_com_gogo_protobuf_proto.UnmarshalText(dAtA, msg); err != nil {
 		t.Fatalf("seed = %d, err = %v", seed, err)
 	}
@@ -279,12 +393,12 @@ func TestSimilarProductsRequestProtoCompactText(t *testing.T) {
 	}
 }
 
-func TestSimilarProductsResponseProtoText(t *testing.T) {
+func TestListSimilarsRequestProtoText(t *testing.T) {
 	seed := time.Now().UnixNano()
 	popr := math_rand.New(math_rand.NewSource(seed))
-	p := NewPopulatedSimilarProductsResponse(popr, true)
+	p := NewPopulatedListSimilarsRequest(popr, true)
 	dAtA := github_com_gogo_protobuf_proto.MarshalTextString(p)
-	msg := &SimilarProductsResponse{}
+	msg := &ListSimilarsRequest{}
 	if err := github_com_gogo_protobuf_proto.UnmarshalText(dAtA, msg); err != nil {
 		t.Fatalf("seed = %d, err = %v", seed, err)
 	}
@@ -293,12 +407,12 @@ func TestSimilarProductsResponseProtoText(t *testing.T) {
 	}
 }
 
-func TestSimilarProductsResponseProtoCompactText(t *testing.T) {
+func TestListSimilarsRequestProtoCompactText(t *testing.T) {
 	seed := time.Now().UnixNano()
 	popr := math_rand.New(math_rand.NewSource(seed))
-	p := NewPopulatedSimilarProductsResponse(popr, true)
+	p := NewPopulatedListSimilarsRequest(popr, true)
 	dAtA := github_com_gogo_protobuf_proto.CompactTextString(p)
-	msg := &SimilarProductsResponse{}
+	msg := &ListSimilarsRequest{}
 	if err := github_com_gogo_protobuf_proto.UnmarshalText(dAtA, msg); err != nil {
 		t.Fatalf("seed = %d, err = %v", seed, err)
 	}
@@ -307,10 +421,38 @@ func TestSimilarProductsResponseProtoCompactText(t *testing.T) {
 	}
 }
 
-func TestSimilarProductsRequestSize(t *testing.T) {
+func TestListSimilarsResponseProtoText(t *testing.T) {
 	seed := time.Now().UnixNano()
 	popr := math_rand.New(math_rand.NewSource(seed))
-	p := NewPopulatedSimilarProductsRequest(popr, true)
+	p := NewPopulatedListSimilarsResponse(popr, true)
+	dAtA := github_com_gogo_protobuf_proto.MarshalTextString(p)
+	msg := &ListSimilarsResponse{}
+	if err := github_com_gogo_protobuf_proto.UnmarshalText(dAtA, msg); err != nil {
+		t.Fatalf("seed = %d, err = %v", seed, err)
+	}
+	if !p.Equal(msg) {
+		t.Fatalf("seed = %d, %#v !Proto %#v", seed, msg, p)
+	}
+}
+
+func TestListSimilarsResponseProtoCompactText(t *testing.T) {
+	seed := time.Now().UnixNano()
+	popr := math_rand.New(math_rand.NewSource(seed))
+	p := NewPopulatedListSimilarsResponse(popr, true)
+	dAtA := github_com_gogo_protobuf_proto.CompactTextString(p)
+	msg := &ListSimilarsResponse{}
+	if err := github_com_gogo_protobuf_proto.UnmarshalText(dAtA, msg); err != nil {
+		t.Fatalf("seed = %d, err = %v", seed, err)
+	}
+	if !p.Equal(msg) {
+		t.Fatalf("seed = %d, %#v !Proto %#v", seed, msg, p)
+	}
+}
+
+func TestProductSize(t *testing.T) {
+	seed := time.Now().UnixNano()
+	popr := math_rand.New(math_rand.NewSource(seed))
+	p := NewPopulatedProduct(popr, true)
 	size2 := github_com_gogo_protobuf_proto.Size(p)
 	dAtA, err := github_com_gogo_protobuf_proto.Marshal(p)
 	if err != nil {
@@ -329,12 +471,12 @@ func TestSimilarProductsRequestSize(t *testing.T) {
 	}
 }
 
-func BenchmarkSimilarProductsRequestSize(b *testing.B) {
+func BenchmarkProductSize(b *testing.B) {
 	popr := math_rand.New(math_rand.NewSource(616))
 	total := 0
-	pops := make([]*SimilarProductsRequest, 1000)
+	pops := make([]*Product, 1000)
 	for i := 0; i < 1000; i++ {
-		pops[i] = NewPopulatedSimilarProductsRequest(popr, false)
+		pops[i] = NewPopulatedProduct(popr, false)
 	}
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
@@ -343,10 +485,10 @@ func BenchmarkSimilarProductsRequestSize(b *testing.B) {
 	b.SetBytes(int64(total / b.N))
 }
 
-func TestSimilarProductsResponseSize(t *testing.T) {
+func TestListSimilarsRequestSize(t *testing.T) {
 	seed := time.Now().UnixNano()
 	popr := math_rand.New(math_rand.NewSource(seed))
-	p := NewPopulatedSimilarProductsResponse(popr, true)
+	p := NewPopulatedListSimilarsRequest(popr, true)
 	size2 := github_com_gogo_protobuf_proto.Size(p)
 	dAtA, err := github_com_gogo_protobuf_proto.Marshal(p)
 	if err != nil {
@@ -365,12 +507,48 @@ func TestSimilarProductsResponseSize(t *testing.T) {
 	}
 }
 
-func BenchmarkSimilarProductsResponseSize(b *testing.B) {
+func BenchmarkListSimilarsRequestSize(b *testing.B) {
 	popr := math_rand.New(math_rand.NewSource(616))
 	total := 0
-	pops := make([]*SimilarProductsResponse, 1000)
+	pops := make([]*ListSimilarsRequest, 1000)
 	for i := 0; i < 1000; i++ {
-		pops[i] = NewPopulatedSimilarProductsResponse(popr, false)
+		pops[i] = NewPopulatedListSimilarsRequest(popr, false)
+	}
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		total += pops[i%1000].Size()
+	}
+	b.SetBytes(int64(total / b.N))
+}
+
+func TestListSimilarsResponseSize(t *testing.T) {
+	seed := time.Now().UnixNano()
+	popr := math_rand.New(math_rand.NewSource(seed))
+	p := NewPopulatedListSimilarsResponse(popr, true)
+	size2 := github_com_gogo_protobuf_proto.Size(p)
+	dAtA, err := github_com_gogo_protobuf_proto.Marshal(p)
+	if err != nil {
+		t.Fatalf("seed = %d, err = %v", seed, err)
+	}
+	size := p.Size()
+	if len(dAtA) != size {
+		t.Errorf("seed = %d, size %v != marshalled size %v", seed, size, len(dAtA))
+	}
+	if size2 != size {
+		t.Errorf("seed = %d, size %v != before marshal proto.Size %v", seed, size, size2)
+	}
+	size3 := github_com_gogo_protobuf_proto.Size(p)
+	if size3 != size {
+		t.Errorf("seed = %d, size %v != after marshal proto.Size %v", seed, size, size3)
+	}
+}
+
+func BenchmarkListSimilarsResponseSize(b *testing.B) {
+	popr := math_rand.New(math_rand.NewSource(616))
+	total := 0
+	pops := make([]*ListSimilarsResponse, 1000)
+	for i := 0; i < 1000; i++ {
+		pops[i] = NewPopulatedListSimilarsResponse(popr, false)
 	}
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {

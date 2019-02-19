@@ -35,19 +35,19 @@ func (m *MockProductServiceServer) EXPECT() *MockProductServiceServerMockRecorde
 	return m.recorder
 }
 
-// SimilarProducts mocks base method
-func (m *MockProductServiceServer) SimilarProducts(arg0 context.Context, arg1 *product.SimilarProductsRequest) (*product.SimilarProductsResponse, error) {
+// ListSimilars mocks base method
+func (m *MockProductServiceServer) ListSimilars(arg0 context.Context, arg1 *product.ListSimilarsRequest) (*product.ListSimilarsResponse, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SimilarProducts", arg0, arg1)
-	ret0, _ := ret[0].(*product.SimilarProductsResponse)
+	ret := m.ctrl.Call(m, "ListSimilars", arg0, arg1)
+	ret0, _ := ret[0].(*product.ListSimilarsResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// SimilarProducts indicates an expected call of SimilarProducts
-func (mr *MockProductServiceServerMockRecorder) SimilarProducts(arg0, arg1 interface{}) *gomock.Call {
+// ListSimilars indicates an expected call of ListSimilars
+func (mr *MockProductServiceServerMockRecorder) ListSimilars(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SimilarProducts", reflect.TypeOf((*MockProductServiceServer)(nil).SimilarProducts), arg0, arg1)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListSimilars", reflect.TypeOf((*MockProductServiceServer)(nil).ListSimilars), arg0, arg1)
 }
 
 // MockProductServiceClient is a mock of ProductServiceClient interface
@@ -73,22 +73,22 @@ func (m *MockProductServiceClient) EXPECT() *MockProductServiceClientMockRecorde
 	return m.recorder
 }
 
-// SimilarProducts mocks base method
-func (m *MockProductServiceClient) SimilarProducts(arg0 context.Context, arg1 *product.SimilarProductsRequest, arg2 ...grpc.CallOption) (*product.SimilarProductsResponse, error) {
+// ListSimilars mocks base method
+func (m *MockProductServiceClient) ListSimilars(arg0 context.Context, arg1 *product.ListSimilarsRequest, arg2 ...grpc.CallOption) (*product.ListSimilarsResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{arg0, arg1}
 	for _, a := range arg2 {
 		varargs = append(varargs, a)
 	}
-	ret := m.ctrl.Call(m, "SimilarProducts", varargs...)
-	ret0, _ := ret[0].(*product.SimilarProductsResponse)
+	ret := m.ctrl.Call(m, "ListSimilars", varargs...)
+	ret0, _ := ret[0].(*product.ListSimilarsResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// SimilarProducts indicates an expected call of SimilarProducts
-func (mr *MockProductServiceClientMockRecorder) SimilarProducts(arg0, arg1 interface{}, arg2 ...interface{}) *gomock.Call {
+// ListSimilars indicates an expected call of ListSimilars
+func (mr *MockProductServiceClientMockRecorder) ListSimilars(arg0, arg1 interface{}, arg2 ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{arg0, arg1}, arg2...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SimilarProducts", reflect.TypeOf((*MockProductServiceClient)(nil).SimilarProducts), varargs...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListSimilars", reflect.TypeOf((*MockProductServiceClient)(nil).ListSimilars), varargs...)
 }

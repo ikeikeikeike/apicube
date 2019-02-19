@@ -11,7 +11,7 @@ option go_package = "product";
 
 option java_multiple_files = true;
 option java_package = "org.apicube.protocol.product";
-option java_outer_classname = "ProductProtocol";
+option java_outer_classname = "ProductProto";
 
 option (gogoproto.marshaler_all) = true;
 option (gogoproto.unmarshaler_all) = true;
@@ -21,21 +21,19 @@ option (gogoproto.equal_all) = true;
 option (gogoproto.testgen_all) = true;
 option (gogoproto.benchgen_all) = true;
 
+// https://cloud.google.com/apis/design/standard_methods
+
 package apicube.product;
 
 service ProductService {
-  rpc SimilarProducts(SimilarProductsRequest) returns (SimilarProductsResponse) {
+  rpc ListSimilars(ListSimilarsRequest) returns (ListSimilarsResponse) {
     option (google.api.http) = {
-        get: "/products/similar/{name}"
+        get: "/v1/{parent=products/*}/{name}/similars"
     };
   }
 }
 
-message SimilarProductsRequest {
-  string name = 1 [(validator.field) = {string_not_empty: true}];
-}
-
-message SimilarProductsResponse {
+message Product {
   google.protobuf.Int64Value id = 1 [(gogoproto.customname) = "ID"];
   string name = 2 [(validator.field) = {string_not_empty: true}];
   /* string image = 3 [(validator.field) = {string_not_empty: true}]; */
@@ -44,3 +42,16 @@ message SimilarProductsResponse {
   /* google.protobuf.Timestamp created_date = 5; */
   /* google.protobuf.Timestamp updated_date = 6; */
 }
+
+message ListSimilarsRequest {
+  string parent     = 1;
+  string name       = 2 [(validator.field) = {string_not_empty: true}];
+  int32  page_size  = 3; // The maximum number of items to return.
+  string page_token = 4; // The next_page_token value returned from a previous List request, if any.
+}
+
+message ListSimilarsResponse {
+  repeated Product products = 1;
+  string   next_page_token  = 2;
+}
+

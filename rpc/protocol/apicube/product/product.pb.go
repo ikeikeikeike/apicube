@@ -28,54 +28,7 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion2 // please upgrade the proto package
 
-type SimilarProductsRequest struct {
-	Name                 string   `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
-}
-
-func (m *SimilarProductsRequest) Reset()         { *m = SimilarProductsRequest{} }
-func (m *SimilarProductsRequest) String() string { return proto.CompactTextString(m) }
-func (*SimilarProductsRequest) ProtoMessage()    {}
-func (*SimilarProductsRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_0cbb7554f344b84c, []int{0}
-}
-func (m *SimilarProductsRequest) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *SimilarProductsRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_SimilarProductsRequest.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalTo(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *SimilarProductsRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_SimilarProductsRequest.Merge(m, src)
-}
-func (m *SimilarProductsRequest) XXX_Size() int {
-	return m.Size()
-}
-func (m *SimilarProductsRequest) XXX_DiscardUnknown() {
-	xxx_messageInfo_SimilarProductsRequest.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_SimilarProductsRequest proto.InternalMessageInfo
-
-func (m *SimilarProductsRequest) GetName() string {
-	if m != nil {
-		return m.Name
-	}
-	return ""
-}
-
-type SimilarProductsResponse struct {
+type Product struct {
 	ID   *types.Int64Value `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	Name string            `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
 	// string image = 3 [(validator.field) = {string_not_empty: true}];
@@ -85,18 +38,18 @@ type SimilarProductsResponse struct {
 	XXX_sizecache        int32              `json:"-"`
 }
 
-func (m *SimilarProductsResponse) Reset()         { *m = SimilarProductsResponse{} }
-func (m *SimilarProductsResponse) String() string { return proto.CompactTextString(m) }
-func (*SimilarProductsResponse) ProtoMessage()    {}
-func (*SimilarProductsResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_0cbb7554f344b84c, []int{1}
+func (m *Product) Reset()         { *m = Product{} }
+func (m *Product) String() string { return proto.CompactTextString(m) }
+func (*Product) ProtoMessage()    {}
+func (*Product) Descriptor() ([]byte, []int) {
+	return fileDescriptor_0cbb7554f344b84c, []int{0}
 }
-func (m *SimilarProductsResponse) XXX_Unmarshal(b []byte) error {
+func (m *Product) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *SimilarProductsResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *Product) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_SimilarProductsResponse.Marshal(b, m, deterministic)
+		return xxx_messageInfo_Product.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalTo(b)
@@ -106,112 +59,218 @@ func (m *SimilarProductsResponse) XXX_Marshal(b []byte, deterministic bool) ([]b
 		return b[:n], nil
 	}
 }
-func (m *SimilarProductsResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_SimilarProductsResponse.Merge(m, src)
+func (m *Product) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Product.Merge(m, src)
 }
-func (m *SimilarProductsResponse) XXX_Size() int {
+func (m *Product) XXX_Size() int {
 	return m.Size()
 }
-func (m *SimilarProductsResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_SimilarProductsResponse.DiscardUnknown(m)
+func (m *Product) XXX_DiscardUnknown() {
+	xxx_messageInfo_Product.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_SimilarProductsResponse proto.InternalMessageInfo
+var xxx_messageInfo_Product proto.InternalMessageInfo
 
-func (m *SimilarProductsResponse) GetID() *types.Int64Value {
+func (m *Product) GetID() *types.Int64Value {
 	if m != nil {
 		return m.ID
 	}
 	return nil
 }
 
-func (m *SimilarProductsResponse) GetName() string {
+func (m *Product) GetName() string {
 	if m != nil {
 		return m.Name
 	}
 	return ""
 }
 
-func (m *SimilarProductsResponse) GetDescriptionDetail() *types.StringValue {
+func (m *Product) GetDescriptionDetail() *types.StringValue {
 	if m != nil {
 		return m.DescriptionDetail
 	}
 	return nil
 }
 
+type ListSimilarsRequest struct {
+	Parent               string   `protobuf:"bytes,1,opt,name=parent,proto3" json:"parent,omitempty"`
+	Name                 string   `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	PageSize             int32    `protobuf:"varint,3,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
+	PageToken            string   `protobuf:"bytes,4,opt,name=page_token,json=pageToken,proto3" json:"page_token,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *ListSimilarsRequest) Reset()         { *m = ListSimilarsRequest{} }
+func (m *ListSimilarsRequest) String() string { return proto.CompactTextString(m) }
+func (*ListSimilarsRequest) ProtoMessage()    {}
+func (*ListSimilarsRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_0cbb7554f344b84c, []int{1}
+}
+func (m *ListSimilarsRequest) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *ListSimilarsRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_ListSimilarsRequest.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalTo(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *ListSimilarsRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ListSimilarsRequest.Merge(m, src)
+}
+func (m *ListSimilarsRequest) XXX_Size() int {
+	return m.Size()
+}
+func (m *ListSimilarsRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_ListSimilarsRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ListSimilarsRequest proto.InternalMessageInfo
+
+func (m *ListSimilarsRequest) GetParent() string {
+	if m != nil {
+		return m.Parent
+	}
+	return ""
+}
+
+func (m *ListSimilarsRequest) GetName() string {
+	if m != nil {
+		return m.Name
+	}
+	return ""
+}
+
+func (m *ListSimilarsRequest) GetPageSize() int32 {
+	if m != nil {
+		return m.PageSize
+	}
+	return 0
+}
+
+func (m *ListSimilarsRequest) GetPageToken() string {
+	if m != nil {
+		return m.PageToken
+	}
+	return ""
+}
+
+type ListSimilarsResponse struct {
+	Products             []*Product `protobuf:"bytes,1,rep,name=products,proto3" json:"products,omitempty"`
+	NextPageToken        string     `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}   `json:"-"`
+	XXX_unrecognized     []byte     `json:"-"`
+	XXX_sizecache        int32      `json:"-"`
+}
+
+func (m *ListSimilarsResponse) Reset()         { *m = ListSimilarsResponse{} }
+func (m *ListSimilarsResponse) String() string { return proto.CompactTextString(m) }
+func (*ListSimilarsResponse) ProtoMessage()    {}
+func (*ListSimilarsResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_0cbb7554f344b84c, []int{2}
+}
+func (m *ListSimilarsResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *ListSimilarsResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_ListSimilarsResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalTo(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *ListSimilarsResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ListSimilarsResponse.Merge(m, src)
+}
+func (m *ListSimilarsResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *ListSimilarsResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_ListSimilarsResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ListSimilarsResponse proto.InternalMessageInfo
+
+func (m *ListSimilarsResponse) GetProducts() []*Product {
+	if m != nil {
+		return m.Products
+	}
+	return nil
+}
+
+func (m *ListSimilarsResponse) GetNextPageToken() string {
+	if m != nil {
+		return m.NextPageToken
+	}
+	return ""
+}
+
 func init() {
-	proto.RegisterType((*SimilarProductsRequest)(nil), "apicube.product.SimilarProductsRequest")
-	proto.RegisterType((*SimilarProductsResponse)(nil), "apicube.product.SimilarProductsResponse")
+	proto.RegisterType((*Product)(nil), "apicube.product.Product")
+	proto.RegisterType((*ListSimilarsRequest)(nil), "apicube.product.ListSimilarsRequest")
+	proto.RegisterType((*ListSimilarsResponse)(nil), "apicube.product.ListSimilarsResponse")
 }
 
 func init() { proto.RegisterFile("apicube/product/product.proto", fileDescriptor_0cbb7554f344b84c) }
 
 var fileDescriptor_0cbb7554f344b84c = []byte{
-	// 417 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x84, 0x92, 0xcf, 0x8a, 0x14, 0x31,
-	0x10, 0xc6, 0x49, 0xb3, 0x8c, 0x18, 0xc1, 0xc1, 0x20, 0x3a, 0xb4, 0x63, 0x76, 0x99, 0x8b, 0x7b,
-	0xd9, 0x04, 0x76, 0x97, 0x7d, 0x80, 0x61, 0x2f, 0x8b, 0x97, 0x61, 0x06, 0x16, 0xf1, 0x22, 0x99,
-	0xee, 0x18, 0x83, 0xdd, 0x5d, 0x31, 0x49, 0xef, 0x1c, 0xc4, 0x8b, 0x07, 0x5f, 0xc0, 0x93, 0x6f,
-	0xe0, 0x1b, 0xe8, 0xd1, 0xa3, 0x47, 0xc1, 0xbb, 0x7f, 0x82, 0x0f, 0xe1, 0x51, 0x26, 0x9d, 0x5e,
-	0x96, 0x19, 0x61, 0x4f, 0x5d, 0x5d, 0x5f, 0x7d, 0xfc, 0xea, 0xab, 0x6e, 0xfc, 0x50, 0x18, 0x5d,
-	0xb4, 0x4b, 0xc9, 0x8d, 0x85, 0xb2, 0x2d, 0x7c, 0xff, 0x64, 0xc6, 0x82, 0x07, 0x32, 0x4c, 0x32,
-	0x4b, 0xed, 0x7c, 0xac, 0x00, 0x54, 0x25, 0xb9, 0x30, 0x9a, 0x8b, 0xa6, 0x01, 0x2f, 0xbc, 0x86,
-	0xc6, 0x75, 0xe3, 0x39, 0x4d, 0x6a, 0x7c, 0x5b, 0xb6, 0xcf, 0xf9, 0xca, 0x0a, 0x63, 0xa4, 0xed,
-	0xf5, 0xbb, 0x0a, 0x14, 0xc4, 0x92, 0xaf, 0xab, 0xd4, 0x3d, 0x51, 0xda, 0xbf, 0x68, 0x97, 0xac,
-	0x80, 0x9a, 0xd7, 0x2b, 0xed, 0x5f, 0xc2, 0x8a, 0x2b, 0x38, 0x88, 0xe2, 0xc1, 0x85, 0xa8, 0x74,
-	0x29, 0x3c, 0x58, 0xc7, 0x2f, 0xcb, 0xce, 0x37, 0x39, 0xc6, 0xf7, 0x16, 0xba, 0xd6, 0x95, 0xb0,
-	0xb3, 0x6e, 0x3b, 0x37, 0x97, 0xaf, 0x5a, 0xe9, 0x3c, 0xc9, 0xf1, 0x4e, 0x23, 0x6a, 0x39, 0x42,
-	0x7b, 0x68, 0xff, 0xe6, 0x74, 0x10, 0x7e, 0xee, 0x66, 0x4f, 0xd0, 0x3c, 0xf6, 0x26, 0x9f, 0x10,
-	0xbe, 0xbf, 0x65, 0x73, 0x06, 0x1a, 0x27, 0xc9, 0x11, 0xce, 0x74, 0x19, 0x5d, 0xb7, 0x0e, 0x1f,
-	0xb0, 0x2e, 0x0c, 0xeb, 0xc3, 0xb0, 0xb3, 0xc6, 0x9f, 0x1c, 0x9f, 0x8b, 0xaa, 0x95, 0xd3, 0x41,
-	0xf8, 0xb1, 0x9b, 0x9d, 0x9d, 0xce, 0x33, 0x5d, 0x5e, 0xc2, 0xb2, 0x6d, 0x18, 0x79, 0x8c, 0x49,
-	0x29, 0x5d, 0x61, 0xb5, 0x59, 0x9f, 0xe9, 0x59, 0x29, 0xbd, 0xd0, 0xd5, 0x68, 0x27, 0x02, 0xc6,
-	0x5b, 0x80, 0x85, 0xb7, 0xba, 0x51, 0x91, 0x30, 0xbf, 0x73, 0xc5, 0x77, 0x1a, 0x6d, 0x87, 0x1f,
-	0x10, 0xbe, 0x9d, 0x56, 0x5e, 0x48, 0x7b, 0xa1, 0x0b, 0x49, 0xde, 0x21, 0x3c, 0xdc, 0x08, 0x43,
-	0x1e, 0xb1, 0x8d, 0x8f, 0xc6, 0xfe, 0x7f, 0xa5, 0x7c, 0xff, 0xfa, 0xc1, 0xee, 0x2e, 0x93, 0xbd,
-	0xb7, 0xdf, 0xff, 0xbc, 0xcf, 0x72, 0x32, 0xea, 0x7f, 0x0f, 0xc7, 0x5d, 0x37, 0xca, 0x5f, 0xaf,
-	0x73, 0xbe, 0x99, 0x9e, 0xff, 0xfd, 0x4d, 0xd1, 0xc7, 0x40, 0xd1, 0xe7, 0x40, 0xd1, 0x97, 0x40,
-	0xd1, 0xd7, 0x40, 0xd1, 0xb7, 0x40, 0xd1, 0xaf, 0x40, 0x11, 0x1e, 0x83, 0x55, 0x57, 0x61, 0x1e,
-	0x0a, 0xa8, 0x7a, 0xea, 0x74, 0x98, 0x78, 0xb3, 0x24, 0xcc, 0xd0, 0xd3, 0x1b, 0x49, 0x5b, 0x0e,
-	0xe2, 0xf4, 0xd1, 0xbf, 0x00, 0x00, 0x00, 0xff, 0xff, 0x89, 0x2e, 0x61, 0x85, 0xa8, 0x02, 0x00,
-	0x00,
+	// 523 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x84, 0x91, 0x4f, 0x6f, 0xd3, 0x30,
+	0x18, 0xc6, 0xe5, 0x6c, 0x74, 0xab, 0x37, 0x98, 0x30, 0x13, 0x8a, 0xba, 0x2d, 0xab, 0x2a, 0xfe,
+	0x14, 0xa4, 0xc5, 0xa2, 0x9b, 0x76, 0xe3, 0x52, 0xed, 0x32, 0xc1, 0xa1, 0x4a, 0x11, 0x42, 0x5c,
+	0x2a, 0x37, 0x31, 0xc1, 0x5a, 0x6a, 0x1b, 0xdb, 0x69, 0xd1, 0xa6, 0x5d, 0x90, 0xb8, 0x71, 0xe3,
+	0x03, 0x70, 0x84, 0x8f, 0xc0, 0x91, 0x23, 0x47, 0x24, 0xee, 0xfc, 0x89, 0xf8, 0x10, 0x1c, 0x51,
+	0x1c, 0x67, 0x2a, 0x0c, 0xc1, 0x29, 0x6f, 0x9e, 0xe7, 0x7d, 0xf5, 0xfc, 0xde, 0xd7, 0x70, 0x8b,
+	0x48, 0x16, 0xe7, 0x63, 0x8a, 0xa5, 0x12, 0x49, 0x1e, 0x9b, 0xfa, 0x1b, 0x4a, 0x25, 0x8c, 0x40,
+	0x6b, 0xce, 0x0e, 0x9d, 0xdc, 0xda, 0x4c, 0x85, 0x48, 0x33, 0x8a, 0x89, 0x64, 0x98, 0x70, 0x2e,
+	0x0c, 0x31, 0x4c, 0x70, 0x5d, 0xb5, 0xb7, 0x02, 0xe7, 0xda, 0xbf, 0x71, 0xfe, 0x04, 0xcf, 0x14,
+	0x91, 0x92, 0xaa, 0xda, 0x5f, 0x4f, 0x45, 0x2a, 0x6c, 0x89, 0xcb, 0xca, 0xa9, 0xfb, 0x29, 0x33,
+	0x4f, 0xf3, 0x71, 0x18, 0x8b, 0x09, 0x9e, 0xcc, 0x98, 0x39, 0x12, 0x33, 0x9c, 0x8a, 0x1d, 0x6b,
+	0xee, 0x4c, 0x49, 0xc6, 0x12, 0x62, 0x84, 0xd2, 0xf8, 0xac, 0xac, 0xe6, 0x3a, 0x6f, 0x01, 0x5c,
+	0x1a, 0x54, 0x5c, 0x68, 0x17, 0x7a, 0x2c, 0xf1, 0x41, 0x1b, 0x74, 0x57, 0x7a, 0x1b, 0x61, 0x85,
+	0x11, 0xd6, 0x18, 0xe1, 0x21, 0x37, 0xfb, 0x7b, 0x0f, 0x49, 0x96, 0xd3, 0x7e, 0xa3, 0xf8, 0xb2,
+	0xed, 0x1d, 0x1e, 0x44, 0x1e, 0x4b, 0x50, 0x0b, 0x2e, 0x72, 0x32, 0xa1, 0xbe, 0xd7, 0x06, 0xdd,
+	0x66, 0xbf, 0x51, 0x7c, 0xdd, 0xf6, 0x1e, 0x81, 0xc8, 0x6a, 0xe8, 0x1e, 0x44, 0x09, 0xd5, 0xb1,
+	0x62, 0xb2, 0x5c, 0x70, 0x94, 0x50, 0x43, 0x58, 0xe6, 0x2f, 0xda, 0x80, 0xcd, 0x73, 0x01, 0x43,
+	0xa3, 0x18, 0x4f, 0x6d, 0x42, 0x74, 0x79, 0x6e, 0xee, 0xc0, 0x8e, 0x75, 0x5e, 0x02, 0x78, 0xe5,
+	0x3e, 0xd3, 0x66, 0xc8, 0x26, 0x2c, 0x23, 0x4a, 0x47, 0xf4, 0x59, 0x4e, 0xb5, 0x41, 0x57, 0x61,
+	0x43, 0x12, 0x45, 0xb9, 0xb1, 0xe4, 0xcd, 0xc8, 0xfd, 0xfd, 0x13, 0x6c, 0x03, 0x36, 0x25, 0x49,
+	0xe9, 0x48, 0xb3, 0x63, 0xea, 0x2f, 0xb4, 0x41, 0xf7, 0x42, 0xb4, 0x5c, 0x0a, 0x43, 0x76, 0x4c,
+	0xd1, 0x16, 0x84, 0xd6, 0x34, 0xe2, 0x88, 0x72, 0x4b, 0xdb, 0x8c, 0x6c, 0xfb, 0x83, 0x52, 0xe8,
+	0x18, 0xb8, 0xfe, 0x3b, 0x86, 0x96, 0x82, 0x6b, 0x8a, 0xf6, 0xe0, 0xb2, 0x7b, 0x60, 0xed, 0x83,
+	0xf6, 0x42, 0x77, 0xa5, 0xe7, 0x87, 0x7f, 0xbc, 0x7c, 0xe8, 0x2e, 0x1d, 0x9d, 0x75, 0xa2, 0x1b,
+	0x70, 0x8d, 0xd3, 0xe7, 0x66, 0x34, 0x97, 0x68, 0x81, 0xa3, 0x8b, 0xa5, 0x3c, 0xa8, 0x53, 0x7b,
+	0x6f, 0x00, 0xbc, 0xe4, 0xa6, 0x87, 0x54, 0x4d, 0x59, 0x4c, 0xd1, 0x2b, 0x00, 0x57, 0xe7, 0x49,
+	0xd0, 0xb5, 0x73, 0x79, 0x7f, 0xb9, 0x57, 0xeb, 0xfa, 0x7f, 0xba, 0xaa, 0x75, 0x3a, 0xf8, 0xc5,
+	0xe7, 0x1f, 0xaf, 0xbd, 0x5b, 0xe8, 0x26, 0x9e, 0xde, 0xc1, 0x27, 0xd5, 0x4d, 0xef, 0xd6, 0xd8,
+	0xf8, 0xf6, 0x29, 0x3e, 0x29, 0x2f, 0x79, 0x8a, 0xb5, 0x1b, 0xec, 0x0f, 0x7f, 0x7e, 0x0f, 0xc0,
+	0xbb, 0x22, 0x00, 0xef, 0x8b, 0x00, 0x7c, 0x28, 0x02, 0xf0, 0xb1, 0x08, 0xc0, 0xa7, 0x22, 0x00,
+	0xdf, 0x8a, 0x00, 0xc0, 0x4d, 0xa1, 0xd2, 0xf9, 0x60, 0x23, 0x62, 0x91, 0xd5, 0x04, 0xfd, 0x55,
+	0xb7, 0xda, 0xa0, 0x34, 0x06, 0xe0, 0xf1, 0x92, 0x33, 0xc6, 0x0d, 0xdb, 0xba, 0xfb, 0x2b, 0x00,
+	0x00, 0xff, 0xff, 0xad, 0x63, 0xb9, 0x0d, 0x63, 0x03, 0x00, 0x00,
 }
 
-func (this *SimilarProductsRequest) Equal(that interface{}) bool {
+func (this *Product) Equal(that interface{}) bool {
 	if that == nil {
 		return this == nil
 	}
 
-	that1, ok := that.(*SimilarProductsRequest)
+	that1, ok := that.(*Product)
 	if !ok {
-		that2, ok := that.(SimilarProductsRequest)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if this.Name != that1.Name {
-		return false
-	}
-	if !bytes.Equal(this.XXX_unrecognized, that1.XXX_unrecognized) {
-		return false
-	}
-	return true
-}
-func (this *SimilarProductsResponse) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*SimilarProductsResponse)
-	if !ok {
-		that2, ok := that.(SimilarProductsResponse)
+		that2, ok := that.(Product)
 		if ok {
 			that1 = &that2
 		} else {
@@ -237,6 +296,77 @@ func (this *SimilarProductsResponse) Equal(that interface{}) bool {
 	}
 	return true
 }
+func (this *ListSimilarsRequest) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	that1, ok := that.(*ListSimilarsRequest)
+	if !ok {
+		that2, ok := that.(ListSimilarsRequest)
+		if ok {
+			that1 = &that2
+		} else {
+			return false
+		}
+	}
+	if that1 == nil {
+		return this == nil
+	} else if this == nil {
+		return false
+	}
+	if this.Parent != that1.Parent {
+		return false
+	}
+	if this.Name != that1.Name {
+		return false
+	}
+	if this.PageSize != that1.PageSize {
+		return false
+	}
+	if this.PageToken != that1.PageToken {
+		return false
+	}
+	if !bytes.Equal(this.XXX_unrecognized, that1.XXX_unrecognized) {
+		return false
+	}
+	return true
+}
+func (this *ListSimilarsResponse) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	that1, ok := that.(*ListSimilarsResponse)
+	if !ok {
+		that2, ok := that.(ListSimilarsResponse)
+		if ok {
+			that1 = &that2
+		} else {
+			return false
+		}
+	}
+	if that1 == nil {
+		return this == nil
+	} else if this == nil {
+		return false
+	}
+	if len(this.Products) != len(that1.Products) {
+		return false
+	}
+	for i := range this.Products {
+		if !this.Products[i].Equal(that1.Products[i]) {
+			return false
+		}
+	}
+	if this.NextPageToken != that1.NextPageToken {
+		return false
+	}
+	if !bytes.Equal(this.XXX_unrecognized, that1.XXX_unrecognized) {
+		return false
+	}
+	return true
+}
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ context.Context
@@ -250,7 +380,7 @@ const _ = grpc.SupportPackageIsVersion4
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type ProductServiceClient interface {
-	SimilarProducts(ctx context.Context, in *SimilarProductsRequest, opts ...grpc.CallOption) (*SimilarProductsResponse, error)
+	ListSimilars(ctx context.Context, in *ListSimilarsRequest, opts ...grpc.CallOption) (*ListSimilarsResponse, error)
 }
 
 type productServiceClient struct {
@@ -261,9 +391,9 @@ func NewProductServiceClient(cc *grpc.ClientConn) ProductServiceClient {
 	return &productServiceClient{cc}
 }
 
-func (c *productServiceClient) SimilarProducts(ctx context.Context, in *SimilarProductsRequest, opts ...grpc.CallOption) (*SimilarProductsResponse, error) {
-	out := new(SimilarProductsResponse)
-	err := c.cc.Invoke(ctx, "/apicube.product.ProductService/SimilarProducts", in, out, opts...)
+func (c *productServiceClient) ListSimilars(ctx context.Context, in *ListSimilarsRequest, opts ...grpc.CallOption) (*ListSimilarsResponse, error) {
+	out := new(ListSimilarsResponse)
+	err := c.cc.Invoke(ctx, "/apicube.product.ProductService/ListSimilars", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -272,27 +402,27 @@ func (c *productServiceClient) SimilarProducts(ctx context.Context, in *SimilarP
 
 // ProductServiceServer is the server API for ProductService service.
 type ProductServiceServer interface {
-	SimilarProducts(context.Context, *SimilarProductsRequest) (*SimilarProductsResponse, error)
+	ListSimilars(context.Context, *ListSimilarsRequest) (*ListSimilarsResponse, error)
 }
 
 func RegisterProductServiceServer(s *grpc.Server, srv ProductServiceServer) {
 	s.RegisterService(&_ProductService_serviceDesc, srv)
 }
 
-func _ProductService_SimilarProducts_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(SimilarProductsRequest)
+func _ProductService_ListSimilars_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListSimilarsRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ProductServiceServer).SimilarProducts(ctx, in)
+		return srv.(ProductServiceServer).ListSimilars(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/apicube.product.ProductService/SimilarProducts",
+		FullMethod: "/apicube.product.ProductService/ListSimilars",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ProductServiceServer).SimilarProducts(ctx, req.(*SimilarProductsRequest))
+		return srv.(ProductServiceServer).ListSimilars(ctx, req.(*ListSimilarsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -302,15 +432,15 @@ var _ProductService_serviceDesc = grpc.ServiceDesc{
 	HandlerType: (*ProductServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "SimilarProducts",
-			Handler:    _ProductService_SimilarProducts_Handler,
+			MethodName: "ListSimilars",
+			Handler:    _ProductService_ListSimilars_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
 	Metadata: "apicube/product/product.proto",
 }
 
-func (m *SimilarProductsRequest) Marshal() (dAtA []byte, err error) {
+func (m *Product) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalTo(dAtA)
@@ -320,34 +450,7 @@ func (m *SimilarProductsRequest) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *SimilarProductsRequest) MarshalTo(dAtA []byte) (int, error) {
-	var i int
-	_ = i
-	var l int
-	_ = l
-	if len(m.Name) > 0 {
-		dAtA[i] = 0xa
-		i++
-		i = encodeVarintProduct(dAtA, i, uint64(len(m.Name)))
-		i += copy(dAtA[i:], m.Name)
-	}
-	if m.XXX_unrecognized != nil {
-		i += copy(dAtA[i:], m.XXX_unrecognized)
-	}
-	return i, nil
-}
-
-func (m *SimilarProductsResponse) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalTo(dAtA)
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *SimilarProductsResponse) MarshalTo(dAtA []byte) (int, error) {
+func (m *Product) MarshalTo(dAtA []byte) (int, error) {
 	var i int
 	_ = i
 	var l int
@@ -384,6 +487,89 @@ func (m *SimilarProductsResponse) MarshalTo(dAtA []byte) (int, error) {
 	return i, nil
 }
 
+func (m *ListSimilarsRequest) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalTo(dAtA)
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *ListSimilarsRequest) MarshalTo(dAtA []byte) (int, error) {
+	var i int
+	_ = i
+	var l int
+	_ = l
+	if len(m.Parent) > 0 {
+		dAtA[i] = 0xa
+		i++
+		i = encodeVarintProduct(dAtA, i, uint64(len(m.Parent)))
+		i += copy(dAtA[i:], m.Parent)
+	}
+	if len(m.Name) > 0 {
+		dAtA[i] = 0x12
+		i++
+		i = encodeVarintProduct(dAtA, i, uint64(len(m.Name)))
+		i += copy(dAtA[i:], m.Name)
+	}
+	if m.PageSize != 0 {
+		dAtA[i] = 0x18
+		i++
+		i = encodeVarintProduct(dAtA, i, uint64(m.PageSize))
+	}
+	if len(m.PageToken) > 0 {
+		dAtA[i] = 0x22
+		i++
+		i = encodeVarintProduct(dAtA, i, uint64(len(m.PageToken)))
+		i += copy(dAtA[i:], m.PageToken)
+	}
+	if m.XXX_unrecognized != nil {
+		i += copy(dAtA[i:], m.XXX_unrecognized)
+	}
+	return i, nil
+}
+
+func (m *ListSimilarsResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalTo(dAtA)
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *ListSimilarsResponse) MarshalTo(dAtA []byte) (int, error) {
+	var i int
+	_ = i
+	var l int
+	_ = l
+	if len(m.Products) > 0 {
+		for _, msg := range m.Products {
+			dAtA[i] = 0xa
+			i++
+			i = encodeVarintProduct(dAtA, i, uint64(msg.Size()))
+			n, err := msg.MarshalTo(dAtA[i:])
+			if err != nil {
+				return 0, err
+			}
+			i += n
+		}
+	}
+	if len(m.NextPageToken) > 0 {
+		dAtA[i] = 0x12
+		i++
+		i = encodeVarintProduct(dAtA, i, uint64(len(m.NextPageToken)))
+		i += copy(dAtA[i:], m.NextPageToken)
+	}
+	if m.XXX_unrecognized != nil {
+		i += copy(dAtA[i:], m.XXX_unrecognized)
+	}
+	return i, nil
+}
+
 func encodeVarintProduct(dAtA []byte, offset int, v uint64) int {
 	for v >= 1<<7 {
 		dAtA[offset] = uint8(v&0x7f | 0x80)
@@ -393,17 +579,8 @@ func encodeVarintProduct(dAtA []byte, offset int, v uint64) int {
 	dAtA[offset] = uint8(v)
 	return offset + 1
 }
-func NewPopulatedSimilarProductsRequest(r randyProduct, easy bool) *SimilarProductsRequest {
-	this := &SimilarProductsRequest{}
-	this.Name = string(randStringProduct(r))
-	if !easy && r.Intn(10) != 0 {
-		this.XXX_unrecognized = randUnrecognizedProduct(r, 2)
-	}
-	return this
-}
-
-func NewPopulatedSimilarProductsResponse(r randyProduct, easy bool) *SimilarProductsResponse {
-	this := &SimilarProductsResponse{}
+func NewPopulatedProduct(r randyProduct, easy bool) *Product {
+	this := &Product{}
 	if r.Intn(10) != 0 {
 		this.ID = types.NewPopulatedInt64Value(r, easy)
 	}
@@ -413,6 +590,37 @@ func NewPopulatedSimilarProductsResponse(r randyProduct, easy bool) *SimilarProd
 	}
 	if !easy && r.Intn(10) != 0 {
 		this.XXX_unrecognized = randUnrecognizedProduct(r, 5)
+	}
+	return this
+}
+
+func NewPopulatedListSimilarsRequest(r randyProduct, easy bool) *ListSimilarsRequest {
+	this := &ListSimilarsRequest{}
+	this.Parent = string(randStringProduct(r))
+	this.Name = string(randStringProduct(r))
+	this.PageSize = int32(r.Int31())
+	if r.Intn(2) == 0 {
+		this.PageSize *= -1
+	}
+	this.PageToken = string(randStringProduct(r))
+	if !easy && r.Intn(10) != 0 {
+		this.XXX_unrecognized = randUnrecognizedProduct(r, 5)
+	}
+	return this
+}
+
+func NewPopulatedListSimilarsResponse(r randyProduct, easy bool) *ListSimilarsResponse {
+	this := &ListSimilarsResponse{}
+	if r.Intn(10) != 0 {
+		v1 := r.Intn(5)
+		this.Products = make([]*Product, v1)
+		for i := 0; i < v1; i++ {
+			this.Products[i] = NewPopulatedProduct(r, easy)
+		}
+	}
+	this.NextPageToken = string(randStringProduct(r))
+	if !easy && r.Intn(10) != 0 {
+		this.XXX_unrecognized = randUnrecognizedProduct(r, 3)
 	}
 	return this
 }
@@ -436,9 +644,9 @@ func randUTF8RuneProduct(r randyProduct) rune {
 	return rune(ru + 61)
 }
 func randStringProduct(r randyProduct) string {
-	v1 := r.Intn(100)
-	tmps := make([]rune, v1)
-	for i := 0; i < v1; i++ {
+	v2 := r.Intn(100)
+	tmps := make([]rune, v2)
+	for i := 0; i < v2; i++ {
 		tmps[i] = randUTF8RuneProduct(r)
 	}
 	return string(tmps)
@@ -460,11 +668,11 @@ func randFieldProduct(dAtA []byte, r randyProduct, fieldNumber int, wire int) []
 	switch wire {
 	case 0:
 		dAtA = encodeVarintPopulateProduct(dAtA, uint64(key))
-		v2 := r.Int63()
+		v3 := r.Int63()
 		if r.Intn(2) == 0 {
-			v2 *= -1
+			v3 *= -1
 		}
-		dAtA = encodeVarintPopulateProduct(dAtA, uint64(v2))
+		dAtA = encodeVarintPopulateProduct(dAtA, uint64(v3))
 	case 1:
 		dAtA = encodeVarintPopulateProduct(dAtA, uint64(key))
 		dAtA = append(dAtA, byte(r.Intn(256)), byte(r.Intn(256)), byte(r.Intn(256)), byte(r.Intn(256)), byte(r.Intn(256)), byte(r.Intn(256)), byte(r.Intn(256)), byte(r.Intn(256)))
@@ -489,23 +697,7 @@ func encodeVarintPopulateProduct(dAtA []byte, v uint64) []byte {
 	dAtA = append(dAtA, uint8(v))
 	return dAtA
 }
-func (m *SimilarProductsRequest) Size() (n int) {
-	if m == nil {
-		return 0
-	}
-	var l int
-	_ = l
-	l = len(m.Name)
-	if l > 0 {
-		n += 1 + l + sovProduct(uint64(l))
-	}
-	if m.XXX_unrecognized != nil {
-		n += len(m.XXX_unrecognized)
-	}
-	return n
-}
-
-func (m *SimilarProductsResponse) Size() (n int) {
+func (m *Product) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -529,6 +721,55 @@ func (m *SimilarProductsResponse) Size() (n int) {
 	return n
 }
 
+func (m *ListSimilarsRequest) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.Parent)
+	if l > 0 {
+		n += 1 + l + sovProduct(uint64(l))
+	}
+	l = len(m.Name)
+	if l > 0 {
+		n += 1 + l + sovProduct(uint64(l))
+	}
+	if m.PageSize != 0 {
+		n += 1 + sovProduct(uint64(m.PageSize))
+	}
+	l = len(m.PageToken)
+	if l > 0 {
+		n += 1 + l + sovProduct(uint64(l))
+	}
+	if m.XXX_unrecognized != nil {
+		n += len(m.XXX_unrecognized)
+	}
+	return n
+}
+
+func (m *ListSimilarsResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if len(m.Products) > 0 {
+		for _, e := range m.Products {
+			l = e.Size()
+			n += 1 + l + sovProduct(uint64(l))
+		}
+	}
+	l = len(m.NextPageToken)
+	if l > 0 {
+		n += 1 + l + sovProduct(uint64(l))
+	}
+	if m.XXX_unrecognized != nil {
+		n += len(m.XXX_unrecognized)
+	}
+	return n
+}
+
 func sovProduct(x uint64) (n int) {
 	for {
 		n++
@@ -542,7 +783,7 @@ func sovProduct(x uint64) (n int) {
 func sozProduct(x uint64) (n int) {
 	return sovProduct(uint64((x << 1) ^ uint64((int64(x) >> 63))))
 }
-func (m *SimilarProductsRequest) Unmarshal(dAtA []byte) error {
+func (m *Product) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -565,90 +806,10 @@ func (m *SimilarProductsRequest) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: SimilarProductsRequest: wiretype end group for non-group")
+			return fmt.Errorf("proto: Product: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: SimilarProductsRequest: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Name", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowProduct
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= (uint64(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthProduct
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Name = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		default:
-			iNdEx = preIndex
-			skippy, err := skipProduct(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if skippy < 0 {
-				return ErrInvalidLengthProduct
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.XXX_unrecognized = append(m.XXX_unrecognized, dAtA[iNdEx:iNdEx+skippy]...)
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *SimilarProductsResponse) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowProduct
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= (uint64(b) & 0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: SimilarProductsResponse: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: SimilarProductsResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: Product: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
@@ -745,6 +906,274 @@ func (m *SimilarProductsResponse) Unmarshal(dAtA []byte) error {
 			if err := m.DescriptionDetail.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipProduct(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthProduct
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.XXX_unrecognized = append(m.XXX_unrecognized, dAtA[iNdEx:iNdEx+skippy]...)
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *ListSimilarsRequest) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowProduct
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= (uint64(b) & 0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: ListSimilarsRequest: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: ListSimilarsRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Parent", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowProduct
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= (uint64(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthProduct
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Parent = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Name", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowProduct
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= (uint64(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthProduct
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Name = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 3:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field PageSize", wireType)
+			}
+			m.PageSize = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowProduct
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.PageSize |= (int32(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 4:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field PageToken", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowProduct
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= (uint64(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthProduct
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.PageToken = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipProduct(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthProduct
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.XXX_unrecognized = append(m.XXX_unrecognized, dAtA[iNdEx:iNdEx+skippy]...)
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *ListSimilarsResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowProduct
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= (uint64(b) & 0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: ListSimilarsResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: ListSimilarsResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Products", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowProduct
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= (int(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthProduct
+			}
+			postIndex := iNdEx + msglen
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Products = append(m.Products, &Product{})
+			if err := m.Products[len(m.Products)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field NextPageToken", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowProduct
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= (uint64(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthProduct
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.NextPageToken = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
