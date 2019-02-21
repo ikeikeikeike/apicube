@@ -10,7 +10,17 @@ buildstatics:  ## Build all of binaries as static building
 		(cd $$d && make buildstatics) \
 	; done
 
-install: ## Install all of dependencies
+gogo: ## Download gogoproto/gogo.proto
+	go get "github.com/gogo/protobuf/gogoproto" && \
+	mkdir -p ./proto/gogo/gogoproto && \
+	cp "$$GOPATH/src/github.com/gogo/protobuf/gogoproto/gogo.proto" ./proto/gogo/gogoproto/
+
+go-proto-validators: ## Download mwitkow/go-proto-validators
+	go get github.com/mwitkow/go-proto-validators/protoc-gen-govalidators && \
+	mkdir -p ./proto/pb/github.com/mwitkow/go-proto-validators && \
+	cp "$$GOPATH/src/github.com/mwitkow/go-proto-validators/validator.proto" ./proto/pb/github.com/mwitkow/go-proto-validators/
+
+install: | gogo go-proto-validators ## Install all of dependencies
 	go get -v github.com/golang/protobuf/proto && \
 	go get -v github.com/golang/protobuf/protoc-gen-go && \
 	go get -v google.golang.org/grpc && \
@@ -29,9 +39,42 @@ install: ## Install all of dependencies
 	\
 	gometalinter --install --update && \
 	\
-	for d in `echo rpc`; do (cd $$d && make install) ; done && \
-	\
 	go get -v github.com/golang/dep/cmd/dep && \
+	dep ensure -v
+
+protocol: ## Generate Protocol buffers definition
+	protoeasy \
+		--gogo --grpc --grpc-gateway --out ./rpc/pb proto/pb && \
+	\
+	protoc \
+		-I${GOPATH}/src \
+		-I${GOPATH}/src/github.com/gogo/protobuf/protobuf \
+		-I${GOPATH}/src/go.pedge.io/protoeasy/vendor/go.pedge.io/pb/proto \
+		-I./proto/pb/apicube \
+		--govalidators_out=\
+	Mgoogle/api/annotations.proto=google.golang.org/genproto/googleapis/api/annotations,\
+	Mgoogle/protobuf/timestamp.proto=github.com/gogo/protobuf/types,\
+	Mgoogle/protobuf/wrappers.proto=github.com/gogo/protobuf/types,\
+	Mgoogle/rpc/status.proto=go.pedge.io/pb/gogo/google/rpc,\
+	Mgoogle/rpc/code.proto=go.pedge.io/pb/gogo/google/rpc,\
+	Mgoogle/rpc/error_details.proto=go.pedge.io/pb/gogo/google/rpc,\
+	plugins=gogoimport=true:rpc/pb/apicube \
+		proto/pb/apicube/product/product.proto && \
+	\
+	go tool fix -force context rpc/pb && \
+	gofmt -l -w rpc/pb && \
+	\
+	mkdir -p ./rpc/mockpb/mock_product && \
+	mockgen github.com/ikeikeikeike/apicube/rpc/pb/apicube/product \
+		ProductServiceServer,ProductServiceClient \
+			> ./rpc/mockpb/mock_product/product.go && \
+	mkdir -p ./rpc/mockpb/mock_lifecycle && \
+	mockgen github.com/ikeikeikeike/apicube/rpc/pb/apicube/lifecycle \
+		PingServiceServer,PingServiceClient \
+			> ./rpc/mockpb/mock_lifecycle/ping.go && \
+	\
+	go test -v -cover -race ./rpc/pb/... && \
+	go test -v -cover -race ./rpc/handler/... && \
 	dep ensure -v
 
 deps:  ## Install Golang dependencies
@@ -42,13 +85,6 @@ modelgen:  ## Generate Golang model definition
 
 runner:  ## Launch a build runner
 	realize start
-
-protocol:  ## Generate Protocol buffers definition
-	@for d in `echo rpc`; do \
-		(cd $$d && make protocol) \
-	; done && \
-	\
-	dep ensure -v
 
 travis:
 	go get -v github.com/alecthomas/gometalinter && \
@@ -92,12 +128,12 @@ misspell:  ## Check misspell
 	fi \
 
 check:  ## Golang all of style checking
-	@if [ "`gometalinter --fast --vendor --deadline=100s --exclude base/data/model --exclude rpc/protocol ./... | tee /dev/stderr`" ]; then \
+	@if [ "`gometalinter --fast --vendor --deadline=100s --exclude base/data/model --exclude rpc/pb ./... | tee /dev/stderr`" ]; then \
 		echo "^ gometalinter errors!" && echo && exit 1; \
 	fi
 
 check-completely:  ## Golang completely all of style checking
-	@if [ "`gometalinter --vendor --deadline=100s --exclude base/data/model --exclude rpc/protocol ./... | tee /dev/stderr`" ]; then \
+	@if [ "`gometalinter --vendor --deadline=100s --exclude base/data/model --exclude rpc/pb ./... | tee /dev/stderr`" ]; then \
 		echo "^ gometalinter completely check errors!" && echo && exit 1; \
 	fi
 
@@ -115,10 +151,12 @@ help:  ## Show all of tasks
 	vet \
 	test-cover-html \
 	install \
-	check \
 	protocol \
 	runner \
 	travis \
 	misspell \
+	check \
 	check-completely \
+	gogo \
+	go-proto-validators \
 	modelgen

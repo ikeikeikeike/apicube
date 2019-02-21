@@ -8,7 +8,7 @@ import (
 	"github.com/ikeikeikeike/apicube/base/util"
 	"github.com/ikeikeikeike/apicube/base/util/logger"
 	"github.com/ikeikeikeike/apicube/base/util/rpc"
-	pb "github.com/ikeikeikeike/apicube/rpc/protocol/apicube/lifecycle"
+	pb "github.com/ikeikeikeike/apicube/rpc/pb/apicube/lifecycle"
 )
 
 // Inject injects dependencies

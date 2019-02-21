@@ -292,25 +292,6 @@
   revision = "dd1402a4d99de9ac2f396cd6fcb957bc2c695ec1"
 
 [[projects]]
-  digest = "1:bf618941b014c2a86e4a6f39d4a26541c06fc63387fc50d4694d67eac2151f4a"
-  name = "github.com/labstack/echo"
-  packages = ["."]
-  pruneopts = "UT"
-  revision = "38772c686c76b501f94bd6cd5b77f5842e93b559"
-  version = "v3.3.10"
-
-[[projects]]
-  digest = "1:01eb0269028d3c2e21b5b6cd9b1ba81bc4170ab293fcffa84e3aa3a6138a92e8"
-  name = "github.com/labstack/gommon"
-  packages = [
-    "color",
-    "log",
-  ]
-  pruneopts = "UT"
-  revision = "7fd9f68ece0bcb1a905fac8f1549f0083f71c51b"
-  version = "v0.2.8"
-
-[[projects]]
   digest = "1:8ef506fc2bb9ced9b151dafa592d4046063d744c646c1bbe801982ce87e4bc24"
   name = "github.com/lib/pq"
   packages = [
@@ -341,22 +322,6 @@
   ]
   pruneopts = "UT"
   revision = "60711f1a8329503b04e1c88535f419d0bb440bff"
-
-[[projects]]
-  digest = "1:0f96ec4151a24d7bfd4298fc13cc320a000e31b4e5431cf88e3ffc961db846fd"
-  name = "github.com/mattn/go-colorable"
-  packages = ["."]
-  pruneopts = "UT"
-  revision = "efa589957cd060542a26d2dd7832fd6a6c6c3ade"
-  version = "v0.1.0"
-
-[[projects]]
-  digest = "1:0981502f9816113c9c8c4ac301583841855c8cf4da8c72f696b3ebedf6d0e4e5"
-  name = "github.com/mattn/go-isatty"
-  packages = ["."]
-  pruneopts = "UT"
-  revision = "6ca4dbf54d38eea1a992b3c722a76a5d1c4cb25c"
-  version = "v0.0.4"
 
 [[projects]]
   digest = "1:cffb4ce270238b022c79e2cf09a3f3e3d4c68bf0485902a55243ce3411341287"
@@ -460,22 +425,6 @@
   version = "v1.3.1"
 
 [[projects]]
-  digest = "1:c468422f334a6b46a19448ad59aaffdfc0a36b08fdcc1c749a0b29b6453d7e59"
-  name = "github.com/valyala/bytebufferpool"
-  packages = ["."]
-  pruneopts = "UT"
-  revision = "e746df99fe4a3986f4d4f79e13c1e0117ce9c2f7"
-  version = "v1.0.0"
-
-[[projects]]
-  branch = "master"
-  digest = "1:268b8bce0064e8c057d7b913605459f9a26dcab864c0886a56d196540fbf003f"
-  name = "github.com/valyala/fasttemplate"
-  packages = ["."]
-  pruneopts = "UT"
-  revision = "dcecefd839c4193db0d35b88ec65b4c12d360ab0"
-
-[[projects]]
   branch = "master"
   digest = "1:dd70bca92c5f88f5d6a098eaa570f604d52a460d82b81e1418c9559f6a742612"
   name = "github.com/volatiletech/inflect"
@@ -533,17 +482,6 @@
   pruneopts = "UT"
   revision = "2b5032d79456124f42db6b7eb19ac6c155449dc2"
   version = "v0.19.0"
-
-[[projects]]
-  branch = "master"
-  digest = "1:520c8ed6c442eed074caf8c1d874d2b0241edbe59729199f6bdf1db99f2ccb9f"
-  name = "golang.org/x/crypto"
-  packages = [
-    "acme",
-    "acme/autocert",
-  ]
-  pruneopts = "UT"
-  revision = "74369b46fc6756741c016591724fd1cb8e26845f"
 
 [[projects]]
   branch = "master"
@@ -760,7 +698,6 @@
     "github.com/imdario/mergo",
     "github.com/kat-co/vala",
     "github.com/kelseyhightower/envconfig",
-    "github.com/labstack/echo",
     "github.com/mediocregopher/radix.v2/pool",
     "github.com/mediocregopher/radix.v2/redis",
     "github.com/mwitkow/go-proto-validators",

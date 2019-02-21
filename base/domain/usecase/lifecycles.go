@@ -5,7 +5,7 @@ import (
 	"fmt"
 
 	"github.com/ikeikeikeike/apicube/base/util"
-	pb "github.com/ikeikeikeike/apicube/rpc/protocol/apicube/lifecycle"
+	pb "github.com/ikeikeikeike/apicube/rpc/pb/apicube/lifecycle"
 )
 
 type (

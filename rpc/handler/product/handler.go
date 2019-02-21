@@ -10,7 +10,7 @@ import (
 	"github.com/pkg/errors"
 
 	"github.com/ikeikeikeike/apicube/base/domain/usecase"
-	pb "github.com/ikeikeikeike/apicube/rpc/protocol/apicube/product"
+	pb "github.com/ikeikeikeike/apicube/rpc/pb/apicube/product"
 )
 
 type productService struct {

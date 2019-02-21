@@ -6,8 +6,8 @@ import (
 
 	"github.com/golang/mock/gomock"
 
-	"github.com/ikeikeikeike/apicube/rpc/mockprotocol/mock_product"
-	pb "github.com/ikeikeikeike/apicube/rpc/protocol/apicube/product"
+	"github.com/ikeikeikeike/apicube/rpc/mockpb/mock_product"
+	pb "github.com/ikeikeikeike/apicube/rpc/pb/apicube/product"
 )
 
 func TestListSimilars(t *testing.T) {

@@ -6,8 +6,8 @@ import (
 
 	"github.com/golang/mock/gomock"
 
-	"github.com/ikeikeikeike/apicube/rpc/mockprotocol/mock_lifecycle"
-	pb "github.com/ikeikeikeike/apicube/rpc/protocol/apicube/lifecycle"
+	"github.com/ikeikeikeike/apicube/rpc/mockpb/mock_lifecycle"
+	pb "github.com/ikeikeikeike/apicube/rpc/pb/apicube/lifecycle"
 )
 
 func TestPing(t *testing.T) {

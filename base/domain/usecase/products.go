@@ -8,7 +8,7 @@ import (
 	"github.com/ikeikeikeike/apicube/base/domain/trans"
 	"github.com/ikeikeikeike/apicube/base/util"
 	"github.com/ikeikeikeike/apicube/base/util/logger"
-	pb "github.com/ikeikeikeike/apicube/rpc/protocol/apicube/product"
+	pb "github.com/ikeikeikeike/apicube/rpc/pb/apicube/product"
 )
 
 type (
