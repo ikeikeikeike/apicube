@@ -10,6 +10,7 @@ import (
 	"github.com/pkg/errors"
 
 	"github.com/ikeikeikeike/apicube/base/domain/usecase"
+	"github.com/ikeikeikeike/apicube/base/util/logger"
 	pb "github.com/ikeikeikeike/apicube/rpc/pb/apicube/product"
 )
 
@@ -18,7 +19,12 @@ type productService struct {
 }
 
 func (p *productService) ListSimilars(ctx context.Context, req *pb.ListSimilarsRequest) (*pb.ListSimilarsResponse, error) {
-	return p.similars(req)
+	r, err := p.similars(req)
+	if err != nil {
+		logger.Errorf("%v", err)
+	}
+
+	return r, err
 }
 
 // similars makes sure any middleware connection established

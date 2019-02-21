@@ -72,13 +72,16 @@ var DTBProductTagWhere = struct {
 // DTBProductTagRels is where relationship names are stored.
 var DTBProductTagRels = struct {
 	Product string
+	Tag     string
 }{
 	Product: "Product",
+	Tag:     "Tag",
 }
 
 // dtbProductTagR is where relationships are stored.
 type dtbProductTagR struct {
 	Product *DTBProduct
+	Tag     *DTBTag
 }
 
 // NewStruct creates a new relationship struct
@@ -385,6 +388,20 @@ func (o *DTBProductTag) Product(mods ...qm.QueryMod) dtbProductQuery {
 	return query
 }
 
+// Tag pointed to by the foreign key.
+func (o *DTBProductTag) Tag(mods ...qm.QueryMod) dtbTagQuery {
+	queryMods := []qm.QueryMod{
+		qm.Where("id=?", o.TagID),
+	}
+
+	queryMods = append(queryMods, mods...)
+
+	query := DTBTags(queryMods...)
+	queries.SetFrom(query.Query, "`dtb_tag`")
+
+	return query
+}
+
 // LoadProduct allows an eager lookup of values, cached into the
 // loaded structs of the objects. This is for an N-1 relationship.
 func (dtbProductTagL) LoadProduct(ctx context.Context, e boil.ContextExecutor, singular bool, maybeDTBProductTag interface{}, mods queries.Applicator) error {
@@ -490,6 +507,111 @@ func (dtbProductTagL) LoadProduct(ctx context.Context, e boil.ContextExecutor, s
 	return nil
 }
 
+// LoadTag allows an eager lookup of values, cached into the
+// loaded structs of the objects. This is for an N-1 relationship.
+func (dtbProductTagL) LoadTag(ctx context.Context, e boil.ContextExecutor, singular bool, maybeDTBProductTag interface{}, mods queries.Applicator) error {
+	var slice []*DTBProductTag
+	var object *DTBProductTag
+
+	if singular {
+		object = maybeDTBProductTag.(*DTBProductTag)
+	} else {
+		slice = *maybeDTBProductTag.(*[]*DTBProductTag)
+	}
+
+	args := make([]interface{}, 0, 1)
+	if singular {
+		if object.R == nil {
+			object.R = &dtbProductTagR{}
+		}
+		if !queries.IsNil(object.TagID) {
+			args = append(args, object.TagID)
+		}
+
+	} else {
+	Outer:
+		for _, obj := range slice {
+			if obj.R == nil {
+				obj.R = &dtbProductTagR{}
+			}
+
+			for _, a := range args {
+				if queries.Equal(a, obj.TagID) {
+					continue Outer
+				}
+			}
+
+			if !queries.IsNil(obj.TagID) {
+				args = append(args, obj.TagID)
+			}
+
+		}
+	}
+
+	if len(args) == 0 {
+		return nil
+	}
+
+	query := NewQuery(qm.From(`dtb_tag`), qm.WhereIn(`id in ?`, args...))
+	if mods != nil {
+		mods.Apply(query)
+	}
+
+	results, err := query.QueryContext(ctx, e)
+	if err != nil {
+		return errors.Wrap(err, "failed to eager load DTBTag")
+	}
+
+	var resultSlice []*DTBTag
+	if err = queries.Bind(results, &resultSlice); err != nil {
+		return errors.Wrap(err, "failed to bind eager loaded slice DTBTag")
+	}
+
+	if err = results.Close(); err != nil {
+		return errors.Wrap(err, "failed to close results of eager load for dtb_tag")
+	}
+	if err = results.Err(); err != nil {
+		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for dtb_tag")
+	}
+
+	if len(dtbProductTagAfterSelectHooks) != 0 {
+		for _, obj := range resultSlice {
+			if err := obj.doAfterSelectHooks(ctx, e); err != nil {
+				return err
+			}
+		}
+	}
+
+	if len(resultSlice) == 0 {
+		return nil
+	}
+
+	if singular {
+		foreign := resultSlice[0]
+		object.R.Tag = foreign
+		if foreign.R == nil {
+			foreign.R = &dtbTagR{}
+		}
+		foreign.R.TagDTBProductTags = append(foreign.R.TagDTBProductTags, object)
+		return nil
+	}
+
+	for _, local := range slice {
+		for _, foreign := range resultSlice {
+			if queries.Equal(local.TagID, foreign.ID) {
+				local.R.Tag = foreign
+				if foreign.R == nil {
+					foreign.R = &dtbTagR{}
+				}
+				foreign.R.TagDTBProductTags = append(foreign.R.TagDTBProductTags, local)
+				break
+			}
+		}
+	}
+
+	return nil
+}
+
 // SetProduct of the dtbProductTag to the related item.
 // Sets o.R.Product to related.
 // Adds o to related.R.ProductDTBProductTags.
@@ -563,6 +685,84 @@ func (o *DTBProductTag) RemoveProduct(ctx context.Context, exec boil.ContextExec
 			related.R.ProductDTBProductTags[i] = related.R.ProductDTBProductTags[ln-1]
 		}
 		related.R.ProductDTBProductTags = related.R.ProductDTBProductTags[:ln-1]
+		break
+	}
+	return nil
+}
+
+// SetTag of the dtbProductTag to the related item.
+// Sets o.R.Tag to related.
+// Adds o to related.R.TagDTBProductTags.
+func (o *DTBProductTag) SetTag(ctx context.Context, exec boil.ContextExecutor, insert bool, related *DTBTag) error {
+	var err error
+	if insert {
+		if err = related.Insert(ctx, exec, boil.Infer()); err != nil {
+			return errors.Wrap(err, "failed to insert into foreign table")
+		}
+	}
+
+	updateQuery := fmt.Sprintf(
+		"UPDATE `dtb_product_tag` SET %s WHERE %s",
+		strmangle.SetParamNames("`", "`", 0, []string{"tag_id"}),
+		strmangle.WhereClause("`", "`", 0, dtbProductTagPrimaryKeyColumns),
+	)
+	values := []interface{}{related.ID, o.ID}
+
+	if boil.DebugMode {
+		fmt.Fprintln(boil.DebugWriter, updateQuery)
+		fmt.Fprintln(boil.DebugWriter, values)
+	}
+
+	if _, err = exec.ExecContext(ctx, updateQuery, values...); err != nil {
+		return errors.Wrap(err, "failed to update local table")
+	}
+
+	queries.Assign(&o.TagID, related.ID)
+	if o.R == nil {
+		o.R = &dtbProductTagR{
+			Tag: related,
+		}
+	} else {
+		o.R.Tag = related
+	}
+
+	if related.R == nil {
+		related.R = &dtbTagR{
+			TagDTBProductTags: DTBProductTagSlice{o},
+		}
+	} else {
+		related.R.TagDTBProductTags = append(related.R.TagDTBProductTags, o)
+	}
+
+	return nil
+}
+
+// RemoveTag relationship.
+// Sets o.R.Tag to nil.
+// Removes o from all passed in related items' relationships struct (Optional).
+func (o *DTBProductTag) RemoveTag(ctx context.Context, exec boil.ContextExecutor, related *DTBTag) error {
+	var err error
+
+	queries.SetScanner(&o.TagID, nil)
+	if _, err = o.Update(ctx, exec, boil.Whitelist("tag_id")); err != nil {
+		return errors.Wrap(err, "failed to update local table")
+	}
+
+	o.R.Tag = nil
+	if related == nil || related.R == nil {
+		return nil
+	}
+
+	for i, ri := range related.R.TagDTBProductTags {
+		if queries.Equal(o.TagID, ri.TagID) {
+			continue
+		}
+
+		ln := len(related.R.TagDTBProductTags)
+		if ln > 1 && i < ln-1 {
+			related.R.TagDTBProductTags[i] = related.R.TagDTBProductTags[ln-1]
+		}
+		related.R.TagDTBProductTags = related.R.TagDTBProductTags[:ln-1]
 		break
 	}
 	return nil

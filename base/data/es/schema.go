@@ -121,6 +121,9 @@ const (
         "id": {
           "type": "long"
         },
+        "product_status_id": {
+          "type": "long"
+        },
 		` + /* Hybrid search between name, name_kana, name_anything */ `
         "name": {
           "type": "text",

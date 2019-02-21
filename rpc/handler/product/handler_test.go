@@ -20,8 +20,8 @@ func TestListSimilars(t *testing.T) {
 	client.EXPECT().ListSimilars(
 		gomock.Any(),
 		&pb.ListSimilarsRequest{
-			Parent: "products",
-			Name:   "name-of-product",
+			P:    "products",
+			Name: "name-of-product",
 		},
 	).Return(&pb.ListSimilarsResponse{
 		Products: products,
@@ -32,8 +32,8 @@ func TestListSimilars(t *testing.T) {
 	resp, err := client.ListSimilars(
 		context.Background(),
 		&pb.ListSimilarsRequest{
-			Parent: "products",
-			Name:   "name-of-product",
+			P:    "products",
+			Name: "name-of-product",
 		},
 	)
 	if err != nil && resp.Products != nil && len(resp.Products) == 2 {

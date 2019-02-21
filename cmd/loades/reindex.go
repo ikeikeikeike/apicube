@@ -114,7 +114,7 @@ func (ri *reindex) dataMigrate(ctx context.Context, name string) error {
 }
 
 func (ri *reindex) migrateBy(ctx context.Context, name string, upsert func(ctx context.Context, m *model.DTBProduct) error) error {
-	products, err := ri.RepoDTBProducts.All(ctx)
+	products, err := ri.RepoDTBProducts.ListPublic(ctx)
 	if err != nil {
 		return errors.Wrap(err, "couldnt get products from database")
 	}

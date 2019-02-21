@@ -29,7 +29,7 @@ var _ = runtime.String
 var _ = utilities.NewDoubleArray
 
 var (
-	filter_ProductService_ListSimilars_0 = &utilities.DoubleArray{Encoding: map[string]int{"parent": 0, "name": 1}, Base: []int{1, 1, 2, 0, 0}, Check: []int{0, 1, 1, 2, 3}}
+	filter_ProductService_ListSimilars_0 = &utilities.DoubleArray{Encoding: map[string]int{"p": 0, "name": 1}, Base: []int{1, 1, 2, 0, 0}, Check: []int{0, 1, 1, 2, 3}}
 )
 
 func request_ProductService_ListSimilars_0(ctx context.Context, marshaler runtime.Marshaler, client ProductServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -43,15 +43,15 @@ func request_ProductService_ListSimilars_0(ctx context.Context, marshaler runtim
 		_   = err
 	)
 
-	val, ok = pathParams["parent"]
+	val, ok = pathParams["p"]
 	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "parent")
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "p")
 	}
 
-	protoReq.Parent, err = runtime.String(val)
+	protoReq.P, err = runtime.String(val)
 
 	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "parent", err)
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "p", err)
 	}
 
 	val, ok = pathParams["name"]
@@ -136,7 +136,7 @@ func RegisterProductServiceHandlerClient(ctx context.Context, mux *runtime.Serve
 }
 
 var (
-	pattern_ProductService_ListSimilars_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 2, 5, 2, 1, 0, 4, 1, 5, 3, 2, 4}, []string{"v1", "products", "parent", "name", "similars"}, ""))
+	pattern_ProductService_ListSimilars_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 4, 1, 5, 2, 1, 0, 4, 1, 5, 3, 2, 4}, []string{"v1", "products", "p", "name", "similars"}, ""))
 )
 
 var (

@@ -13,11 +13,17 @@ import (
 type (
 	// DTBProducts manifests api interface
 	DTBProducts interface {
+		// Find ...
 		Find(context.Context, uint) (*model.DTBProduct, error)
 		FindBy(context.Context, []qm.QueryMod, ...string) (*model.DTBProduct, error)
 		FindPreload(context.Context, uint, ...string) (*model.DTBProduct, error)
-		All(context.Context) (model.DTBProductSlice, error)                   // All returns sort ordered records
-		AllPreload(context.Context, ...string) (model.DTBProductSlice, error) // All with relation(child) recorrd returns sort ordered records
+		// List ...
+		ListBy(ctx context.Context, where []qm.QueryMod, loads ...string) (model.DTBProductSlice, error)
+		ListPublic(ctx context.Context, loads ...string) (model.DTBProductSlice, error)
+		ListPrivate(ctx context.Context, loads ...string) (model.DTBProductSlice, error)
+		// All returns sort ordered records
+		All(context.Context) (model.DTBProductSlice, error)
+		AllPreload(context.Context, ...string) (model.DTBProductSlice, error)
 		Exists(context.Context, uint) (bool, error)
 	}
 
@@ -47,9 +53,41 @@ func (r *dtbProducts) FindPreload(ctx context.Context, id uint, loads ...string)
 	return model.DTBProducts(preload(id, loads...)...).One(ctx, r.DB)
 }
 
+// ListPublic is retriver
+func (r *dtbProducts) ListPublic(ctx context.Context, loads ...string) (model.DTBProductSlice, error) {
+	where := []qm.QueryMod{ProductPublic, DescOrder}
+	mods, err := preloadBy(where, loads...)
+	if err != nil {
+		return nil, err
+	}
+
+	return model.DTBProducts(mods...).All(ctx, r.DB)
+}
+
+// ListPrivate is retriver
+func (r *dtbProducts) ListPrivate(ctx context.Context, loads ...string) (model.DTBProductSlice, error) {
+	where := []qm.QueryMod{ProductPrivate, DescOrder}
+	mods, err := preloadBy(where, loads...)
+	if err != nil {
+		return nil, err
+	}
+
+	return model.DTBProducts(mods...).All(ctx, r.DB)
+}
+
+// ListBy is retriver with eager preloading
+func (r *dtbProducts) ListBy(ctx context.Context, where []qm.QueryMod, loads ...string) (model.DTBProductSlice, error) {
+	mods, err := preloadBy(where, loads...)
+	if err != nil {
+		return nil, err
+	}
+
+	return model.DTBProducts(append(mods, DescOrder)...).All(ctx, r.DB)
+}
+
 // All returns sort ordered records
 func (r *dtbProducts) All(ctx context.Context) (model.DTBProductSlice, error) {
-	return model.DTBProducts(qm.OrderBy("id ASC")).All(ctx, r.DB)
+	return model.DTBProducts(DescOrder).All(ctx, r.DB)
 }
 
 // AllPreload returns sort ordered records

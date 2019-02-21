@@ -11,6 +11,17 @@ const (
 	dbFormat = "2006-01-02 15:04:05"
 )
 
+var (
+	// AscOrder defines ORDER BY query as ascending
+	AscOrder = qm.OrderBy("id ASC")
+	// DescOrder defines ORDER BY query as descending
+	DescOrder = qm.OrderBy("id DESC")
+	// ProductPublic defines WHERE query
+	ProductPublic = qm.Where("product_status_id = ?", 1)
+	// ProductPrivate defines WHERE query
+	ProductPrivate = qm.Where("product_status_id = ?", 2)
+)
+
 // XXX: this is so fuzzzy
 func fuzzy(v interface{}, arr []interface{}) bool {
 	for _, i := range arr {

@@ -56,15 +56,6 @@ var DTBProductImageColumns = struct {
 
 // Generated where
 
-type whereHelperuint16 struct{ field string }
-
-func (w whereHelperuint16) EQ(x uint16) qm.QueryMod  { return qmhelper.Where(w.field, qmhelper.EQ, x) }
-func (w whereHelperuint16) NEQ(x uint16) qm.QueryMod { return qmhelper.Where(w.field, qmhelper.NEQ, x) }
-func (w whereHelperuint16) LT(x uint16) qm.QueryMod  { return qmhelper.Where(w.field, qmhelper.LT, x) }
-func (w whereHelperuint16) LTE(x uint16) qm.QueryMod { return qmhelper.Where(w.field, qmhelper.LTE, x) }
-func (w whereHelperuint16) GT(x uint16) qm.QueryMod  { return qmhelper.Where(w.field, qmhelper.GT, x) }
-func (w whereHelperuint16) GTE(x uint16) qm.QueryMod { return qmhelper.Where(w.field, qmhelper.GTE, x) }
-
 var DTBProductImageWhere = struct {
 	ID                whereHelperuint
 	ProductID         whereHelpernull_Uint

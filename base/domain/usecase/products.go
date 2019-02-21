@@ -43,21 +43,25 @@ func (p *products) ESUpsert(m *model.DTBProduct) error {
 // Similars gets similar products
 //
 func (p *products) Similars(req *pb.ListSimilarsRequest) (*pb.ListSimilarsResponse, error) {
-	items, err := p.ESProducts.Similars(req.Name)
+	uids, err := p.ESProducts.Similars(req.Name)
+	if err != nil {
+		return nil, errors.Wrap(err, "esproducts similarls")
+	}
+	items, err := p.Trans.IDsToDBs(uids...)
 	if err != nil {
 		return nil, errors.Wrap(err, "esproducts similarls")
 	}
 
-	products := make([]*pb.Product, len(items))
+	msgs := make([]*pb.Product, len(items))
 	for i, item := range items {
-		product, err := p.Trans.ESToPB(item)
+		msg, err := p.Trans.DBToPB(item)
 		if err != nil {
 			logger.Warnf("esupsert translate: %s", err)
 			continue
 		}
 
-		products[i] = product
+		msgs[i] = msg
 	}
 
-	return &pb.ListSimilarsResponse{Products: products}, nil
+	return &pb.ListSimilarsResponse{Products: msgs}, nil
 }
