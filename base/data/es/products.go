@@ -18,7 +18,7 @@ type (
 	// Products manifests ...
 	Products interface {
 		Upsert(*ProductsSchema) error
-		Similars(name string) ([]uint, error)
+		Similars(string) ([]uint, error)
 	}
 
 	products struct {
@@ -64,6 +64,7 @@ func (e *products) Similars(wd string) ([]uint, error) {
 
 	s := fmt.Sprintf(`{
       "_source": ["_id"],
+      "min_score": 0.1,
       "query": {
         "bool": {
           "should": [

@@ -14,15 +14,19 @@
     # }
 
 curl -H "Content-Type: application/json" -XPOST 'http://localhost:9200/products/products/_search?pretty=true' -d '{
-    "query": {
-      "bool": {
-          "should": [
-                {"terms": {"name": ["アイス"] }},
-                {"terms": {"name_ruby": ["チェリーアイスサンド"] }},
-                {"terms": {"name_anything" : ["チェリーアイスサンド"]}},
-                {"terms": {"description_detail": ["アイス"] }},
-                {"terms": {"search_word": ["アイス"] }}
-          ]
-      }
+  "min_score": 0.1,
+  "query": {
+    "bool": {
+      "should": [
+        { "terms": { "name": ["チョコレート"] }},
+        { "terms": { "name_ruby": ["チョコレート"] }},
+        { "terms": { "name_anything" : ["チョコレート"]}},
+        { "terms": { "description_detail": ["チョコレート"] }},
+        { "terms": { "search_word": ["チョコレート"] }}
+      ],
+      "filter": [
+        { "terms": { "product_status_id": [1] }}
+      ]
     }
+  }
 }'
