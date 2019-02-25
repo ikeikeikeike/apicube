@@ -12,6 +12,9 @@ const (
 )
 
 var (
+	// ErrExists appears exists a record.
+	ErrExists = errors.New("sql: a record exists")
+
 	// AscOrder defines ORDER BY query as ascending
 	AscOrder = qm.OrderBy("id ASC")
 	// DescOrder defines ORDER BY query as descending

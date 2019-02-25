@@ -17,8 +17,8 @@ import (
 type (
 	// Products manifests ...
 	Products interface {
-		Upsert(*ProductsSchema) error
-		Similars(string) ([]uint, error)
+		Upsert(context.Context, *ProductsSchema) error
+		Similars(context.Context, string) ([]uint, error)
 	}
 
 	products struct {
@@ -41,13 +41,13 @@ type (
 	}
 )
 
-func (e *products) Upsert(data *ProductsSchema) error {
+func (e *products) Upsert(ctx context.Context, data *ProductsSchema) error {
 	doc, err := json.Marshal(data)
 	if err != nil {
 		return err
 	}
 
-	ctx, cancel := context.WithTimeout(context.Background(), 1*time.Minute)
+	ctx, cancel := context.WithTimeout(ctx, 1*time.Minute)
 	defer cancel()
 
 	_, err = e.Cmd.PostDocument(ctx, ProductsName, cast.ToInt(data.ID), string(doc))
@@ -59,7 +59,7 @@ func (e *products) Upsert(data *ProductsSchema) error {
 }
 
 // Similars searches similar products
-func (e *products) Similars(wd string) ([]uint, error) {
+func (e *products) Similars(ctx context.Context, wd string) ([]uint, error) {
 	name := ProductsName
 
 	s := fmt.Sprintf(`{
@@ -86,7 +86,6 @@ func (e *products) Similars(wd string) ([]uint, error) {
 		Index(name).Type(name).
 		Source(s)
 
-	ctx := context.Background()
 	ctx, cancel := context.WithTimeout(ctx, 1*time.Minute)
 	defer cancel()
 

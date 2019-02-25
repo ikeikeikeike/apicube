@@ -21,7 +21,7 @@ type (
 	Products interface {
 		DBToES(*model.DTBProduct) (*es.ProductsSchema, error)
 		DBToPB(*model.DTBProduct) (*pb.Product, error)
-		IDsToDBs(...uint) ([]*model.DTBProduct, error)
+		IDsToDBs(context.Context, ...uint) ([]*model.DTBProduct, error)
 	}
 
 	products struct {
@@ -56,8 +56,8 @@ func (t *products) DBToPB(m *model.DTBProduct) (*pb.Product, error) {
 }
 
 // IDsToDBs translates to records with keep sort order
-func (t *products) IDsToDBs(uids ...uint) ([]*model.DTBProduct, error) {
-	ctx, cancel := context.WithTimeout(context.TODO(), time.Minute)
+func (t *products) IDsToDBs(ctx context.Context, uids ...uint) ([]*model.DTBProduct, error) {
+	ctx, cancel := context.WithTimeout(ctx, time.Minute)
 	defer cancel()
 
 	args := make([]interface{}, len(uids))

@@ -2,15 +2,10 @@ package product
 
 import (
 	"context"
-	"database/sql"
-
-	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/status"
-
-	"github.com/pkg/errors"
 
 	"github.com/ikeikeikeike/apicube/base/domain/usecase"
 	"github.com/ikeikeikeike/apicube/base/util/logger"
+	"github.com/ikeikeikeike/apicube/base/util/rpc"
 	pb "github.com/ikeikeikeike/apicube/rpc/pb/apicube/product"
 )
 
@@ -19,7 +14,7 @@ type productService struct {
 }
 
 func (p *productService) ListSimilars(ctx context.Context, req *pb.ListSimilarsRequest) (*pb.ListSimilarsResponse, error) {
-	r, err := p.similars(req)
+	r, err := p.similars(ctx, req)
 	if err != nil {
 		logger.Errorf("%v", err)
 	}
@@ -28,14 +23,10 @@ func (p *productService) ListSimilars(ctx context.Context, req *pb.ListSimilarsR
 }
 
 // similars makes sure any middleware connection established
-func (p *productService) similars(req *pb.ListSimilarsRequest) (*pb.ListSimilarsResponse, error) {
-	msg, err := p.UsecaseProducts.Similars(req)
-
-	if err != nil && errors.Cause(err) == sql.ErrNoRows {
-		return nil, status.Error(codes.NotFound, err.Error())
-	}
-	if err != nil {
-		return nil, status.Error(codes.InvalidArgument, err.Error())
+func (p *productService) similars(ctx context.Context, req *pb.ListSimilarsRequest) (*pb.ListSimilarsResponse, error) {
+	msg, err := p.UsecaseProducts.Similars(ctx, req)
+	if err := rpc.GRPCError(err); err != nil {
+		return nil, err
 	}
 
 	return msg, nil

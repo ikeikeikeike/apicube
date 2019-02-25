@@ -1,6 +1,8 @@
 package usecase
 
 import (
+	"context"
+
 	"github.com/pkg/errors"
 
 	"github.com/ikeikeikeike/apicube/base/data/es"
@@ -14,8 +16,8 @@ import (
 type (
 	// Products manifests ...
 	Products interface {
-		ESUpsert(*model.DTBProduct) error
-		Similars(*pb.ListSimilarsRequest) (*pb.ListSimilarsResponse, error)
+		ESUpsert(context.Context, *model.DTBProduct) error
+		Similars(context.Context, *pb.ListSimilarsRequest) (*pb.ListSimilarsResponse, error)
 	}
 
 	products struct {
@@ -27,13 +29,13 @@ type (
 
 // Compare returns pb message
 //
-func (p *products) ESUpsert(m *model.DTBProduct) error {
+func (p *products) ESUpsert(ctx context.Context, m *model.DTBProduct) error {
 	data, err := p.Trans.DBToES(m)
 	if err != nil {
 		return errors.Wrap(err, "esupsert translate")
 	}
 
-	if err := p.ESProducts.Upsert(data); err != nil {
+	if err := p.ESProducts.Upsert(ctx, data); err != nil {
 		return errors.Wrap(err, "esupsert upsert")
 	}
 
@@ -42,12 +44,12 @@ func (p *products) ESUpsert(m *model.DTBProduct) error {
 
 // Similars gets similar products
 //
-func (p *products) Similars(req *pb.ListSimilarsRequest) (*pb.ListSimilarsResponse, error) {
-	uids, err := p.ESProducts.Similars(req.Name)
+func (p *products) Similars(ctx context.Context, req *pb.ListSimilarsRequest) (*pb.ListSimilarsResponse, error) {
+	uids, err := p.ESProducts.Similars(ctx, req.Name)
 	if err != nil {
 		return nil, errors.Wrap(err, "esproducts similarls")
 	}
-	items, err := p.Trans.IDsToDBs(uids...)
+	items, err := p.Trans.IDsToDBs(ctx, uids...)
 	if err != nil {
 		return nil, errors.Wrap(err, "esproducts similarls")
 	}

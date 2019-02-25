@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"strings"
 	"sync"
+	"time"
 
 	"github.com/pkg/errors"
 
@@ -143,8 +144,10 @@ func (ri *reindex) migrateBy(ctx context.Context, name string, upsert func(ctx c
 }
 
 func (ri *reindex) upsertProducts(ctx context.Context, m *model.DTBProduct) error {
+	ctx, cancel := context.WithTimeout(ctx, 20*time.Second)
+	defer cancel()
 
-	if err := ri.UsecaseProducts.ESUpsert(m); err != nil {
+	if err := ri.UsecaseProducts.ESUpsert(ctx, m); err != nil {
 		s := "[WARN] failed to upsert to products:"
 		logger.Println(s, m.ID, err)
 	}
