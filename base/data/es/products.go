@@ -18,6 +18,7 @@ type (
 	// Products manifests ...
 	Products interface {
 		Upsert(context.Context, *ProductsSchema) error
+		Delete(context.Context, int) error
 		Similars(context.Context, string) ([]uint, error)
 	}
 
@@ -52,6 +53,17 @@ func (e *products) Upsert(ctx context.Context, data *ProductsSchema) error {
 
 	_, err = e.Cmd.PostDocument(ctx, ProductsName, cast.ToInt(data.ID), string(doc))
 	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (e *products) Delete(ctx context.Context, id int) error {
+	ctx, cancel := context.WithTimeout(ctx, 1*time.Minute)
+	defer cancel()
+
+	if _, err := e.Cmd.DeleteDocument(ctx, ProductsName, id); err != nil {
 		return err
 	}
 

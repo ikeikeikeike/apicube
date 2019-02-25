@@ -17,6 +17,7 @@ type (
 	// Products manifests ...
 	Products interface {
 		ESUpsert(context.Context, *model.DTBProduct) error
+		ESDelete(context.Context, int) error
 		Similars(context.Context, *pb.ListSimilarsRequest) (*pb.ListSimilarsResponse, error)
 	}
 
@@ -27,16 +28,26 @@ type (
 	}
 )
 
-// Compare returns pb message
+// ESUpsert upserts document
 //
 func (p *products) ESUpsert(ctx context.Context, m *model.DTBProduct) error {
 	data, err := p.Trans.DBToES(m)
 	if err != nil {
-		return errors.Wrap(err, "esupsert translate")
+		return errors.Wrap(err, "products esupsert translate")
 	}
 
 	if err := p.ESProducts.Upsert(ctx, data); err != nil {
-		return errors.Wrap(err, "esupsert upsert")
+		return errors.Wrap(err, "products esupsert upsert")
+	}
+
+	return nil
+}
+
+// ESDelete deletes
+//
+func (p *products) ESDelete(ctx context.Context, id int) error {
+	if err := p.ESProducts.Delete(ctx, id); err != nil {
+		return errors.Wrap(err, "products esdelete")
 	}
 
 	return nil
