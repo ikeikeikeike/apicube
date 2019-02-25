@@ -43,7 +43,7 @@ type (
 		FURI string `envconfig:"APICUBE_FURI" default:"file://./storage/data.flac"`
 
 		// BQGSURI is bigquery loader storage
-		BQGSURI string `envconfig:"APICUBE_BQGSURI" default:"gs://inolab-bigquery-development/apicube/table.json"`
+		BQGSURI string `envconfig:"APICUBE_BQGSURI" default:"gs://apicube-bigquery-development/apicube/table.json"`
 
 		// DSN is mysql data source name
 		DSN string `envconfig:"APICUBE_DSN" default:"root:@tcp(127.0.0.1:3306)/apicube?parseTime=true&loc=Asia%2FTokyo"`

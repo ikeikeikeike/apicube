@@ -365,7 +365,7 @@ func (m *Ping) Unmarshal(dAtA []byte) error {
 			}
 			b := dAtA[iNdEx]
 			iNdEx++
-			wire |= (uint64(b) & 0x7F) << shift
+			wire |= uint64(b&0x7F) << shift
 			if b < 0x80 {
 				break
 			}
@@ -393,7 +393,7 @@ func (m *Ping) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				stringLen |= (uint64(b) & 0x7F) << shift
+				stringLen |= uint64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
@@ -403,6 +403,9 @@ func (m *Ping) Unmarshal(dAtA []byte) error {
 				return ErrInvalidLengthPing
 			}
 			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthPing
+			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
@@ -415,6 +418,9 @@ func (m *Ping) Unmarshal(dAtA []byte) error {
 				return err
 			}
 			if skippy < 0 {
+				return ErrInvalidLengthPing
+			}
+			if (iNdEx + skippy) < 0 {
 				return ErrInvalidLengthPing
 			}
 			if (iNdEx + skippy) > l {
@@ -484,8 +490,11 @@ func skipPing(dAtA []byte) (n int, err error) {
 					break
 				}
 			}
-			iNdEx += length
 			if length < 0 {
+				return 0, ErrInvalidLengthPing
+			}
+			iNdEx += length
+			if iNdEx < 0 {
 				return 0, ErrInvalidLengthPing
 			}
 			return iNdEx, nil
@@ -516,6 +525,9 @@ func skipPing(dAtA []byte) (n int, err error) {
 					return 0, err
 				}
 				iNdEx = start + next
+				if iNdEx < 0 {
+					return 0, ErrInvalidLengthPing
+				}
 			}
 			return iNdEx, nil
 		case 4:
