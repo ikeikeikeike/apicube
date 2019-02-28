@@ -35,6 +35,21 @@ func (m *MockProductServiceServer) EXPECT() *MockProductServiceServerMockRecorde
 	return m.recorder
 }
 
+// ListLikes mocks base method
+func (m *MockProductServiceServer) ListLikes(arg0 context.Context, arg1 *product.ListLikesRequest) (*product.ListLikesResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ListLikes", arg0, arg1)
+	ret0, _ := ret[0].(*product.ListLikesResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ListLikes indicates an expected call of ListLikes
+func (mr *MockProductServiceServerMockRecorder) ListLikes(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListLikes", reflect.TypeOf((*MockProductServiceServer)(nil).ListLikes), arg0, arg1)
+}
+
 // ListSimilars mocks base method
 func (m *MockProductServiceServer) ListSimilars(arg0 context.Context, arg1 *product.ListSimilarsRequest) (*product.ListSimilarsResponse, error) {
 	m.ctrl.T.Helper()
@@ -71,6 +86,26 @@ func NewMockProductServiceClient(ctrl *gomock.Controller) *MockProductServiceCli
 // EXPECT returns an object that allows the caller to indicate expected use
 func (m *MockProductServiceClient) EXPECT() *MockProductServiceClientMockRecorder {
 	return m.recorder
+}
+
+// ListLikes mocks base method
+func (m *MockProductServiceClient) ListLikes(arg0 context.Context, arg1 *product.ListLikesRequest, arg2 ...grpc.CallOption) (*product.ListLikesResponse, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{arg0, arg1}
+	for _, a := range arg2 {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "ListLikes", varargs...)
+	ret0, _ := ret[0].(*product.ListLikesResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ListLikes indicates an expected call of ListLikes
+func (mr *MockProductServiceClientMockRecorder) ListLikes(arg0, arg1 interface{}, arg2 ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{arg0, arg1}, arg2...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListLikes", reflect.TypeOf((*MockProductServiceClient)(nil).ListLikes), varargs...)
 }
 
 // ListSimilars mocks base method

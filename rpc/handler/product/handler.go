@@ -22,9 +22,28 @@ func (p *productService) ListSimilars(ctx context.Context, req *pb.ListSimilarsR
 	return r, err
 }
 
+func (p *productService) ListLikes(ctx context.Context, req *pb.ListLikesRequest) (*pb.ListLikesResponse, error) {
+	r, err := p.likes(ctx, req)
+	if err != nil {
+		logger.Errorf("%v", err)
+	}
+
+	return r, err
+}
+
 // similars makes sure any middleware connection established
 func (p *productService) similars(ctx context.Context, req *pb.ListSimilarsRequest) (*pb.ListSimilarsResponse, error) {
 	msg, err := p.UsecaseProducts.Similars(ctx, req)
+	if err := rpc.GRPCError(err); err != nil {
+		return nil, err
+	}
+
+	return msg, nil
+}
+
+// likes makes sure any middleware connection established
+func (p *productService) likes(ctx context.Context, req *pb.ListLikesRequest) (*pb.ListLikesResponse, error) {
+	msg, err := p.UsecaseProducts.Likes(ctx, req)
 	if err := rpc.GRPCError(err); err != nil {
 		return nil, err
 	}

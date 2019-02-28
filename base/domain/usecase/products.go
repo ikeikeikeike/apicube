@@ -19,6 +19,7 @@ type (
 		ESUpsert(context.Context, *model.DTBProduct) error
 		ESDelete(context.Context, int) error
 		Similars(context.Context, *pb.ListSimilarsRequest) (*pb.ListSimilarsResponse, error)
+		Likes(context.Context, *pb.ListLikesRequest) (*pb.ListLikesResponse, error)
 	}
 
 	products struct {
@@ -58,11 +59,11 @@ func (p *products) ESDelete(ctx context.Context, id int) error {
 func (p *products) Similars(ctx context.Context, req *pb.ListSimilarsRequest) (*pb.ListSimilarsResponse, error) {
 	uids, err := p.ESProducts.Similars(ctx, req.Name)
 	if err != nil {
-		return nil, errors.Wrap(err, "esproducts similarls")
+		return nil, errors.Wrap(err, "esproducts similars")
 	}
 	items, err := p.Trans.IDsToDBs(ctx, uids...)
 	if err != nil {
-		return nil, errors.Wrap(err, "esproducts similarls")
+		return nil, errors.Wrap(err, "esproducts similars")
 	}
 
 	msgs := make([]*pb.Product, len(items))
@@ -77,4 +78,30 @@ func (p *products) Similars(ctx context.Context, req *pb.ListSimilarsRequest) (*
 	}
 
 	return &pb.ListSimilarsResponse{Products: msgs}, nil
+}
+
+// Likes gets similar products
+//
+func (p *products) Likes(ctx context.Context, req *pb.ListLikesRequest) (*pb.ListLikesResponse, error) {
+	uids, err := p.ESProducts.Likes(ctx, req.Name)
+	if err != nil {
+		return nil, errors.Wrap(err, "esproducts more like this")
+	}
+	items, err := p.Trans.IDsToDBs(ctx, uids...)
+	if err != nil {
+		return nil, errors.Wrap(err, "esproducts more like this")
+	}
+
+	msgs := make([]*pb.Product, len(items))
+	for i, item := range items {
+		msg, err := p.Trans.DBToPB(item)
+		if err != nil {
+			logger.Warnf("esupsert translate: %s", err)
+			continue
+		}
+
+		msgs[i] = msg
+	}
+
+	return &pb.ListLikesResponse{Products: msgs}, nil
 }

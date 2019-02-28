@@ -42,3 +42,36 @@ func TestListSimilars(t *testing.T) {
 
 	t.Log("Reply : ", resp)
 }
+
+func TestListLikes(t *testing.T) {
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+
+	client := mock_product.NewMockProductServiceClient(ctrl)
+	products := []*pb.Product{{Name: "1"}, {Name: "2"}}
+
+	client.EXPECT().ListLikes(
+		gomock.Any(),
+		&pb.ListLikesRequest{
+			P:    "products",
+			Name: "name-of-product",
+		},
+	).Return(&pb.ListLikesResponse{
+		Products: products,
+	}, nil)
+
+	t.Helper()
+
+	resp, err := client.ListLikes(
+		context.Background(),
+		&pb.ListLikesRequest{
+			P:    "products",
+			Name: "name-of-product",
+		},
+	)
+	if err != nil && resp.Products != nil && len(resp.Products) == 2 {
+		t.Errorf("mocking failed")
+	}
+
+	t.Log("Reply : ", resp)
+}

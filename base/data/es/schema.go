@@ -128,6 +128,7 @@ const (
         "name": {
           "type": "text",
           "boost": 4,
+          "term_vector": "yes",
           "analyzer": "ja_analyzer"
         },
         "name_ruby": {
@@ -146,6 +147,7 @@ const (
         "description_detail": {
           "type": "text",
           "boost": 4,
+          "term_vector": "yes",
           "analyzer": "ja_analyzer"
         },
         "search_word": {

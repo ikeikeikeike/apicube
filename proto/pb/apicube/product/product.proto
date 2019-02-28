@@ -31,6 +31,12 @@ service ProductService {
         get: "/v1/{p=products}/{name}/similars"
     };
   }
+
+  rpc ListLikes(ListLikesRequest) returns (ListLikesResponse) {
+    option (google.api.http) = {
+        get: "/v1/{p=products}/{name}/more-like-this"
+    };
+  }
 }
 
 message Product {
@@ -52,6 +58,19 @@ message ListSimilarsRequest {
 }
 
 message ListSimilarsResponse {
+  repeated Product products = 1;
+  string   next_page_token  = 2;
+}
+
+message ListLikesRequest {
+  string name       = 1 [(validator.field) = {string_not_empty: true}];
+  int32  page_size  = 2; // The maximum number of items to return.
+  string page_token = 3; // The next_page_token value returned from a previous List request, if any.
+
+  string p          = 100;
+}
+
+message ListLikesResponse {
   repeated Product products = 1;
   string   next_page_token  = 2;
 }

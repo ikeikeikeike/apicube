@@ -137,6 +137,11 @@ check-completely:  ## Golang completely all of style checking
 		echo "^ gometalinter completely check errors!" && echo && exit 1; \
 	fi
 
+reindex_products:  ## Reindex products
+	go run cmd/loades/*.go -idxname products reindex
+
+reindex: | reindex_products  ## Reindex all of task
+
 help:  ## Show all of tasks
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
@@ -159,4 +164,6 @@ help:  ## Show all of tasks
 	check-completely \
 	gogo \
 	go-proto-validators \
+	reindex \
+	reindex_products \
 	modelgen

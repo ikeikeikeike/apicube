@@ -20,6 +20,7 @@ type (
 		Upsert(context.Context, *ProductsSchema) error
 		Delete(context.Context, int) error
 		Similars(context.Context, string) ([]uint, error)
+		Likes(context.Context, string) ([]uint, error)
 	}
 
 	products struct {
@@ -112,6 +113,70 @@ func (e *products) Similars(ctx context.Context, wd string) ([]uint, error) {
 	results, ok := rs.Values().(*elastic.SearchResult)
 	if !ok {
 		return nil, errors.New("Similars: cast *SearchResult")
+	}
+
+	uids := make([]uint, len(results.Hits.Hits))
+	for i, hit := range results.Hits.Hits {
+		uids[i] = cast.ToUint(hit.Id)
+	}
+
+	return uids, nil
+}
+
+// Likes searches similar products
+//
+// https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-mlt-query.html#_parameters_9
+//
+// parmas:
+//
+//  max_query_terms
+//  min_term_freq
+//  min_doc_freq
+//  min_word_length
+//  stop_words
+//
+//
+func (e *products) Likes(ctx context.Context, wd string) ([]uint, error) {
+	name := ProductsName
+
+	s := fmt.Sprintf(`{
+      "_source": ["_id"],
+      "query": {
+        "bool": {
+          "must": {
+            "more_like_this" : {
+                "fields" : ["name", "description_detail"],
+                "like" : "%s",
+                "min_term_freq": 1,
+                "min_doc_freq": 1
+            }
+          },
+          "filter": [
+            { "terms": { "product_status_id": [1] }}
+          ]
+        }
+      }
+    }`, wd)
+
+	search := e.ES.Search().
+		Pretty(e.Env.IsDebug()).
+		Index(name).Type(name).
+		Source(s)
+
+	ctx, cancel := context.WithTimeout(ctx, 1*time.Minute)
+	defer cancel()
+
+	rs, err := e.Cmd.Search(ctx, search)
+	if err != nil {
+		return nil, errors.Wrap(err, "MLT failed")
+	}
+	if rs.Err != nil {
+		return nil, errors.Wrap(rs.Err, "MLT failed")
+	}
+
+	results, ok := rs.Values().(*elastic.SearchResult)
+	if !ok {
+		return nil, errors.New("MLT: cast *SearchResult")
 	}
 
 	uids := make([]uint, len(results.Hits.Hits))

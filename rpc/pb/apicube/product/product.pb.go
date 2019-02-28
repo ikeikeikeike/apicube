@@ -218,48 +218,180 @@ func (m *ListSimilarsResponse) GetNextPageToken() string {
 	return ""
 }
 
+type ListLikesRequest struct {
+	Name                 string   `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	PageSize             int32    `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
+	PageToken            string   `protobuf:"bytes,3,opt,name=page_token,json=pageToken,proto3" json:"page_token,omitempty"`
+	P                    string   `protobuf:"bytes,100,opt,name=p,proto3" json:"p,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *ListLikesRequest) Reset()         { *m = ListLikesRequest{} }
+func (m *ListLikesRequest) String() string { return proto.CompactTextString(m) }
+func (*ListLikesRequest) ProtoMessage()    {}
+func (*ListLikesRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_0cbb7554f344b84c, []int{3}
+}
+func (m *ListLikesRequest) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *ListLikesRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_ListLikesRequest.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalTo(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *ListLikesRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ListLikesRequest.Merge(m, src)
+}
+func (m *ListLikesRequest) XXX_Size() int {
+	return m.Size()
+}
+func (m *ListLikesRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_ListLikesRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ListLikesRequest proto.InternalMessageInfo
+
+func (m *ListLikesRequest) GetName() string {
+	if m != nil {
+		return m.Name
+	}
+	return ""
+}
+
+func (m *ListLikesRequest) GetPageSize() int32 {
+	if m != nil {
+		return m.PageSize
+	}
+	return 0
+}
+
+func (m *ListLikesRequest) GetPageToken() string {
+	if m != nil {
+		return m.PageToken
+	}
+	return ""
+}
+
+func (m *ListLikesRequest) GetP() string {
+	if m != nil {
+		return m.P
+	}
+	return ""
+}
+
+type ListLikesResponse struct {
+	Products             []*Product `protobuf:"bytes,1,rep,name=products,proto3" json:"products,omitempty"`
+	NextPageToken        string     `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}   `json:"-"`
+	XXX_unrecognized     []byte     `json:"-"`
+	XXX_sizecache        int32      `json:"-"`
+}
+
+func (m *ListLikesResponse) Reset()         { *m = ListLikesResponse{} }
+func (m *ListLikesResponse) String() string { return proto.CompactTextString(m) }
+func (*ListLikesResponse) ProtoMessage()    {}
+func (*ListLikesResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_0cbb7554f344b84c, []int{4}
+}
+func (m *ListLikesResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *ListLikesResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_ListLikesResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalTo(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *ListLikesResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ListLikesResponse.Merge(m, src)
+}
+func (m *ListLikesResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *ListLikesResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_ListLikesResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ListLikesResponse proto.InternalMessageInfo
+
+func (m *ListLikesResponse) GetProducts() []*Product {
+	if m != nil {
+		return m.Products
+	}
+	return nil
+}
+
+func (m *ListLikesResponse) GetNextPageToken() string {
+	if m != nil {
+		return m.NextPageToken
+	}
+	return ""
+}
+
 func init() {
 	proto.RegisterType((*Product)(nil), "apicube.product.Product")
 	proto.RegisterType((*ListSimilarsRequest)(nil), "apicube.product.ListSimilarsRequest")
 	proto.RegisterType((*ListSimilarsResponse)(nil), "apicube.product.ListSimilarsResponse")
+	proto.RegisterType((*ListLikesRequest)(nil), "apicube.product.ListLikesRequest")
+	proto.RegisterType((*ListLikesResponse)(nil), "apicube.product.ListLikesResponse")
 }
 
 func init() { proto.RegisterFile("apicube/product/product.proto", fileDescriptor_0cbb7554f344b84c) }
 
 var fileDescriptor_0cbb7554f344b84c = []byte{
-	// 512 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x84, 0x51, 0x3f, 0x6f, 0xd3, 0x4e,
-	0x18, 0xd6, 0xb9, 0xfd, 0xa5, 0xed, 0x35, 0x3f, 0x2a, 0x8e, 0x0e, 0x56, 0x9a, 0xba, 0x91, 0x05,
-	0x28, 0x4b, 0x7d, 0x22, 0xad, 0xba, 0xb1, 0x44, 0x5d, 0x2a, 0x18, 0x22, 0x1b, 0x21, 0xc4, 0x12,
-	0x5d, 0xec, 0xc3, 0x9c, 0xea, 0xf8, 0x8e, 0xbb, 0x73, 0x82, 0x1a, 0x75, 0x41, 0xe2, 0x13, 0xb0,
-	0xf0, 0x0d, 0xe0, 0x23, 0x30, 0x32, 0x32, 0x22, 0xb1, 0xf3, 0xc7, 0xe2, 0x43, 0x30, 0x22, 0x9f,
-	0xcf, 0x51, 0xa0, 0x95, 0x98, 0xfc, 0xfa, 0xf9, 0xa3, 0xe7, 0x79, 0xdf, 0x83, 0xfb, 0x44, 0xb0,
-	0xb8, 0x98, 0x50, 0x2c, 0x24, 0x4f, 0x8a, 0x58, 0x37, 0xdf, 0x40, 0x48, 0xae, 0x39, 0xda, 0xb1,
-	0x74, 0x60, 0xe1, 0x4e, 0x37, 0xe5, 0x3c, 0xcd, 0x28, 0x26, 0x82, 0x61, 0x92, 0xe7, 0x5c, 0x13,
-	0xcd, 0x78, 0xae, 0x6a, 0x79, 0xc7, 0xb3, 0xac, 0xf9, 0x9b, 0x14, 0xcf, 0xf0, 0x5c, 0x12, 0x21,
-	0xa8, 0x6c, 0xf8, 0xdd, 0x94, 0xa7, 0xdc, 0x8c, 0xb8, 0x9a, 0x2c, 0x7a, 0x92, 0x32, 0xfd, 0xbc,
-	0x98, 0x04, 0x31, 0x9f, 0xe2, 0xe9, 0x9c, 0xe9, 0x73, 0x3e, 0xc7, 0x29, 0x3f, 0x34, 0xe4, 0xe1,
-	0x8c, 0x64, 0x2c, 0x21, 0x9a, 0x4b, 0x85, 0x97, 0x63, 0xed, 0xf3, 0xdf, 0x01, 0xb8, 0x31, 0xaa,
-	0x7b, 0xa1, 0x23, 0xe8, 0xb0, 0xc4, 0x05, 0x3d, 0xd0, 0xdf, 0x1e, 0xec, 0x05, 0x75, 0x8d, 0xa0,
-	0xa9, 0x11, 0x9c, 0xe5, 0xfa, 0xe4, 0xf8, 0x31, 0xc9, 0x0a, 0x3a, 0x6c, 0x95, 0x5f, 0x0f, 0x9c,
-	0xb3, 0xd3, 0xd0, 0x61, 0x09, 0xea, 0xc0, 0xf5, 0x9c, 0x4c, 0xa9, 0xeb, 0xf4, 0x40, 0x7f, 0x6b,
-	0xd8, 0x2a, 0xbf, 0x1d, 0x38, 0x4f, 0x40, 0x68, 0x30, 0xf4, 0x00, 0xa2, 0x84, 0xaa, 0x58, 0x32,
-	0x51, 0x2d, 0x38, 0x4e, 0xa8, 0x26, 0x2c, 0x73, 0xd7, 0x4d, 0x40, 0xf7, 0x4a, 0x40, 0xa4, 0x25,
-	0xcb, 0x53, 0x93, 0x10, 0xde, 0x5c, 0xf1, 0x9d, 0x1a, 0x9b, 0xbf, 0x80, 0xb7, 0x1e, 0x32, 0xa5,
-	0x23, 0x36, 0x65, 0x19, 0x91, 0x2a, 0xa4, 0x2f, 0x0a, 0xaa, 0xf4, 0x32, 0x1f, 0x5c, 0x93, 0xbf,
-	0x07, 0xb7, 0x04, 0x49, 0xe9, 0x58, 0xb1, 0x8b, 0xba, 0xe0, 0x7f, 0xe1, 0x66, 0x05, 0x44, 0xec,
-	0x82, 0xa2, 0x7d, 0x08, 0x0d, 0xa9, 0xf9, 0x39, 0xcd, 0xdd, 0xb5, 0xca, 0x1e, 0x1a, 0xf9, 0xa3,
-	0x0a, 0x40, 0x6d, 0x08, 0x84, 0x9b, 0x18, 0x14, 0x08, 0x5f, 0xc3, 0xdd, 0x3f, 0xc3, 0x95, 0xe0,
-	0xb9, 0xa2, 0xe8, 0x18, 0x6e, 0xda, 0x57, 0x55, 0x2e, 0xe8, 0xad, 0xf5, 0xb7, 0x07, 0x6e, 0xf0,
-	0xd7, 0x73, 0x07, 0xf6, 0xbc, 0xe1, 0x52, 0x89, 0xee, 0xc2, 0x9d, 0x9c, 0xbe, 0xd4, 0xe3, 0x95,
-	0x7c, 0x73, 0xbe, 0xf0, 0xff, 0x0a, 0x1e, 0x35, 0x1d, 0x06, 0x6f, 0x01, 0xbc, 0x61, 0xdd, 0x11,
-	0x95, 0x33, 0x16, 0x53, 0xf4, 0x1a, 0xc0, 0xf6, 0x6a, 0x13, 0x74, 0xfb, 0x4a, 0xde, 0x35, 0x57,
-	0xea, 0xdc, 0xf9, 0x87, 0xaa, 0x5e, 0xc7, 0xef, 0xbf, 0xfa, 0xf2, 0xf3, 0x8d, 0xe3, 0xa3, 0x1e,
-	0x9e, 0xdd, 0xc3, 0x0b, 0x71, 0xbf, 0x69, 0x7c, 0x89, 0x17, 0xd5, 0x41, 0x2f, 0xb1, 0xb2, 0x8e,
-	0x61, 0xf4, 0xeb, 0x87, 0x07, 0xde, 0x97, 0x1e, 0xf8, 0x50, 0x7a, 0xe0, 0x63, 0xe9, 0x81, 0x4f,
-	0xa5, 0x07, 0x3e, 0x97, 0x1e, 0xf8, 0x5e, 0x7a, 0x00, 0x76, 0xb9, 0x4c, 0x57, 0x13, 0x35, 0x8f,
-	0x79, 0xd6, 0x44, 0x0f, 0xdb, 0x76, 0xa7, 0x51, 0x45, 0x8c, 0xc0, 0xd3, 0x0d, 0x4b, 0x4c, 0x5a,
-	0x46, 0x7a, 0xf4, 0x3b, 0x00, 0x00, 0xff, 0xff, 0xe9, 0x79, 0xbe, 0xa2, 0x51, 0x03, 0x00, 0x00,
+	// 570 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xbc, 0x92, 0x3f, 0x6f, 0xd3, 0x40,
+	0x18, 0xc6, 0x75, 0x6e, 0xe9, 0x9f, 0x6b, 0xa1, 0xf4, 0xe8, 0x60, 0xa5, 0xa9, 0x1b, 0x2c, 0xa8,
+	0xb2, 0xc4, 0x27, 0xd2, 0xaa, 0x1b, 0x4b, 0xd4, 0xa5, 0xa2, 0x43, 0xe4, 0x20, 0x84, 0x58, 0xa2,
+	0x8b, 0x7d, 0xb8, 0xa7, 0x38, 0xbe, 0xab, 0xef, 0x9c, 0x54, 0x8d, 0xba, 0x54, 0xe2, 0x13, 0x30,
+	0x33, 0xc3, 0x47, 0x60, 0x64, 0x64, 0x44, 0x62, 0xe7, 0x8f, 0xc5, 0x87, 0x60, 0x44, 0x3e, 0xdb,
+	0x91, 0xa1, 0x01, 0xb6, 0x4e, 0x3e, 0x3f, 0xcf, 0xfb, 0xfa, 0xf7, 0xbe, 0xcf, 0x19, 0xee, 0x10,
+	0xc1, 0xbc, 0x64, 0x40, 0xb1, 0x88, 0xb9, 0x9f, 0x78, 0xaa, 0x7c, 0x3a, 0x22, 0xe6, 0x8a, 0xa3,
+	0x8d, 0xc2, 0x76, 0x0a, 0xb9, 0x56, 0x0f, 0x38, 0x0f, 0x42, 0x8a, 0x89, 0x60, 0x98, 0x44, 0x11,
+	0x57, 0x44, 0x31, 0x1e, 0xc9, 0xbc, 0xbc, 0x66, 0x15, 0xae, 0x7e, 0x1b, 0x24, 0x2f, 0xf1, 0x24,
+	0x26, 0x42, 0xd0, 0xb8, 0xf4, 0xb7, 0x02, 0x1e, 0x70, 0x7d, 0xc4, 0xd9, 0xa9, 0x50, 0x0f, 0x03,
+	0xa6, 0x4e, 0x93, 0x81, 0xe3, 0xf1, 0x11, 0x1e, 0x4d, 0x98, 0x1a, 0xf2, 0x09, 0x0e, 0x78, 0x4b,
+	0x9b, 0xad, 0x31, 0x09, 0x99, 0x4f, 0x14, 0x8f, 0x25, 0x9e, 0x1d, 0xf3, 0x3e, 0xfb, 0x2d, 0x80,
+	0xcb, 0xdd, 0x7c, 0x2e, 0xb4, 0x0f, 0x0d, 0xe6, 0x9b, 0xa0, 0x01, 0x9a, 0x6b, 0xed, 0x6d, 0x27,
+	0x1f, 0xc3, 0x29, 0xc7, 0x70, 0x8e, 0x23, 0x75, 0x78, 0xf0, 0x8c, 0x84, 0x09, 0xed, 0x2c, 0xa5,
+	0x5f, 0x76, 0x8d, 0xe3, 0x23, 0xd7, 0x60, 0x3e, 0xaa, 0xc1, 0xc5, 0x88, 0x8c, 0xa8, 0x69, 0x34,
+	0x40, 0x73, 0xb5, 0xb3, 0x94, 0x7e, 0xdd, 0x35, 0x9e, 0x03, 0x57, 0x6b, 0xe8, 0x09, 0x44, 0x3e,
+	0x95, 0x5e, 0xcc, 0x44, 0xb6, 0x60, 0xdf, 0xa7, 0x8a, 0xb0, 0xd0, 0x5c, 0xd4, 0x80, 0xfa, 0x35,
+	0x40, 0x4f, 0xc5, 0x2c, 0x0a, 0x34, 0xc1, 0xdd, 0xac, 0xf4, 0x1d, 0xe9, 0x36, 0x7b, 0x0a, 0xef,
+	0x9d, 0x30, 0xa9, 0x7a, 0x6c, 0xc4, 0x42, 0x12, 0x4b, 0x97, 0x9e, 0x25, 0x54, 0xaa, 0x19, 0x1f,
+	0xcc, 0xe1, 0x6f, 0xc3, 0x55, 0x41, 0x02, 0xda, 0x97, 0xec, 0x22, 0x1f, 0xf0, 0x96, 0xbb, 0x92,
+	0x09, 0x3d, 0x76, 0x41, 0xd1, 0x0e, 0x84, 0xda, 0x54, 0x7c, 0x48, 0x23, 0x73, 0x21, 0x6b, 0x77,
+	0x75, 0xf9, 0xd3, 0x4c, 0x40, 0xeb, 0x10, 0x08, 0xd3, 0xd7, 0x2a, 0x10, 0xb6, 0x82, 0x5b, 0xbf,
+	0xc3, 0xa5, 0xe0, 0x91, 0xa4, 0xe8, 0x00, 0xae, 0x14, 0xb7, 0x2a, 0x4d, 0xd0, 0x58, 0x68, 0xae,
+	0xb5, 0x4d, 0xe7, 0x8f, 0xeb, 0x76, 0x8a, 0x78, 0xdd, 0x59, 0x25, 0xda, 0x83, 0x1b, 0x11, 0x3d,
+	0x57, 0xfd, 0x0a, 0x5f, 0xc7, 0xe7, 0xde, 0xce, 0xe4, 0x6e, 0x39, 0x83, 0x7d, 0x0e, 0xef, 0x66,
+	0xd4, 0x13, 0x36, 0xa4, 0x37, 0xbc, 0xef, 0x19, 0xdc, 0xac, 0x90, 0x6f, 0x62, 0xd9, 0xf6, 0x1b,
+	0x03, 0xde, 0x29, 0xba, 0x7b, 0x34, 0x1e, 0x33, 0x8f, 0xa2, 0x57, 0x00, 0xae, 0x57, 0x63, 0x47,
+	0x0f, 0xae, 0xf1, 0xe6, 0xfc, 0x12, 0xb5, 0x87, 0xff, 0xa9, 0xca, 0xd7, 0xb1, 0x9b, 0x57, 0x9f,
+	0x7f, 0xbc, 0x36, 0x6c, 0xd4, 0xc0, 0xe3, 0x47, 0x78, 0x2a, 0x1e, 0x97, 0x13, 0x5f, 0xe2, 0x69,
+	0x96, 0xe6, 0x25, 0x96, 0x25, 0xf6, 0x0a, 0xc0, 0xd5, 0x59, 0x1c, 0xe8, 0xfe, 0xdc, 0xcf, 0x57,
+	0x2f, 0xa9, 0x66, 0xff, 0xab, 0xa4, 0xc0, 0x3b, 0x1a, 0xdf, 0x44, 0x7b, 0x7f, 0xc3, 0x8f, 0x78,
+	0x4c, 0x5b, 0x21, 0x1b, 0xd2, 0x96, 0x3a, 0x65, 0xb2, 0xd3, 0xfb, 0xf9, 0xdd, 0x02, 0xef, 0x52,
+	0x0b, 0xbc, 0x4f, 0x2d, 0xf0, 0x21, 0xb5, 0xc0, 0xc7, 0xd4, 0x02, 0x9f, 0x52, 0x0b, 0x7c, 0x4b,
+	0x2d, 0x00, 0xeb, 0x3c, 0x0e, 0xaa, 0x50, 0xc5, 0x3d, 0x1e, 0x96, 0xf4, 0xce, 0x7a, 0x11, 0x6c,
+	0x37, 0x33, 0xba, 0xe0, 0xc5, 0x72, 0x61, 0x0c, 0x96, 0x74, 0xe9, 0xfe, 0xaf, 0x00, 0x00, 0x00,
+	0xff, 0xff, 0x01, 0x16, 0x21, 0x51, 0xc3, 0x04, 0x00, 0x00,
 }
 
 func (this *Product) Equal(that interface{}) bool {
@@ -366,6 +498,77 @@ func (this *ListSimilarsResponse) Equal(that interface{}) bool {
 	}
 	return true
 }
+func (this *ListLikesRequest) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	that1, ok := that.(*ListLikesRequest)
+	if !ok {
+		that2, ok := that.(ListLikesRequest)
+		if ok {
+			that1 = &that2
+		} else {
+			return false
+		}
+	}
+	if that1 == nil {
+		return this == nil
+	} else if this == nil {
+		return false
+	}
+	if this.Name != that1.Name {
+		return false
+	}
+	if this.PageSize != that1.PageSize {
+		return false
+	}
+	if this.PageToken != that1.PageToken {
+		return false
+	}
+	if this.P != that1.P {
+		return false
+	}
+	if !bytes.Equal(this.XXX_unrecognized, that1.XXX_unrecognized) {
+		return false
+	}
+	return true
+}
+func (this *ListLikesResponse) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	that1, ok := that.(*ListLikesResponse)
+	if !ok {
+		that2, ok := that.(ListLikesResponse)
+		if ok {
+			that1 = &that2
+		} else {
+			return false
+		}
+	}
+	if that1 == nil {
+		return this == nil
+	} else if this == nil {
+		return false
+	}
+	if len(this.Products) != len(that1.Products) {
+		return false
+	}
+	for i := range this.Products {
+		if !this.Products[i].Equal(that1.Products[i]) {
+			return false
+		}
+	}
+	if this.NextPageToken != that1.NextPageToken {
+		return false
+	}
+	if !bytes.Equal(this.XXX_unrecognized, that1.XXX_unrecognized) {
+		return false
+	}
+	return true
+}
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ context.Context
@@ -380,6 +583,7 @@ const _ = grpc.SupportPackageIsVersion4
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type ProductServiceClient interface {
 	ListSimilars(ctx context.Context, in *ListSimilarsRequest, opts ...grpc.CallOption) (*ListSimilarsResponse, error)
+	ListLikes(ctx context.Context, in *ListLikesRequest, opts ...grpc.CallOption) (*ListLikesResponse, error)
 }
 
 type productServiceClient struct {
@@ -399,9 +603,19 @@ func (c *productServiceClient) ListSimilars(ctx context.Context, in *ListSimilar
 	return out, nil
 }
 
+func (c *productServiceClient) ListLikes(ctx context.Context, in *ListLikesRequest, opts ...grpc.CallOption) (*ListLikesResponse, error) {
+	out := new(ListLikesResponse)
+	err := c.cc.Invoke(ctx, "/apicube.product.ProductService/ListLikes", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ProductServiceServer is the server API for ProductService service.
 type ProductServiceServer interface {
 	ListSimilars(context.Context, *ListSimilarsRequest) (*ListSimilarsResponse, error)
+	ListLikes(context.Context, *ListLikesRequest) (*ListLikesResponse, error)
 }
 
 func RegisterProductServiceServer(s *grpc.Server, srv ProductServiceServer) {
@@ -426,6 +640,24 @@ func _ProductService_ListSimilars_Handler(srv interface{}, ctx context.Context, 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ProductService_ListLikes_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListLikesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProductServiceServer).ListLikes(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/apicube.product.ProductService/ListLikes",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProductServiceServer).ListLikes(ctx, req.(*ListLikesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _ProductService_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "apicube.product.ProductService",
 	HandlerType: (*ProductServiceServer)(nil),
@@ -433,6 +665,10 @@ var _ProductService_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListSimilars",
 			Handler:    _ProductService_ListSimilars_Handler,
+		},
+		{
+			MethodName: "ListLikes",
+			Handler:    _ProductService_ListLikes_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
@@ -571,6 +807,91 @@ func (m *ListSimilarsResponse) MarshalTo(dAtA []byte) (int, error) {
 	return i, nil
 }
 
+func (m *ListLikesRequest) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalTo(dAtA)
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *ListLikesRequest) MarshalTo(dAtA []byte) (int, error) {
+	var i int
+	_ = i
+	var l int
+	_ = l
+	if len(m.Name) > 0 {
+		dAtA[i] = 0xa
+		i++
+		i = encodeVarintProduct(dAtA, i, uint64(len(m.Name)))
+		i += copy(dAtA[i:], m.Name)
+	}
+	if m.PageSize != 0 {
+		dAtA[i] = 0x10
+		i++
+		i = encodeVarintProduct(dAtA, i, uint64(m.PageSize))
+	}
+	if len(m.PageToken) > 0 {
+		dAtA[i] = 0x1a
+		i++
+		i = encodeVarintProduct(dAtA, i, uint64(len(m.PageToken)))
+		i += copy(dAtA[i:], m.PageToken)
+	}
+	if len(m.P) > 0 {
+		dAtA[i] = 0xa2
+		i++
+		dAtA[i] = 0x6
+		i++
+		i = encodeVarintProduct(dAtA, i, uint64(len(m.P)))
+		i += copy(dAtA[i:], m.P)
+	}
+	if m.XXX_unrecognized != nil {
+		i += copy(dAtA[i:], m.XXX_unrecognized)
+	}
+	return i, nil
+}
+
+func (m *ListLikesResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalTo(dAtA)
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *ListLikesResponse) MarshalTo(dAtA []byte) (int, error) {
+	var i int
+	_ = i
+	var l int
+	_ = l
+	if len(m.Products) > 0 {
+		for _, msg := range m.Products {
+			dAtA[i] = 0xa
+			i++
+			i = encodeVarintProduct(dAtA, i, uint64(msg.Size()))
+			n, err := msg.MarshalTo(dAtA[i:])
+			if err != nil {
+				return 0, err
+			}
+			i += n
+		}
+	}
+	if len(m.NextPageToken) > 0 {
+		dAtA[i] = 0x12
+		i++
+		i = encodeVarintProduct(dAtA, i, uint64(len(m.NextPageToken)))
+		i += copy(dAtA[i:], m.NextPageToken)
+	}
+	if m.XXX_unrecognized != nil {
+		i += copy(dAtA[i:], m.XXX_unrecognized)
+	}
+	return i, nil
+}
+
 func encodeVarintProduct(dAtA []byte, offset int, v uint64) int {
 	for v >= 1<<7 {
 		dAtA[offset] = uint8(v&0x7f | 0x80)
@@ -626,6 +947,37 @@ func NewPopulatedListSimilarsResponse(r randyProduct, easy bool) *ListSimilarsRe
 	return this
 }
 
+func NewPopulatedListLikesRequest(r randyProduct, easy bool) *ListLikesRequest {
+	this := &ListLikesRequest{}
+	this.Name = string(randStringProduct(r))
+	this.PageSize = int32(r.Int31())
+	if r.Intn(2) == 0 {
+		this.PageSize *= -1
+	}
+	this.PageToken = string(randStringProduct(r))
+	this.P = string(randStringProduct(r))
+	if !easy && r.Intn(10) != 0 {
+		this.XXX_unrecognized = randUnrecognizedProduct(r, 101)
+	}
+	return this
+}
+
+func NewPopulatedListLikesResponse(r randyProduct, easy bool) *ListLikesResponse {
+	this := &ListLikesResponse{}
+	if r.Intn(10) != 0 {
+		v2 := r.Intn(5)
+		this.Products = make([]*Product, v2)
+		for i := 0; i < v2; i++ {
+			this.Products[i] = NewPopulatedProduct(r, easy)
+		}
+	}
+	this.NextPageToken = string(randStringProduct(r))
+	if !easy && r.Intn(10) != 0 {
+		this.XXX_unrecognized = randUnrecognizedProduct(r, 3)
+	}
+	return this
+}
+
 type randyProduct interface {
 	Float32() float32
 	Float64() float64
@@ -645,9 +997,9 @@ func randUTF8RuneProduct(r randyProduct) rune {
 	return rune(ru + 61)
 }
 func randStringProduct(r randyProduct) string {
-	v2 := r.Intn(100)
-	tmps := make([]rune, v2)
-	for i := 0; i < v2; i++ {
+	v3 := r.Intn(100)
+	tmps := make([]rune, v3)
+	for i := 0; i < v3; i++ {
 		tmps[i] = randUTF8RuneProduct(r)
 	}
 	return string(tmps)
@@ -669,11 +1021,11 @@ func randFieldProduct(dAtA []byte, r randyProduct, fieldNumber int, wire int) []
 	switch wire {
 	case 0:
 		dAtA = encodeVarintPopulateProduct(dAtA, uint64(key))
-		v3 := r.Int63()
+		v4 := r.Int63()
 		if r.Intn(2) == 0 {
-			v3 *= -1
+			v4 *= -1
 		}
-		dAtA = encodeVarintPopulateProduct(dAtA, uint64(v3))
+		dAtA = encodeVarintPopulateProduct(dAtA, uint64(v4))
 	case 1:
 		dAtA = encodeVarintPopulateProduct(dAtA, uint64(key))
 		dAtA = append(dAtA, byte(r.Intn(256)), byte(r.Intn(256)), byte(r.Intn(256)), byte(r.Intn(256)), byte(r.Intn(256)), byte(r.Intn(256)), byte(r.Intn(256)), byte(r.Intn(256)))
@@ -750,6 +1102,55 @@ func (m *ListSimilarsRequest) Size() (n int) {
 }
 
 func (m *ListSimilarsResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if len(m.Products) > 0 {
+		for _, e := range m.Products {
+			l = e.Size()
+			n += 1 + l + sovProduct(uint64(l))
+		}
+	}
+	l = len(m.NextPageToken)
+	if l > 0 {
+		n += 1 + l + sovProduct(uint64(l))
+	}
+	if m.XXX_unrecognized != nil {
+		n += len(m.XXX_unrecognized)
+	}
+	return n
+}
+
+func (m *ListLikesRequest) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.Name)
+	if l > 0 {
+		n += 1 + l + sovProduct(uint64(l))
+	}
+	if m.PageSize != 0 {
+		n += 1 + sovProduct(uint64(m.PageSize))
+	}
+	l = len(m.PageToken)
+	if l > 0 {
+		n += 1 + l + sovProduct(uint64(l))
+	}
+	l = len(m.P)
+	if l > 0 {
+		n += 2 + l + sovProduct(uint64(l))
+	}
+	if m.XXX_unrecognized != nil {
+		n += len(m.XXX_unrecognized)
+	}
+	return n
+}
+
+func (m *ListLikesResponse) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -1138,6 +1539,295 @@ func (m *ListSimilarsResponse) Unmarshal(dAtA []byte) error {
 		}
 		if fieldNum <= 0 {
 			return fmt.Errorf("proto: ListSimilarsResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Products", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowProduct
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthProduct
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthProduct
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Products = append(m.Products, &Product{})
+			if err := m.Products[len(m.Products)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field NextPageToken", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowProduct
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthProduct
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthProduct
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.NextPageToken = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipProduct(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthProduct
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthProduct
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.XXX_unrecognized = append(m.XXX_unrecognized, dAtA[iNdEx:iNdEx+skippy]...)
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *ListLikesRequest) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowProduct
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: ListLikesRequest: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: ListLikesRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Name", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowProduct
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthProduct
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthProduct
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Name = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field PageSize", wireType)
+			}
+			m.PageSize = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowProduct
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.PageSize |= int32(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 3:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field PageToken", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowProduct
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthProduct
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthProduct
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.PageToken = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 100:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field P", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowProduct
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthProduct
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthProduct
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.P = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipProduct(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthProduct
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthProduct
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.XXX_unrecognized = append(m.XXX_unrecognized, dAtA[iNdEx:iNdEx+skippy]...)
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *ListLikesResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowProduct
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: ListLikesResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: ListLikesResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:

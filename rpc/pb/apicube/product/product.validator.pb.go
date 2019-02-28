@@ -51,3 +51,19 @@ func (this *ListSimilarsResponse) Validate() error {
 	}
 	return nil
 }
+func (this *ListLikesRequest) Validate() error {
+	if this.Name == "" {
+		return github_com_mwitkow_go_proto_validators.FieldError("Name", fmt.Errorf(`value '%v' must not be an empty string`, this.Name))
+	}
+	return nil
+}
+func (this *ListLikesResponse) Validate() error {
+	for _, item := range this.Products {
+		if item != nil {
+			if err := github_com_mwitkow_go_proto_validators.CallValidatorIfExists(item); err != nil {
+				return github_com_mwitkow_go_proto_validators.FieldError("Products", err)
+			}
+		}
+	}
+	return nil
+}
